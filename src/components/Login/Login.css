@@ -31,4 +31,17 @@
     background-size: cover;
     background-position: center;
   }
+
+.comname {
+  font-size: 30;
+   font-weight: 700;
+    color: "#5D3FD3";
+    padding-bottom: 30;
+}
+.formlable{
+  font-size: 15;
+  font-weight: 600;
+   color: "##0E3169";
+   padding-bottom: 30;
+}
   

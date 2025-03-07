@@ -12,8 +12,9 @@ import {
 } from "@mui/material";
 import { Person, Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
-import bgImage from "../../assets/logo.jpg"; // Background image
-import companyLogo from "../../assets/logo.jpg"; // Company logo
+import bgImage from "../../assets/loginimg.png"; // Background image
+import companyLogo from "../../assets/logo 1.png"; // Company logo
+import './Login.css';
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -51,18 +52,22 @@ const LoginPage = () => {
           <img src={companyLogo} alt="Company Logo" style={{ height: "50px" }} />
         </Box>
 
-        <Typography variant="h4" fontWeight="bold" color="#5D3FD3" marginTop={8} letterSpacing={10}>
-          AMELIA
-        </Typography>
-        <Typography variant="h6" marginTop={1} color="black">
-          Login to your account
-        </Typography>
+       
+        <text className='comname' style={{ fontSize: 30, fontWeight: 700, color: "#5D3FD3",paddingBottom: 30}}>
+        AMELIA
+        </text>
+        
+        <text className='formlable' style={{ fontSize: 15, fontWeight: 600, color: "#0E3169", paddingBottom: 30 }}>
+        Login to your account
+        </text>
 
         {/* Username Input */}
-        <Box width="80%" marginTop={2}>
-          <TextField
+        <Box width="80%"  marginTop={2}>
+          <text style={{fontSize:10,fontWeight:400,color:'#8F8F8F'}}>Username</text>
+          <TextField 
+          
             fullWidth
-            margin="dense"
+           margin="dense"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Enter your username"
@@ -74,10 +79,14 @@ const LoginPage = () => {
               ),
             }}
           />
+
+
+
         </Box>
 
         {/* Password Input */}
-        <Box width="80%" marginTop={2}>
+        <Box width="80%"  marginTop={2}>
+        <text style={{fontSize:10,fontWeight:400,color:'#8F8F8F'}}>Password</text>
           <TextField
             fullWidth
             margin="dense"
@@ -97,18 +106,20 @@ const LoginPage = () => {
           />
         </Box>
 
-        <Box width="80%" display="flex" justifyContent="flex-start" marginTop={1}>
+        <Box width="80%"  display="flex" justifyContent="flex-start" marginTop={1}>
           <FormControlLabel
             control={<Checkbox sx={{ color: "#5D3FD3", "&.Mui-checked": { color: "#5D3FD3" } }} />}
             label="Remember Me"
           />
         </Box>
 
+        
+
         {/* Login Button */}
         <Button
           variant="contained"
           onClick={handleLogin}
-          sx={{ mt: 2, width: "80%", backgroundColor: "#5D3FD3", borderRadius: "20px" }}
+          sx={{ mt: 2, width:'80%',height:47 , backgroundColor: "#5E43B2", borderRadius: "8px", fontSize:15, fontWeight:600 }}
         >
           LOGIN
         </Button>
