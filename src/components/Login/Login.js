@@ -12,8 +12,9 @@ import {
 } from "@mui/material";
 import { Person, Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
-import bgImage from "../../assets/logo.jpg"; // Background image
-import companyLogo from "../../assets/logo.jpg"; // Company logo
+import bgImage from "../../assets/banner.png"; // Background image
+import companyLogo from "../../assets/sincera.png"; // Company logo
+import css from "../../style.css"
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -31,7 +32,12 @@ const LoginPage = () => {
   };
 
   return (
-    <Box display="flex" flexDirection={isTablet ? "column" : "row"} height="100vh" width="100%">
+    <Box
+      display="flex"
+      flexDirection={isTablet ? "column" : "row"}
+      height="100vh"
+      width="100%"
+    >
       {/* Login Form */}
       <Box
         width={isTablet ? "60%" : isMobile ? "100%" : "35%"}
@@ -48,13 +54,32 @@ const LoginPage = () => {
       >
         {/* Company Logo */}
         <Box position="absolute" top={20} left={20}>
-          <img src={companyLogo} alt="Company Logo" style={{ height: "50px" }} />
+          <img
+            src={companyLogo}
+            alt="Company Logo"
+            style={{ height: "50px" }}
+          />
         </Box>
 
-        <Typography variant="h4" fontWeight="bold" color="#5D3FD3" marginTop={8} letterSpacing={10}>
+        <Typography
+          className="amelia-text"
+          //   variant="h4"
+          //    fontWeight="bold"
+          //  color="#5D3FD3"
+          //   marginTop={8}
+          //   letterSpacing={10}
+        >
           AMELIA
         </Typography>
-        <Typography variant="h6" marginTop={1} color="black">
+        <Typography
+          variant="h3"
+          sx={{
+            fontWeight: 600,
+            fontSize: "15px",
+            lineHeight: "100%",
+            letterSpacing: "3%",
+          }}
+        >
           Login to your account
         </Typography>
 
@@ -75,6 +100,7 @@ const LoginPage = () => {
             }}
           />
         </Box>
+        
 
         {/* Password Input */}
         <Box width="80%" marginTop={2}>
@@ -89,7 +115,11 @@ const LoginPage = () => {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={() => setShowPassword(!showPassword)}>
-                    {showPassword ? <VisibilityOff style={{ color: "grey" }} /> : <Visibility style={{ color: "grey" }} />}
+                    {showPassword ? (
+                      <VisibilityOff style={{ color: "grey" }} />
+                    ) : (
+                      <Visibility style={{ color: "grey" }} />
+                    )}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -97,18 +127,33 @@ const LoginPage = () => {
           />
         </Box>
 
-        <Box width="80%" display="flex" justifyContent="flex-start" marginTop={1}>
+        <Box
+          width="80%"
+          display="flex"
+          justifyContent="flex-start"
+          marginTop={1}
+        >
           <FormControlLabel
-            control={<Checkbox sx={{ color: "#5D3FD3", "&.Mui-checked": { color: "#5D3FD3" } }} />}
+            control={
+              <Checkbox
+                sx={{ color: "#5D3FD3", "&.Mui-checked": { color: "#5D3FD3" } }}
+              />
+            }
             label="Remember Me"
           />
         </Box>
 
         {/* Login Button */}
         <Button
+          className="custom-button"
           variant="contained"
           onClick={handleLogin}
-          sx={{ mt: 2, width: "80%", backgroundColor: "#5D3FD3", borderRadius: "20px" }}
+          sx={{
+            mt: 2,
+            width: "80%",
+            backgroundColor: "#5D3FD3",
+            borderRadius: "20px",
+          }}
         >
           LOGIN
         </Button>
