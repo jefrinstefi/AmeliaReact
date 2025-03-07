@@ -32,7 +32,12 @@ const LoginPage = () => {
   };
 
   return (
-    <Box display="flex" flexDirection={isTablet ? "column" : "row"} height="100vh" width="100%">
+    <Box
+      display="flex"
+      flexDirection={isTablet ? "column" : "row"}
+      height="100vh"
+      width="100%"
+    >
       {/* Login Form */}
       <Box
         width={isTablet ? "60%" : isMobile ? "100%" : "35%"}
@@ -49,7 +54,11 @@ const LoginPage = () => {
       >
         {/* Company Logo */}
         <Box position="absolute" top={20} left={20}>
-          <img src={companyLogo} alt="Company Logo" style={{ height: "50px" }} />
+          <img
+            src={companyLogo}
+            alt="Company Logo"
+            style={{ height: "50px" }}
+          />
         </Box>
 
        
@@ -83,6 +92,7 @@ const LoginPage = () => {
 
 
         </Box>
+        
 
         {/* Password Input */}
         <Box width="80%"  marginTop={2}>
@@ -98,7 +108,11 @@ const LoginPage = () => {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={() => setShowPassword(!showPassword)}>
-                    {showPassword ? <VisibilityOff style={{ color: "grey" }} /> : <Visibility style={{ color: "grey" }} />}
+                    {showPassword ? (
+                      <VisibilityOff style={{ color: "grey" }} />
+                    ) : (
+                      <Visibility style={{ color: "grey" }} />
+                    )}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -108,7 +122,11 @@ const LoginPage = () => {
 
         <Box width="80%"  display="flex" justifyContent="flex-start" marginTop={1}>
           <FormControlLabel
-            control={<Checkbox sx={{ color: "#5D3FD3", "&.Mui-checked": { color: "#5D3FD3" } }} />}
+            control={
+              <Checkbox
+                sx={{ color: "#5D3FD3", "&.Mui-checked": { color: "#5D3FD3" } }}
+              />
+            }
             label="Remember Me"
           />
         </Box>
@@ -117,6 +135,7 @@ const LoginPage = () => {
 
         {/* Login Button */}
         <Button
+          className="custom-button"
           variant="contained"
           onClick={handleLogin}
           sx={{ mt: 2, width:'80%',height:47 , backgroundColor: "#5E43B2", borderRadius: "8px", fontSize:15, fontWeight:600 }}
