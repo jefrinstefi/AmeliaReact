@@ -3,7 +3,6 @@ import {
   Box,
   TextField,
   Button,
-  Typography,
   Checkbox,
   FormControlLabel,
   InputAdornment,
@@ -11,23 +10,22 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { Person, Visibility, VisibilityOff } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import bgImage from "../../assets/loginimg.png"; // Background image
 import companyLogo from "../../assets/logo 1.png"; // Company logo
-import './Login.css';
+import "./Login.css";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  
+
   const isMobile = useMediaQuery("(max-width:600px)");
   const isTablet = useMediaQuery("(max-width:960px)");
 
-  const navigate = useNavigate(); // React Router Navigation Hook
+  const navigate = useNavigate();
 
   const handleLogin = () => {
-    // Authentication logic
     navigate("/upload");
   };
 
@@ -37,49 +35,56 @@ const LoginPage = () => {
       flexDirection={isTablet ? "column" : "row"}
       height="100vh"
       width="100%"
+      alignItems="center"
+      justifyContent="center"
+      padding={isMobile ? "10px" : "0"}
+      position="relative"
     >
+      {/* Company Logo (Fixed at Top Left) */}
+      <Box position="absolute" top={20} left={20}>
+        <img src={companyLogo} alt="Company Logo" style={{ height: "50px" }} />
+      </Box>
+
       {/* Login Form */}
       <Box
-        width={isTablet ? "60%" : isMobile ? "100%" : "35%"}
+        width={isMobile ? "90%" : isTablet ? "50%" : "35%"}
+        maxWidth="400px"
         display="flex"
         flexDirection="column"
         justifyContent="center"
         alignItems="center"
+        margin="auto"
         padding={isMobile ? "20px" : "40px"}
-        bgcolor="#fff"
-        boxShadow="2px 4px 10px rgba(0,0,0,0.1)"
-        position="relative"
-        margin={isMobile ? "auto" : "0"}
-        alignSelf={isTablet ? "center" : "stretch"}
       >
-        {/* Company Logo */}
-        <Box position="absolute" top={20} left={20}>
-          <img
-            src={companyLogo}
-            alt="Company Logo"
-            style={{ height: "50px" }}
-          />
+        {/* Title */}
+        <Box textAlign="center" mb={3}>
+          <Box sx={{ fontSize: 24, fontWeight: 700, color: "#5D3FD3" }}>AMELIA</Box>
+          <Box sx={{ fontSize: 14, fontWeight: 600, color: "#0E3169", mt: 1 }}>
+            Login to your account
+          </Box>
         </Box>
 
-       
-        <text className='comname' style={{ fontSize: 30, fontWeight: 700, color: "#5D3FD3",paddingBottom: 30}}>
-        AMELIA
-        </text>
-        
-        <text className='formlable' style={{ fontSize: 15, fontWeight: 600, color: "#0E3169", paddingBottom: 30 }}>
-        Login to your account
-        </text>
-
         {/* Username Input */}
-        <Box width="80%"  marginTop={2}>
-          <text style={{fontSize:10,fontWeight:400,color:'#8F8F8F'}}>Username</text>
-          <TextField 
-          
+        <Box width="100%" marginTop={2}>
+          <Box sx={{ fontSize: 12, fontWeight: 500, color: "#8F8F8F", mb: 0.5 }}>Username</Box>
+          <TextField
             fullWidth
-           margin="dense"
+            margin="dense"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Enter your username"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "8px", 
+                borderColor:"#E6E4E6",
+                height: "38px",
+                fontSize:"12px", 
+                color:"#4F2580",
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#4F2580", // Hover color
+                },
+              },
+            }}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -88,15 +93,11 @@ const LoginPage = () => {
               ),
             }}
           />
-
-
-
         </Box>
-        
 
         {/* Password Input */}
-        <Box width="80%"  marginTop={2}>
-        <text style={{fontSize:10,fontWeight:400,color:'#8F8F8F'}}>Password</text>
+        <Box width="100%" marginTop={2}>
+          <Box sx={{ fontSize: 12, fontWeight: 500, color: "#8F8F8F", mb: 0.5 }}>Password</Box>
           <TextField
             fullWidth
             margin="dense"
@@ -104,6 +105,22 @@ const LoginPage = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter your password"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "8px", 
+                borderColor:"#E6E4E6",
+                height: "38px", 
+                paddingRight:"10px",
+                fontSize:"12px",
+                color:"#4F2580",
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#4F2580", // Hover color
+                },
+                
+                
+
+              },
+            }}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -120,35 +137,39 @@ const LoginPage = () => {
           />
         </Box>
 
-        <Box width="80%"  display="flex" justifyContent="flex-start" marginTop={1}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                sx={{ color: "#5D3FD3", "&.Mui-checked": { color: "#5D3FD3" } }}
-              />
-            }
-            label="Remember Me"
-          />
-        </Box>
-
-        
+        {/* Remember Me Checkbox */}
+        <Box width="100%" display="flex" justifyContent="flex-start" marginTop={1}>
+  <FormControlLabel
+    control={<Checkbox sx={{ color: "#4F2580",borderColor:"#E6E4E6", "&.Mui-checked": { color: "#4F2580" } }} />}
+    label="Remember Me"
+    sx={{ color: "#4F2580", fontWeight: 400, fontSize:12 }} 
+  />
+</Box>
 
         {/* Login Button */}
         <Button
           className="custom-button"
           variant="contained"
           onClick={handleLogin}
-          sx={{ mt: 2, width:'80%',height:47 , backgroundColor: "#5E43B2", borderRadius: "8px", fontSize:15, fontWeight:600 }}
+          sx={{
+            mt: 2,
+            width: "100%",
+            height: 47,
+            backgroundColor: "#4F2580",
+            borderRadius: "8px",
+            fontSize: 14,
+            fontWeight: 600,
+          }}
         >
           LOGIN
         </Button>
       </Box>
 
-      {/* Right Side */}
+      {/* Right Side Background Image */}
       {!isMobile && (
         <Box
-          width={isTablet ? "40%" : "65%"}
-          height={isTablet ? "100%" : "100%"}
+          width={isTablet ? "50%" : "65%"}
+          height="100%"
           sx={{
             backgroundImage: `url(${bgImage})`,
             backgroundSize: "cover",
