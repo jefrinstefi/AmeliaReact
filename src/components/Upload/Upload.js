@@ -90,6 +90,11 @@ const AmeliaUpload = () => {
         AMELIA
         </text>
 </div>
+<div style={{marginTop:20}}>
+<text className="uploadhead">
+          Upload JSON to Generate Dashboard Insights
+        </text>
+</div>
 
 <div className="bodycard" >
 
@@ -139,7 +144,7 @@ files here</p>
 
 </div>
 
-<Box marginTop={6}>
+<Box marginTop={3}>
   <p className="copyright" >Developed for Amelia Conversation Analysis@2025</p>
 </Box>
 

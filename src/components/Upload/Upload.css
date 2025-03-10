@@ -29,7 +29,7 @@ select:focus {
     display:flex;
     justify-content:center;
     flex-direction:column;
-    padding-top:30px;
+    padding-top:20px;
     align-items:center;
   }
 
@@ -40,6 +40,12 @@ select:focus {
     padding-bottom: 30px;
     
   }  
+
+  .uploadhead{
+    font-size:24px;
+    font-weight:500;
+    color:#5E43B2;
+  }
 
 .bodycard{
   background-color:#EDEBF9;
