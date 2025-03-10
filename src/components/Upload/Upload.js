@@ -1,103 +1,155 @@
-import React, { useState } from "react";
-import { Box, Typography, Avatar, useMediaQuery } from "@mui/material";
+import React from "react";
+import { Box,Button,} from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import companyLogo from "../../assets/logo.jpg"; // Company logo
-
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import companyLogo from "../../assets/logo 1.png"; // Company logo
+import Acouser from "../../assets/Account circle.png";
+import Jsonimg from "../../assets/JSON.png";
+import './Upload.css';
+import { styled } from '@mui/material/styles';
+import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 
 const AmeliaUpload = () => {
-  const [file, setFile] = useState(null);
-  const isMobile = useMediaQuery("(max-width:600px)");
+  // const [file, setFile] = useState(null);
+  // const isMobile = useMediaQuery("(max-width:600px)");
+  
 
-  const handleDrop = (event) => {
-    event.preventDefault();
-    if (event.dataTransfer.files.length) {
-      setFile(event.dataTransfer.files[0]);
-    }
-  };
+  // const handleDrop = (event) => {
+  //   event.preventDefault();
+  //   if (event.dataTransfer.files.length) {
+  //     setFile(event.dataTransfer.files[0]);
+  //   }
+  // };
 
-  const handleFileSelect = (event) => {
-    if (event.target.files.length) {
-      setFile(event.target.files[0]);
-    }
-  };
+  // const handleFileSelect = (event) => {
+  //   if (event.target.files.length) {
+  //     setFile(event.target.files[0]);
+  //   }
+  // };
 
-  const handleDragOver = (event) => {
-    event.preventDefault();
-  };
+  // const handleDragOver = (event) => {
+  //   event.preventDefault();
+  // };
+
+
+  const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+    height: 8,
+    borderRadius: 10,
+    [`&.${linearProgressClasses.colorPrimary}`]: {
+      backgroundColor: '#EBEBEB',
+      ...theme.applyStyles('dark', {
+        backgroundColor: '#EBEBEB',
+      }),
+    },
+    [`& .${linearProgressClasses.bar}`]: {
+      borderRadius: 5,
+      backgroundColor: '#5E43B2',
+      ...theme.applyStyles('dark', {
+        backgroundColor: '#5E43B2',
+      }),
+    },
+  }));
+  
+  // const handleLogin = () => {
+  //   // Authentication logic
+  //   navigate("/src/components/Dashboard");
+  // };
+  
+
 
   return (
     
-    <Box display="flex" flexDirection={isMobile ? "column" : "row"} height="100vh" bgcolor="#F3F0FA">
-        {/* Company Logo */}
-        <Box position="absolute" top={20} left={20}>
-          <img src={companyLogo} alt="Company Logo" style={{ height: "50px" }} />
-        </Box>
-      {/* Left Section */}
-      <Box
-        width={isMobile ? "100%" : "40%"}
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-        bgcolor="#fff"
-        padding={isMobile ? 3 : 0}
-      >
-        <Typography variant="h4" fontWeight="bold" color="#673AB7" gutterBottom>
-          AMELIA
-        </Typography>
-        <Avatar sx={{ width: 80, height: 80, bgcolor: "#D1C4E9", mb: 1 }} />
-        <Typography variant="subtitle1" color="textSecondary">
-          Silpa Chandrasekaran
-        </Typography>
+    <Box margin={3}>
+
+      {/* ----------------- header -------------------------------------------------------------------- */}  
+      <Box>
+      <header className="headmain" >
+          <div>
+          <img src={companyLogo} alt="Company Logo" style={{ }} />
+          </div>
+          <div className="userbox" >
+            <img src={Acouser} alt="user" />
+            <div>
+            {/* <h6 style={{border:'none',fontSize:10,fontWeight:400,color:'#2C2C2C'}}>Manager</h6> */}
+      <select className="dropdowncs" >
+        <option value="">Jeyaprakash <br /> Manager</option>
+        <option value="option1">Logout</option>
+        {/* <option value="option2">Option 2</option> */}
+      </select>
+    </div>
+          </div>
+      </header>
       </Box>
-      
-      {/* Right Section */}
-      <Box
-        width={isMobile ? "100%" : "60%"}
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-        padding={4}
-      >
-        <input
-          type="file"
-          onChange={handleFileSelect}
-          style={{ display: "none" }}
-          id="file-upload"
-        />
-        <Box
-          width={isMobile ? "80%" : 700}
-          height={isMobile ? 200 : 500}
-          border="2px dashed #673AB7"
-          borderRadius={3}
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-          alignItems="center"
-          bgcolor="#EDE7F6"
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-          onClick={() => document.getElementById("file-upload").click()}
-          sx={{ cursor: "pointer", position: "relative" }}
+
+ {/* ----------------- header-end -------------------------------------------------------------------- */}  
+
+    <Box>
+      <div className="bodymain" >
+<div>
+<text className='comname' >
+        AMELIA
+        </text>
+</div>
+
+<div className="bodycard" >
+
+<div className="ineercard" 
+// onDrop={handleDrop}
+//       onDragOver={handleDragOver}
+//        onClick={() => document.getElementById("file-upload").click()}
+//       sx={{ cursor: "pointer", position: "relative" }}
+>
+  <div className="ineercard1" >
+<CloudUploadIcon sx={{ fontSize: 80, color: "#5E43B2" }} />
+<p className="ineercard2" >Drag and drop or Browse <br/>
+files here</p>
+<p className="ineercard3" >
+  Please upload the Amelia Transcript JSON file here and the file size should be below 200MB.</p>
+</div>
+</div>
+
+<div>
+<hr className="devider" ></hr>
+</div>
+
+{/*------------------------------- card 2 section-------------------- */}
+
+<div className="cardtwosection" >
+  <p className="ineercardslart2" >No Files Uploaded</p>
+  <div style={{backgroundColor:'#FFFFFF',border:'1px solid #D1D1D1',borderRadius:12,padding:10,display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+    <img src={Jsonimg} alt="json"/>
+    <div>
+      <p style={{fontSize:12,fontWeight:400,color:'#737277',marginBottom:5,marginTop:0}}>Amelia-analysis-file.JSON</p>
+      <BorderLinearProgress variant="determinate" value={60} style={{}} />
+    </div>
+  <DeleteForeverIcon sx={{ fontSize: 30, color: "red" }} />
+  </div>
+  <div style={{display:'flex',justifyContent:'center',marginTop:15}}>
+  <Button
+          className="custom-button"
+          variant="contained"
+          // onClick={handleLogin}
+          startIcon={<CloudUploadIcon />}
+          sx={{ mt: 2, width:'80%',height:47 , backgroundColor: "#5E43B2", borderRadius: "8px", fontSize:15, fontWeight:600 }}
         >
-          <CloudUploadIcon sx={{ fontSize: 50, color: "#673AB7" }} />
-          <Typography variant="h6" fontWeight="500" color="#303F9F" mt={2} textAlign="center">
-            {file ? file.name : "Drag and drop files here"}
-          </Typography>
-          <Typography
-            variant="body2"
-            color="#303F9F"
-            textAlign="center"
-            width={isMobile ? "90%" : 400}
-            sx={{ position: "absolute", bottom: 10, left: "50%", transform: "translateX(-50%)" }}
-          >
-            Please upload the Amelia Transcript JSON file here
-            and the file size should be below 200MB.
-          </Typography>
-        </Box>
-      </Box>
+          Upload
+        </Button>
+  </div>
+</div>
+
+</div>
+
+<Box marginTop={6}>
+  <p className="copyright" >Developed for Amelia Conversation Analysis@2025</p>
+</Box>
+
+</div>
     </Box>
+
+
+    </Box>
+
+
   );
 };
 
