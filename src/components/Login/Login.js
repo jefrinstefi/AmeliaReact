@@ -20,7 +20,12 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  
+  const [user, setUser] = useState({
+    username: "sincera-analyzer",
+    password:"sincera-sonnet"
+  });
+  // const [setMessage,errorMessage] = useState("")
+  const [message, setMessage] = useState(""); 
   const isMobile = useMediaQuery("(max-width:600px)");
   const isTablet = useMediaQuery("(max-width:960px)");
 
@@ -28,7 +33,15 @@ const LoginPage = () => {
 
   const handleLogin = () => {
     // Authentication logic
-    navigate("/upload");
+    // check username:
+    if (user.username === username) {
+      if(user.password === password){
+        navigate("/upload");
+      }
+    } else {
+      setMessage("❌ Invalid Credentails.");
+    }
+    console.log(username,password, user);
   };
 
   return (
@@ -118,6 +131,8 @@ const LoginPage = () => {
               ),
             }}
           />
+                  <text style={{fontSize:20,fontWeight:400,color:'#8F8F8F'}}>{message}</text>
+
         </Box>
 
         <Box width="80%"  display="flex" justifyContent="flex-start" marginTop={1}>
@@ -142,6 +157,7 @@ const LoginPage = () => {
         >
           LOGIN
         </Button>
+
       </Box>
 
       {/* Right Side */}
