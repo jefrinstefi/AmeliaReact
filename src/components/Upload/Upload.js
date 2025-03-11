@@ -1,104 +1,95 @@
-import React, { useState } from "react";
-import { Box, Typography, Avatar, useMediaQuery } from "@mui/material";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import companyLogo from "../../assets/logo.jpg"; // Company logo
+import React from "react";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import { Card, CardContent, Typography, Box } from "@mui/material";
 
+const data = [
+  { name: "Service", value: 590, color: "#5C469C" },
+  { name: "Greeting", value: 200, color: "#38BDF8" },
+  { name: "Information", value: 850, color: "#A495C9" },
+  { name: "Transaction", value: 700, color: "#5C469C" },
+  { name: "Navigation", value: 450, color: "#38BDF8" },
+];
 
-const AmeliaUpload = () => {
-  const [file, setFile] = useState(null);
-  const isMobile = useMediaQuery("(max-width:600px)");
-
-  const handleDrop = (event) => {
-    event.preventDefault();
-    if (event.dataTransfer.files.length) {
-      setFile(event.dataTransfer.files[0]);
-    }
-  };
-
-  const handleFileSelect = (event) => {
-    if (event.target.files.length) {
-      setFile(event.target.files[0]);
-    }
-  };
-
-  const handleDragOver = (event) => {
-    event.preventDefault();
-  };
-
+const ConversationIntents = () => {
   return (
-    
-    <Box display="flex" flexDirection={isMobile ? "column" : "row"} height="100vh" bgcolor="#F3F0FA">
-        {/* Company Logo */}
-        <Box position="absolute" top={20} left={20}>
-          <img src={companyLogo} alt="Company Logo" style={{ height: "50px" }} />
-        </Box>
-      {/* Left Section */}
-      <Box
-        width={isMobile ? "100%" : "40%"}
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-        bgcolor="#fff"
-        padding={isMobile ? 3 : 0}
-      >
-        <Typography variant="h4" fontWeight="bold" color="#673AB7" gutterBottom>
-          AMELIA
+    <Card
+      sx={{
+        borderRadius: "10px",
+        padding: "16px",
+        boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
+        maxWidth: "600px", // Adjusted width
+        margin: "auto",
+        border: "1px solid #D6E4F0",
+      }}
+    >
+      <CardContent>
+        {/* Title */}
+        <Typography variant="h6" fontWeight={600} mb={2} sx={{ color: "#4A4A4A", fontSize: "18px" }}>
+          Conversation Intents
         </Typography>
-        <Avatar sx={{ width: 80, height: 80, bgcolor: "#D1C4E9", mb: 1 }} />
-        <Typography variant="subtitle1" color="textSecondary">
-          Silpa Chandrasekaran
-        </Typography>
-      </Box>
-      
-      {/* Right Section */}
-      <Box
-        width={isMobile ? "100%" : "60%"}
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-        padding={4}
-      >
-        <input
-          type="file"
-          onChange={handleFileSelect}
-          style={{ display: "none" }}
-          id="file-upload"
-        />
-        <Box
-          width={isMobile ? "80%" : 700}
-          height={isMobile ? 200 : 500}
-          border="2px dashed #673AB7"
-          borderRadius={3}
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-          alignItems="center"
-          bgcolor="#EDE7F6"
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-          onClick={() => document.getElementById("file-upload").click()}
-          sx={{ cursor: "pointer", position: "relative" }}
-        >
-          <CloudUploadIcon sx={{ fontSize: 50, color: "#673AB7" }} />
-          <Typography variant="h6" fontWeight="500" color="#303F9F" mt={2} textAlign="center">
-            {file ? file.name : "Drag and drop files here"}
-          </Typography>
+
+        {/* Chart Container */}
+        <Box display="flex" alignItems="center">
+          {/* Y-Axis Label */}
           <Typography
             variant="body2"
-            color="#303F9F"
-            textAlign="center"
-            width={isMobile ? "90%" : 400}
-            sx={{ position: "absolute", bottom: 10, left: "50%", transform: "translateX(-50%)" }}
+            sx={{
+              transform: "rotate(-90deg)",
+              whiteSpace: "nowrap",
+              fontSize: "14px",
+              fontWeight: 500,
+              color: "#4A4A4A",
+              mr: -1, // Reduced left margin
+            }}
           >
-            Please upload the Amelia Transcript JSON file here
-            and the file size should be below 200MB.
+            Number of Conversations
           </Typography>
+
+          {/* Bar Chart */}
+          <ResponsiveContainer width="85%" height={230}>
+            <BarChart data={data} barSize={40}> {/* Ensuring single bar per category */}
+              <CartesianGrid strokeDasharray="3 3" vertical={false} />
+              <YAxis
+                width={40} // Reduced Y-Axis width
+                axisLine={false}
+                tickLine={false}
+                tick={{ fontSize: 12, fill: "#4A4A4A" }}
+                domain={[0, 1000]}
+              />
+              <XAxis
+                dataKey="name"
+                tick={{ fontSize: 12, fill: "#4A4A4A" }}
+                axisLine={false}
+                tickLine={false}
+              />
+              <Tooltip />
+              <Bar dataKey="value" fill="#5C469C" radius={[5, 5, 0, 0]} /> {/* Single Bar for Each */}
+            </BarChart>
+          </ResponsiveContainer>
         </Box>
-      </Box>
-    </Box>
+
+        {/* Statistics (Below Chart) */}
+        <Box display="flex" justifyContent="space-between" mt={2} px={3}>
+          <Box textAlign="center">
+            <Typography variant="h6" fontWeight={700} color="black" fontSize="20px">
+              120
+            </Typography>
+            <Typography variant="body2" color="textSecondary" fontSize="14px">
+              Total Conversations
+            </Typography>
+          </Box>
+          <Box textAlign="center">
+            <Typography variant="h6" fontWeight={700} color="black" fontSize="20px">
+              05
+            </Typography>
+            <Typography variant="body2" color="textSecondary" fontSize="14px">
+              Intent Types
+            </Typography>
+          </Box>
+        </Box>
+      </CardContent>
+    </Card>
   );
 };
 
-export default AmeliaUpload;
+export default ConversationIntents;
