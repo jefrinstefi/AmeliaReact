@@ -28,7 +28,7 @@ const LoginPage = () => {
 
   const handleLogin = () => {
     // Authentication logic
-    navigate("/upload");
+    navigate("/Dashboard");
   };
 
   return (
