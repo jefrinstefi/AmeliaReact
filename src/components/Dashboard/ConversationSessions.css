@@ -1,0 +1,226 @@
+.conversation-card {
+ 
+    width: 284px;
+ 
+    height: 343px;
+ 
+    border: 1px solid #c5c4ca !important;
+ 
+    border-radius:12px !important ;
+ 
+    padding: 15px !important;
+ 
+    box-shadow: 0px 4px 4px 0px #00000040 !important;
+ 
+    background: #fff !important;
+ 
+    position: absolute;
+ 
+    /* top: 187px; */
+ 
+    left: 43px;
+ 
+    display: flex;
+ 
+    flex-direction: column;
+ 
+}
+ 
+.card-heading {
+ 
+    font-weight: 600 !important;
+ 
+    font-size: 14px !important;
+ 
+    line-height: 100% !important;
+ 
+    letter-spacing: 0.5px !important;
+ 
+    vertical-align: middle !important;
+ 
+    color: #616163 !important;
+ 
+    font-family: Instrument Sans !important;
+ 
+}
+ 
+h6{
+ 
+    font-family: Instrument Sans !important;
+ 
+}
+ 
+ 
+.title {
+ 
+    color: #777;
+ 
+    font-size: 14px;
+ 
+}
+ 
+.total-number {
+ 
+    color: #673ab7;
+ 
+    font-weight: bold;
+ 
+    font-size: 32px;
+ 
+}
+ 
+.total-label {
+ 
+    color: #737277;
+ 
+    font-weight: 400;
+ 
+    font-size: 12px;
+ 
+    line-height: 100%;
+ 
+    letter-spacing: 5%;
+ 
+    vertical-align: middle;
+ 
+}
+ 
+.metric {
+ 
+    margin-bottom: 16px;
+ 
+}
+ 
+.progress-container {
+ 
+    display: flex;
+ 
+    align-items: center;
+ 
+    margin-top: 4px;
+ 
+}
+ 
+.progress {
+ 
+    width: 100%;
+ 
+    height: 6px;
+ 
+    border-radius: 4px;
+ 
+    margin-right: 8px;
+ 
+    background-color: #e0e0e0;
+ 
+}
+ 
+.sentiment .MuiLinearProgress-bar {
+ 
+    background-color: #673ab7;
+ 
+}
+ 
+.frustration .MuiLinearProgress-bar {
+ 
+    background-color: #00bcd4;
+ 
+}
+ 
+.messages .MuiLinearProgress-bar {
+ 
+    background-color: #b39ddb;
+ 
+}
+ 
+.duration .MuiLinearProgress-bar {
+ 
+    background-color: #3f51b5;
+ 
+}
+ 
+.metric-value {
+ 
+    font-weight: bold;
+ 
+}
+ 
+.sentiment-label {
+ 
+    color: #737277;
+ 
+    font-weight: 400;
+ 
+    font-size: 12px;
+ 
+    line-height: 100%;
+ 
+    letter-spacing: 5%;
+ 
+    vertical-align: middle;
+ 
+}
+ 
+.metric-value {
+ 
+    color: #000;
+ 
+    font-weight: 500;
+ 
+    font-size: 16px;
+ 
+    line-height: 100%;
+ 
+    letter-spacing: 5%;
+ 
+    vertical-align: middle;
+ 
+}
+ 
+.sentiment-progress {
+ 
+    background-color: #e0e0e0 !important;
+ 
+}
+ 
+.progress {
+ 
+    height: 10px !important;
+ 
+    border-radius: 5px;
+ 
+    background-color: #e0e0e0 !important;
+ 
+}
+ 
+/* Sentiment Progress Bar */
+ 
+.sentiment-progress .MuiLinearProgress-bar {
+ 
+    background-color: #673ab7 !important;
+ 
+}
+ 
+/* Frustration Progress Bar */
+ 
+.frustration-progress .MuiLinearProgress-bar {
+ 
+    background-color: #00bcd4 !important;
+ 
+}
+ 
+/* Messages Progress Bar */
+ 
+.messages-progress .MuiLinearProgress-bar {
+ 
+    background-color: #b39ddb !important;
+ 
+}
+ 
+/* Duration Progress Bar */
+ 
+.duration-progress .MuiLinearProgress-bar {
+ 
+    background-color: #3A4B6F !important;
+ 
+}

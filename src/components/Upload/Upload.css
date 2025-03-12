@@ -1,0 +1,142 @@
+/* Remove border and outline when the select is focused */
+select:focus {
+    border: none;
+    outline: none;
+  }
+ 
+/*  ----- --------------------------- header cs------------------ */
+ 
+ 
+  .headmain{
+    display: flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .userbox{
+    display:flex;
+    align-items:center;
+  }
+  .dropdowncs{
+    border:none;
+    font-size:12px;
+    font-weight:400;
+    color:#2C2C2C;
+  }
+ 
+  /*  -------------------------------- header cs ------------------ */
+ 
+  .bodymain{
+    display:flex;
+    justify-content:center;
+    flex-direction:column;
+    padding-top:20px;
+    align-items:center;
+  }
+ 
+  .comname {
+    font-size: 30px;
+    font-weight: 700;
+    color: #5E43B2;
+    padding-bottom: 30px;
+   
+  }  
+ 
+  .uploadhead{
+    font-size:24px;
+    font-weight:500;
+    color:#5E43B2;
+  }
+ 
+.bodycard{
+  background-color:#EDEBF9;
+  width: 80%;
+  border-radius:12px;
+  margin-top:30px;
+  padding:20px;
+  display:flex;
+  flex-direction:row;
+  justify-content:space-around;
+  align-items:center;
+}
+ 
+.ineercard{
+  border:2px dashed #4F2580;
+  width:345px;
+  border-radius:20px;
+}
+ 
+.ineercard1{
+  margin:20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  margin-top:40px;
+  margin-bottom:40px;
+}
+ 
+.ineercard2{
+  font-size:16px;
+  font-weight:500;
+  color:#0E3169;
+  text-align:center;
+}
+ 
+.ineercard3{
+  font-size:12px;
+  font-weight:400;
+  color:#0E3169;
+  text-align:center;
+}
+ 
+.devider{
+  height:350px;
+  width:0;
+  border:1px solid #C5C4CA;
+}
+ 
+.cardtwosection{
+  width: 345px;
+}
+ 
+.ineercardslart2{
+  text-align:center;
+  font-size:12px;
+  font-weight:400;
+  color:#0E3169;
+}
+ 
+.copyright{
+  font-size:10px;
+  font-weight:400;
+  color:#0E3169;
+}
+ 
+ 
+@media (max-width: 768px){
+  .bodycard {
+    display: flex;
+    flex-direction: column;
+  }
+  .devider{
+    height: 0;
+    width: 400px;
+  }
+}
+ 
+@media (max-width: 480px) {
+  .bodycard {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+  }
+  .ineercard {
+    width: 300px;
+  }
+  .cardtwosection{
+    width: 300px;
+  }
+  .devider{
+    height: 0;
+    width: 300px;
+  }
+}

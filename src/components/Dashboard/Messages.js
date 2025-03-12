@@ -1,83 +1,110 @@
 import React from "react";
 import { Card, CardContent, Typography, Box } from "@mui/material";
-import { PieChart, Pie, Cell, Tooltip } from "recharts";
-
+import { PieChart, Pie, Cell } from "recharts";
+import "./Messages.css"
+ 
 const data = [
-  { name: "Anonymous Users", value: 1400, color: "#21B6EC" },
-  { name: "Users", value: 3980, color: "#B2A5D5" },
-  { name: "Amelia", value: 6700, color: "#6937C6" },
+  { name: "Anonymous Users", value: 1400, color: "#27B3C5" },
+  { name: "Users", value: 3980, color: "#C5B3D9" },
+  { name: "Amelia", value: 6700, color: "#5D3FD3" },
 ];
-
-const MessagesCard = () => {
+ 
+const totalMessages = data.reduce((acc, item) => acc + item.value, 0);
+ 
+const DonutChart = () => {
   return (
-    <Card
+    <Box
       sx={{
-        width: 300,
-        borderRadius: 3,
-        boxShadow: 3,
-        textAlign: "center",
-        p: 2,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        backgroundColor: "#F5F5F7",
+        borderRadius: "16px",
+        p: 3,
+        position: "relative",
       }}
     >
-      <CardContent>
-        <Typography variant="h6" fontWeight={600} color="#4F2580" mb={2}>
-          Messages
-        </Typography>
-
-        {/* Pie Chart */}
-        <Box display="flex" justifyContent="center">
-          <PieChart width={180} height={180}>
-            <Pie
-              data={data}
-              dataKey="value"
-              cx="50%"
-              cy="50%"
-              outerRadius={60}
-              innerRadius={30}
-              label={({ name, value }) => `${value}`}
-            >
-              {data.map((entry, index) => (
-                <Cell key={index} fill={entry.color} />
+      <Card className="card" sx={{height:200,width:300}}>
+        <CardContent>
+          <Typography className="message-title">Messages</Typography>
+ 
+          <Box sx={{ display: "flex", alignItems: "center", gap: 3}}>
+            <Box sx={{ width: 100, height: 100 }}>
+              <PieChart width={150} height={150}>
+                <Pie
+                  data={data}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={30}
+                  outerRadius={70}
+                  dataKey="value"
+                  label={false}
+                >
+                  {data.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+              </PieChart>
+            </Box>
+ 
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+              {data.map((item, index) => (
+                <Box
+                  key={index}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: 12,
+                      height: 12,
+                      backgroundColor: item.color,
+                      borderRadius: "50%",
+                    }}
+                  />
+                  <Typography sx={{ fontWeight: "bold" }}>
+                    {item.value.toLocaleString()}
+                  </Typography>
+                  <Typography sx={{ color: "#777", fontSize: "12px" }}>
+                    {item.name}
+                  </Typography>
+                </Box>
               ))}
-            </Pie>
-            <Tooltip />
-          </PieChart>
-        </Box>
-
-        {/* Legend */}
-        <Box>
-          {data.map((entry, index) => (
-            <Typography
-              key={index}
-              fontSize="0.85rem"
-              color="textSecondary"
-              mb={0.5}
-            >
-              <span
-                style={{
-                  display: "inline-block",
-                  width: 12,
-                  height: 12,
-                  backgroundColor: entry.color,
-                  marginRight: 6,
-                  borderRadius: 2,
-                }}
-              ></span>
-              {entry.name}
-            </Typography>
-          ))}
-        </Box>
-
-        {/* Total Messages */}
-        <Typography variant="h5" fontWeight={700} color="#6937C6" mt={2}>
-          10,4520
+            </Box>
+          </Box>
+        </CardContent>
+      </Card>
+ 
+      <Box
+        sx={{
+          width: "33%", // Slightly wider than main card
+          position: "absolute",
+          bottom: -25,
+          left: "50%",
+          transform: "translateX(-50%)",
+          borderRadius: 3,
+          boxShadow: 3,
+          p: 2,
+          textAlign: "center",
+          zIndex: 1,
+          background:"#fff"
+        }}
+      >
+        <Typography
+          sx={{ fontSize: "24px", fontWeight: "bold", color: "#5D3FD3" }}
+        >
+          {totalMessages.toLocaleString()}
         </Typography>
-        <Typography fontSize="0.9rem" color="textSecondary">
+        <Typography sx={{ color: "#888", fontSize: "14px" }}>
           Total Messages
         </Typography>
-      </CardContent>
-    </Card>
+      </Box>
+    </Box>
   );
 };
-
-export default MessagesCard;
+ 
+export default DonutChart;

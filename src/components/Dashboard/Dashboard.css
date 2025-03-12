@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@300;400;600&display=swap');
+
+
+.headmain{
+    display: flex;
+    justify-content:space-between;
+    align-items:center;
+   
+  }
+  .userbox{
+    display:flex;
+    align-items:center;
+  }
+  .dropdowncs{
+    border:none;
+    font-size:12px;
+    font-weight:400;
+    color:#2C2C2C;
+  }
+ 
+  .comname {
+    font-size: 30px;
+    font-weight: 700;
+    color: #5E43B2;
+    padding-bottom: 30px;
+   
+  }  

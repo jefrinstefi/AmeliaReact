@@ -4,7 +4,8 @@ import CircleIcon from "@mui/icons-material/Circle";
 
 const SuccessRateCard = () => {
   return (
-    <Card sx={{ width: 300, borderRadius: 3, boxShadow: 3, p: 2 }}>
+    <Box >
+    <Card   sx={{ width: 300, borderRadius: 3, boxShadow: 3, p: 2 }}>
       <CardContent>
         {/* Header */}
         <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -63,6 +64,7 @@ const SuccessRateCard = () => {
         </Box>
       </CardContent>
     </Card>
+    </Box>
   );
 };
 

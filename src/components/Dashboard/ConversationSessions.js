@@ -1,60 +1,104 @@
 import React from "react";
-import { Box, Typography, LinearProgress } from "@mui/material";
-
-const stats = [
-  { label: "Average Sentiment", value: 6.3, color: "#673AB7" },
-  { label: "Average Frustration", value: 3.0, color: "#03A9F4" },
-  { label: "Average Messages", value: 9.0, color: "#9575CD" },
-  { label: "Average Duration", value: 6.0, color: "#303F9F" },
-];
-
-const DashboardStats = () => {
+import "./ConversationSessions.css"; // Import CSS
+import {
+  Card,
+  CardContent,
+  Typography,
+  LinearProgress,
+  Box,
+} from "@mui/material";
+ 
+const conversationCard = () => {
   return (
-    <Box sx={{
-      p: 3,
-      borderRadius: 3,
-      boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-      backgroundColor: "#fff",
-      maxWidth: 320,
-      minWidth: 280,
-    }}>
-      <Typography variant="subtitle1" fontWeight={500} color="#666" gutterBottom>
-        Conversations / Sessions
-      </Typography>
-      <Typography variant="h3" fontWeight={700} color="#673AB7">
-        120
-      </Typography>
-      <Typography variant="body2" color="#666" mb={2}>
-        Total Conversations
-      </Typography>
-
-      {stats.map((stat, index) => (
-        <Box key={index} sx={{ mb: 2 }}>
-          <Typography variant="body2" color="#666" mb={0.5}>
-            {stat.label}
-          </Typography>
-          <Box display="flex" alignItems="center" gap={1}>
-            <LinearProgress
-              variant="determinate"
-              value={(stat.value / 10) * 100}
-              sx={{
-                flex: 1,
-                height: 8,
-                borderRadius: 5,
-                backgroundColor: "#E0E0E0",
-                '& .MuiLinearProgress-bar': {
-                  backgroundColor: stat.color,
-                },
-              }}
-            />
-            <Typography variant="body1" fontWeight={600}>
-              {stat.value}
-            </Typography>
-          </Box>
-        </Box>
-      ))}
-    </Box>
+<div>
+<Card className="conversation-card">
+<CardContent>
+          {/* Title */}
+<Typography variant="subtitle1" className="card-heading">
+            Conversations / Sessions
+</Typography>
+ 
+          {/* Total Conversations */}
+<Typography variant="h3" className="total-number">
+            120
+</Typography>
+<Typography variant="body2" className="total-label">
+            Total Conversations
+</Typography>
+ 
+          {/* Average Sentiment */}
+<Box className="metric">
+<Typography
+              variant="body2"
+              className="metric-label sentiment-label"
+>
+              Average Sentiment
+</Typography>
+<Box className="progress-container">
+<LinearProgress
+                variant="determinate"
+                value={63}
+                className="progress sentiment-progress"
+              />
+<Typography variant="body2" className="metric-value ">
+                6.3
+</Typography>
+</Box>
+</Box>
+ 
+          {/* Average Frustration */}
+<Box className="metric">
+<Typography variant="body2" className="sentiment-label">
+              Average Frustration
+</Typography>
+<Box className="progress-container">
+<LinearProgress
+                variant="determinate"
+                value={30}
+                className="progress frustration"
+              />
+<Typography variant="body2" className="metric-value">
+                3.0
+</Typography>
+</Box>
+</Box>
+ 
+          {/* Average Messages */}
+<Box className="metric">
+<Typography variant="body2" className="sentiment-label">
+              Average Messages
+</Typography>
+<Box className="progress-container">
+<LinearProgress
+                variant="determinate"
+                value={90}
+                className="progress messages"
+              />
+<Typography variant="body2" className="metric-value">
+                9.0
+</Typography>
+</Box>
+</Box>
+ 
+          {/* Average Duration */}
+<Box className="metric">
+<Typography variant="body2" className="sentiment-label">
+              Average Duration
+</Typography>
+<Box className="progress-container">
+<LinearProgress
+                variant="determinate"
+                value={60}
+                className="progress duration"
+              />
+<Typography variant="body2" className="metric-value">
+                6.0
+</Typography>
+</Box>
+</Box>
+</CardContent>
+</Card>
+</div>
   );
 };
-
-export default DashboardStats;
+export default conversationCard;
