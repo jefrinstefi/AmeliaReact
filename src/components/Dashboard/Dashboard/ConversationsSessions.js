@@ -1,22 +1,24 @@
 import React from "react";
 import { Box, Typography, LinearProgress } from "@mui/material";
-
+ 
 const stats = [
   { label: "Average Sentiment", value: 6.3, color: "#673AB7" },
   { label: "Average Frustration", value: 3.0, color: "#03A9F4" },
   { label: "Average Messages", value: 9.0, color: "#9575CD" },
   { label: "Average Duration", value: 6.0, color: "#303F9F" },
 ];
-
+ 
 const DashboardStats = () => {
   return (
     <Box sx={{
-      p: 3,
-      borderRadius: 3,
-      boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+      p: 2,
+      borderRadius: '12px',
+      border: '1px solid #c5c4ca ',
+      boxShadow: '0px 4px 4px 0px #00000040',
       backgroundColor: "#fff",
       maxWidth: 320,
       minWidth: 280,
+      height:339
     }}>
       <Typography variant="subtitle1" fontWeight={500} color="#666" gutterBottom>
         Conversations / Sessions
@@ -24,12 +26,12 @@ const DashboardStats = () => {
       <Typography variant="h3" fontWeight={700} color="#673AB7">
         120
       </Typography>
-      <Typography variant="body2" color="#666" mb={2}>
+      <Typography variant="body2" color="#666" mb={1}>
         Total Conversations
       </Typography>
-
+ 
       {stats.map((stat, index) => (
-        <Box key={index} sx={{ mb: 2 }}>
+        <Box key={index} sx={{ mb: 1 }}>
           <Typography variant="body2" color="#666" mb={0.5}>
             {stat.label}
           </Typography>
@@ -56,5 +58,5 @@ const DashboardStats = () => {
     </Box>
   );
 };
-
+ 
 export default DashboardStats;

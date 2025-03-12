@@ -1,27 +1,27 @@
 import React from "react";
 import { Card, CardContent, Typography, Box, Divider } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-
+ 
 const DurationCard = () => {
   return (
     <Card
       sx={{
-        width: 300,
-        borderRadius: 3,
-        boxShadow: 3,
-        textAlign: "center",
-        p: 2,
+        // width: 300,
+        borderRadius: "12px",
+        border: '1px solid #c5c4ca ',
+      boxShadow: '0px 4px 4px 0px #00000040',
+        p: 1,
       }}
     >
       <CardContent>
         {/* Title with Icon */}
-        <Box display="flex" alignItems="center" justifyContent="center" mb={2}>
+        <Box display="flex" mb={2}>
           <AccessTimeIcon sx={{ color: "#4F2580", mr: 1 }} />
-          <Typography variant="subtitle1" fontWeight={600} color="#4F2580">
+          <Typography variant="subtitle1" fontWeight={600} color="#616163" fontSize={12}>
             Duration (In Milliseconds)
           </Typography>
         </Box>
-
+ 
         {/* Data Section */}
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Box textAlign="center">
@@ -32,9 +32,9 @@ const DurationCard = () => {
               15,320
             </Typography>
           </Box>
-
+ 
           <Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
-
+ 
           <Box textAlign="center">
             <Typography fontSize="0.85rem" color="textSecondary">
               Average Session Time
@@ -48,5 +48,5 @@ const DurationCard = () => {
     </Card>
   );
 };
-
+ 
 export default DurationCard;
