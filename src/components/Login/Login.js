@@ -19,36 +19,28 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-<<<<<<< HEAD
   const [user, setUser] = useState({
     username: "sincera-analyzer",
     password:"sincera-sonnet"
   });
-  // const [setMessage,errorMessage] = useState("")
   const [message, setMessage] = useState(""); 
-=======
-
->>>>>>> a7336a7803e1342bd429f6dd916ddd4b886dbe4f
   const isMobile = useMediaQuery("(max-width:600px)");
   const isTablet = useMediaQuery("(max-width:960px)");
-
   const navigate = useNavigate();
 
   const handleLogin = () => {
-<<<<<<< HEAD
     // Authentication logic
     // check username:
     if (user.username === username) {
       if(user.password === password){
+        localStorage.setItem("username", user.username); // Store in localStorage
+  setUsername(user.username);
         navigate("/upload");
       }
     } else {
       setMessage("❌ Invalid Credentails.");
     }
     console.log(username,password, user);
-=======
-    navigate("/upload");
->>>>>>> a7336a7803e1342bd429f6dd916ddd4b886dbe4f
   };
 
   return (

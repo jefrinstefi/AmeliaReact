@@ -3,6 +3,8 @@ import { Card, CardContent, Typography, Box, LinearProgress } from "@mui/materia
 import CircleIcon from "@mui/icons-material/Circle";
  
 const SuccessRateCard = () => {
+  const storedsuccessrate = localStorage.getItem("successrate")
+  console.log(storedsuccessrate);
   return (
     <Card sx={{ 
       // width: 300,

@@ -16,6 +16,32 @@ import ConversationTable from './ConversationTable'
 import ChannelsCard from './ChannelsCard';
 
 const Dashboard = () => {
+  const storedUser = localStorage.getItem("username")
+  console.log(storedUser);
+
+  // const GetDetails = () => {
+  //   const username = "admin";
+  //   const password = "password";
+  //   const credentials = btoa(`${username}:${password}`);
+  // const requestOptions = {
+  //   method: "GET",
+  //   headers: {
+  //     Authorization: "Basic " + credentials, // Base64 encoded username:password
+  //     Accept: "application/json"
+  //   },
+  // };
+  // fetch("http://44.246.164.250:8502//conversations", requestOptions)
+  //   .then((response) => response.json())
+  //   .then((result) => {
+  //     console.log('result',result,result.status);
+  //     if (result.status === "success") {
+  //       // navigate('/dashboard');
+  //     }
+  //   })
+  //   .catch((error) => console.error(error));
+  
+  //   };
+    
   
   return (
     <div>
@@ -29,7 +55,7 @@ const Dashboard = () => {
                   <div>
                   {/* <h6 style={{border:'none',fontSize:10,fontWeight:400,color:'#2C2C2C'}}>Manager</h6> */}
             <select className="dropdowncs" >
-              <option value="">Jeyaprakash <br /> Manager</option>
+              <option value="">{storedUser} <br /> Manager</option>
               <option value="option1">Logout</option>
               {/* <option value="option2">Option 2</option> */}
             </select>
