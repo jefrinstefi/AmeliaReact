@@ -1,5 +1,5 @@
 .card {
-    width: 588px;
+    /* width: 588px; */
     height: 339px;
     border: 1px solid #c5c4ca !important;
     border-radius: 12px !important;
@@ -126,7 +126,7 @@
     }
 }
  
- 
+
 .recharts-surface {
     padding: 40px 0px !important;
 }

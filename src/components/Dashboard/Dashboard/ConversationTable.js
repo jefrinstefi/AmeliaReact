@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {} from "react";
 import {
   Table,
   TableBody,
@@ -16,7 +16,7 @@ import {
 import DownloadIcon from "@mui/icons-material/Download";
 import ExpandIcon from "@mui/icons-material/Fullscreen";
 import SearchIcon from "@mui/icons-material/Search";
-
+ 
 const data = Array(20).fill({
   convId: "CONV162025",
   dateTime: "04/03/2025 11:00am",
@@ -27,13 +27,15 @@ const data = Array(20).fill({
   misunderstanding: "Amelia misunderstood when the user asked about",
   resolved: "Yes",
 });
-
+ 
 const ConversationTable = () => {
   const isMobile = useMediaQuery("(max-width: 600px)");
-
+ 
   return (
-    <Box sx={{ p: isMobile ? 1 : 3, display: "flex", justifyContent: "center" }}>
-      <Paper elevation={4} sx={{ borderRadius: 3, p: isMobile ? 1 : 3, maxWidth: "1200px", width: "100%", boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)" }}>
+    <Box sx={{ display: "flex", justifyContent: "center" }}>
+      <Paper elevation={4} sx={{  p: isMobile ? 1 : 3, width: "100%",  borderRadius: "12px",
+        border: '1px solid #c5c4ca ',
+      boxShadow: '0px 4px 4px 0px #00000040', }}>
         <Box display="flex" flexDirection={isMobile ? "column" : "row"} justifyContent="space-between" alignItems="center" mb={3}>
           <Typography variant={isMobile ? "h6" : "h5"} fontWeight={600} color="#4F2580">120 Conversations</Typography>
           <Box display="flex" flexDirection={isMobile ? "column" : "row"} gap={2} alignItems="center">
@@ -88,5 +90,5 @@ const ConversationTable = () => {
     </Box>
   );
 };
-
+ 
 export default ConversationTable;

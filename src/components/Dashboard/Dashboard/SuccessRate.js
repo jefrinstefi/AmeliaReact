@@ -1,11 +1,12 @@
 import React from "react";
 import { Card, CardContent, Typography, Box, LinearProgress } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
-
+ 
 const SuccessRateCard = () => {
   return (
-    <Box >
-    <Card   sx={{ width: 300, borderRadius: 3, boxShadow: 3, p: 2 }}>
+    <Card sx={{ 
+      // width: 300,
+     borderRadius: 3, boxShadow: 3, p: 2 }}>
       <CardContent>
         {/* Header */}
         <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -16,7 +17,7 @@ const SuccessRateCard = () => {
             Avg <span style={{ color: "#6937C6" }}>6.3</span>
           </Typography>
         </Box>
-
+ 
         {/* Progress Bar */}
         <LinearProgress
           variant="determinate"
@@ -31,7 +32,7 @@ const SuccessRateCard = () => {
             },
           }}
         />
-
+ 
         {/* Success & Failure Details */}
         <Box mt={2}>
           {/* Successful Chats */}
@@ -47,7 +48,7 @@ const SuccessRateCard = () => {
           <Typography fontSize="1.2rem" fontWeight={700} color="#6937C6">
             13,620
           </Typography>
-
+ 
           {/* Unsuccessful Chats */}
           <Box display="flex" alignItems="center" justifyContent="space-between" mt={1}>
             <Box display="flex" alignItems="center">
@@ -64,8 +65,7 @@ const SuccessRateCard = () => {
         </Box>
       </CardContent>
     </Card>
-    </Box>
   );
 };
-
+ 
 export default SuccessRateCard;

@@ -18,18 +18,20 @@ const DonutChart = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        backgroundColor: "#F5F5F7",
         borderRadius: "16px",
-        p: 3,
+        paddingLeft:15,
+        paddingRight:15,
         position: "relative",
+       
+       
       }}
     >
-      <Card className="card" sx={{height:200,width:300}}>
+      <Card className="MessageCard">
         <CardContent>
           <Typography className="message-title">Messages</Typography>
  
-          <Box sx={{ display: "flex", alignItems: "center", gap: 3}}>
-            <Box sx={{ width: 100, height: 100 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
+            <Box sx={{ width: 150, height: 150 }}>
               <PieChart width={150} height={150}>
                 <Pie
                   data={data}
@@ -66,7 +68,7 @@ const DonutChart = () => {
                       borderRadius: "50%",
                     }}
                   />
-                  <Typography sx={{ fontWeight: "bold" }}>
+                  <Typography  sx={{ fontWeight: "bold" }} className="labelValue">
                     {item.value.toLocaleString()}
                   </Typography>
                   <Typography sx={{ color: "#777", fontSize: "12px" }}>
@@ -75,23 +77,38 @@ const DonutChart = () => {
                 </Box>
               ))}
             </Box>
+            
           </Box>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
+          <Typography
+          sx={{ fontSize: "24px", fontWeight: "bold", color: "#5D3FD3" }}
+        >
+          {totalMessages.toLocaleString()}
+        </Typography>
+        <Typography sx={{ color: "#888", fontSize: "14px",paddingLeft:2 }}>
+          Total Messages
+        </Typography>
+        </div>
         </CardContent>
+    
       </Card>
  
-      <Box
+      {/* <Box
         sx={{
-          width: "33%", // Slightly wider than main card
+          width: "275px",
+          // height: "65px",
           position: "absolute",
-          bottom: -25,
+          bottom: -20,
           left: "50%",
           transform: "translateX(-50%)",
-          borderRadius: 3,
-          boxShadow: 3,
-          p: 2,
+          
+         
+          borderRadius: '12px',
+          boxShadow: '0px 4px 4px 0px #00000040 ',
+          p: 1,
           textAlign: "center",
           zIndex: 1,
-          background:"#fff"
+          background: "#fff",
         }}
       >
         <Typography
@@ -102,7 +119,7 @@ const DonutChart = () => {
         <Typography sx={{ color: "#888", fontSize: "14px" }}>
           Total Messages
         </Typography>
-      </Box>
+      </Box> */}
     </Box>
   );
 };

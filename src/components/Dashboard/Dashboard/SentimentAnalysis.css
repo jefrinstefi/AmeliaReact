@@ -1,12 +1,12 @@
 .card-container {
-    width: 278px;
-    height: 200px;
+     width: 320px;
+    height: 218px; 
     border: 1px solid #c5c4ca !important;
     border-radius: 12px !important;
     padding: 15px !important;
     box-shadow: 0px 4px 4px 0px #00000040 !important;
     background: #fff !important;
-    position: absolute;
+    /* position: absolute; */
     /* top: 187px; */
     /* left: 43px; */
     display: flex;

@@ -1,5 +1,5 @@
 import React from "react";
-import './ConversationIntents.css'; // Import CSS
+import './ConverationIntents.css'; // Import CSS
 import { Card, Typography, Grid } from "@mui/material";
 import {
   BarChart,
@@ -47,7 +47,7 @@ const ConversationIntents = () => {
             />
 </XAxis>
  
-         
+          
 <YAxis>
 <Label
               value="Number of Conversations"

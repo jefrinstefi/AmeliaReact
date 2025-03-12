@@ -58,28 +58,34 @@ const AmeliaUpload = () => {
  
  
   return (
+
+    <div>
+
+<Box sx={{backgroundColor:'#ffffff',padding:2.5,boxShadow: '0px 4px 4px 0px #00000050',position:'sticky',top:0,zIndex:1}}>
+            <header className="headmain" >
+                <div>
+                <img src={companyLogo} alt="Company Logo" style={{ }} />
+                </div>
+                <div className="userbox" >
+                  <img src={Acouser} alt="user" />
+                  <div>
+                  {/* <h6 style={{border:'none',fontSize:10,fontWeight:400,color:'#2C2C2C'}}>Manager</h6> */}
+            <select className="dropdowncs" >
+              <option value="">Jeyaprakash <br /> Manager</option>
+              <option value="option1">Logout</option>
+              {/* <option value="option2">Option 2</option> */}
+            </select>
+          </div>
+                </div>
+            </header>
+            </Box>
+
+
    
-    <Box margin={3}>
+    <Box sx={{backgroundColor:'#F5F4F9',padding:3}}>
  
       {/* ----------------- header -------------------------------------------------------------------- */}  
-      <Box>
-      <header className="headmain" >
-          <div>
-          <img src={companyLogo} alt="Company Logo" style={{ }} />
-          </div>
-          <div className="userbox" >
-            <img src={Acouser} alt="user" />
-            <div>
-            {/* <h6 style={{border:'none',fontSize:10,fontWeight:400,color:'#2C2C2C'}}>Manager</h6> */}
-      <select className="dropdowncs" >
-        <option value="">Jeyaprakash <br /> Manager</option>
-        <option value="option1">Logout</option>
-        {/* <option value="option2">Option 2</option> */}
-      </select>
-    </div>
-          </div>
-      </header>
-      </Box>
+     
  
  {/* ----------------- header-end -------------------------------------------------------------------- */}  
  
@@ -153,6 +159,8 @@ files here</p>
  
  
     </Box>
+
+    </div>
  
  
   );
