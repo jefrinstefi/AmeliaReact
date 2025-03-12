@@ -6,7 +6,8 @@ const SuccessRateCard = () => {
   return (
     <Card sx={{ 
       // width: 300,
-     borderRadius: 3, boxShadow: 3, p: 2 }}>
+     borderRadius: "12px", p: 2, border: '1px solid #c5c4ca ',
+     boxShadow: '0px 4px 4px 0px #00000040', }}>
       <CardContent>
         {/* Header */}
         <Box display="flex" justifyContent="space-between" alignItems="center">
