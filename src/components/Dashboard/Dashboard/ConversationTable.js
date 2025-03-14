@@ -97,6 +97,7 @@
 
 import React, { useEffect, useState }  from "react";
 import {
+  Tooltip,
   Table,
   TableBody,
   TableCell,
@@ -119,6 +120,8 @@ const ConversationTable = () => {
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const totalConversations = localStorage.getItem("totalConv")
+    //console.log(totalConversations);
      const HandleClick = async() => {
       setLoading(true);
       const myHeaders = new Headers();
@@ -180,6 +183,10 @@ const ConversationTable = () => {
               if (!text) return "";
               return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
             };
+            const limit=12;
+            const truncateText = (text, limit) => {
+              return text.length > limit ? text.substring(0, limit) + "..." : text;
+            };
 
           useEffect(() => {
             HandleClick(); 
@@ -191,7 +198,7 @@ const ConversationTable = () => {
         border: '1px solid #c5c4ca ',
       boxShadow: '0px 4px 4px 0px #00000040', }}>
         <Box display="flex" flexDirection={isMobile ? "column" : "row"} justifyContent="space-between" alignItems="center" mb={3}>
-          <Typography variant={isMobile ? "h6" : "h5"} fontWeight={600} color="#4F2580">120 Conversations</Typography>
+          <Typography variant={isMobile ? "h6" : "h5"} fontWeight={600} color="#4F2580">{totalConversations} Conversations</Typography>
           <Box display="flex" flexDirection={isMobile ? "column" : "row"} gap={2} alignItems="center">
             <Box display="flex" alignItems="center" border="1px solid #ccc" borderRadius={2} px={2} py={1} bgcolor="white">
               <SearchIcon sx={{ color: "#4F2580", mr: 1 }} />
@@ -220,8 +227,11 @@ const ConversationTable = () => {
       <Table stickyHeader>
         <TableHead>
           <TableRow sx={{ backgroundColor: "#7D6DB1" }}>
-            {["Conv Id", "Date & Time", "Duration", "Channel", "Intent", "Sentiment","Successful?","Frustration","Total Messages","Amelia Messages","User Messages","Misunderstanding", "Resolved"].map((head) => (
-              <TableCell key={head} sx={{ color: "#fff", fontWeight: "bold", fontSize: "14px", backgroundColor: "#7D6DB1" }}>
+            {["Conv Id", "Date & Time", "Duration", "Channel", "Intent", "Sentiment","Successful?","Frustration","Total Msgs","Amelia Msgs","User Msgs","Misunderstanding", "Resolved"].map((head) => (
+              <TableCell key={head} sx={{ color: "#fff", fontWeight: "bold", fontSize: "14px", backgroundColor: "#7D6DB1",whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                maxWidth: 150 }}>
                 {head}
               </TableCell>
             ))}
@@ -241,7 +251,9 @@ const ConversationTable = () => {
              <TableCell sx={{ color: "#737277" }}>{item.Messages_Count}</TableCell>
              <TableCell sx={{ color: "#737277" }}>{item.User_Messages_Count}</TableCell>
              <TableCell sx={{ color: "#737277" }}>{item.Amelia_Messages_Count}</TableCell>
-             <TableCell sx={{ color: "#737277" }}>{item.Misunderstandings}</TableCell>
+             <TableCell sx={{ color: "#737277" }}><Tooltip title={item.Misunderstandings} arrow>
+<span>{truncateText(item.Misunderstandings, 12)}</span>
+</Tooltip></TableCell>
              <TableCell sx={{ color: "#737277" }}>{formatYesNo(item.Resolution)}</TableCell>
            </TableRow>
           ))}
