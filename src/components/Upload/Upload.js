@@ -9,8 +9,10 @@ import Jsonimg from "../../assets/JSON.png";
 import './Upload.css';
 import { styled } from '@mui/material/styles';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
-import Popup from "../Popup";
-
+import { Dialog, DialogTitle, DialogContent, DialogActions ,TextField,InputAdornment,IconButton} from "@mui/material";
+import { Person, Visibility, VisibilityOff } from "@mui/icons-material";
+// import { useDataContext } from "./DataContext";
+// import { DataContext } from "../Dashboard/Dashboard/DataContext";
 const AmeliaUpload = () => {
   const storedUser = localStorage.getItem("username")
   console.log(storedUser);
@@ -21,7 +23,10 @@ const AmeliaUpload = () => {
   const [fileUploaded] = useState(false);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-
+  const [username,setUsername] = useState('');
+  const [password,setPassword] = useState('')
+  const [showPassword,setShowPassword] = useState('')
+  // const { setUserData } = useDataContext(); // Get function from Context
 
 // Check if a file is already attached 
 useEffect(() => {
@@ -61,14 +66,22 @@ useEffect(() => {
   const closeModal = () => {
     setIsOpen(false); // Close popup
   };
-  const handleUpload = () => {
+
+  const handleProcess = () => {
     setIsOpen(true);
-    console.log(setIsOpen,isOpen);
+    console.log(setIsOpen,isOpen);  }
+
+  const handleUpload = () => {
+    console.log(username,password)
  const formData = new FormData();
 formData.append("file", file);
-    const username = "admin";
-  const password = "password";
-  const credentials = btoa(`${username}:${password}`);
+    const username1 = username;
+  const password1 = password;
+  localStorage.setItem('apiUser',username1);
+  localStorage.setItem('apiPass',password1)
+
+  const credentials = btoa(`${username1}:${password1}`);
+  // setUserData(credentails);
 const requestOptions = {
   method: "POST",
   headers: {
@@ -209,7 +222,7 @@ files here</p>
   <Button
           className="custom-button"
           variant="contained"
-          onClick={handleUpload}
+          onClick={handleProcess}
           startIcon={<CloudUploadIcon />}
           sx={{ mt: 2, width:'80%',height:47 , backgroundColor: "#5E43B2", borderRadius: "8px", fontSize:15, fontWeight:600 }}
         >
@@ -218,9 +231,101 @@ files here</p>
         
   </div>
 </div>
-{/* {isOpen &&    <Popup/>
-        } */}
+
+
 </div>
+<Dialog
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        PaperProps={{
+          sx: {
+            borderRadius: "16px",
+            padding: "20px",
+            backgroundColor: "#FFFFFF",
+            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)",
+          },
+        }}
+      >
+        <DialogTitle
+          sx={{
+            textAlign: "center",
+            fontWeight: "bold",
+            color: "#4F2580",
+            fontSize: "24px",
+          }}
+        >
+          Authentication
+        </DialogTitle>
+        <DialogContent>
+          <TextField
+            fullWidth
+            label="Username"
+            margin="dense"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Enter your username"
+            sx={{
+              marginBottom: "12px",
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "8px",
+              },
+            }}
+          />
+ 
+          <TextField
+            fullWidth
+            label="Password"
+            margin="dense"
+            type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter your password"
+            sx={{
+              marginBottom: "12px",
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "8px",
+              },
+            }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => setShowPassword(!showPassword)}>
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </DialogContent>
+ 
+        <DialogActions sx={{ justifyContent: "center" }}>
+          <Button
+            variant="outlined"
+            onClick={() => setIsOpen(false)}
+            sx={{
+              borderColor: "#4F2580",
+              color: "#4F2580",
+              borderRadius: "5px",
+              width: "100px",
+            }}
+          >
+            Cancel
+          </Button>
+ 
+          <Button
+            variant="contained"
+            onClick={handleUpload}
+            sx={{
+              backgroundColor: "#4F2580",
+              color: "#fff",
+              borderRadius: "5px",
+              width: "100px",
+            }}
+          >
+            Proceed
+          </Button>
+        </DialogActions>
+      </Dialog>
  
 <Box marginTop={3}>
   <p className="copyright" >Developed for Amelia Conversation Analysis@2025</p>

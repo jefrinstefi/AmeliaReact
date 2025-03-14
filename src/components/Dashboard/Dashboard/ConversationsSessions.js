@@ -2,54 +2,36 @@ import React,{useEffect, useState} from "react";
 import { Box, Typography, LinearProgress } from "@mui/material";
  
  
-const DashboardStats = () => {
+const DashboardStats = ({ data }) => {
   const [totalConversations,setTotalConversations] = useState('');
   const [stats, setStats] = useState([
-    { label: "Average Sentiment", value: 6.3, color: "#673AB7" ,labelName: 'avg_sentiment'},
-    { label: "Average Frustration", value: 3.0, color: "#03A9F4" ,labelName: 'avg_frustration'},
-    { label: "Average Messages", value: 9.0, color: "#9575CD" ,labelName: 'avg_messages'},
-    { label: "Average Duration", value: 6.0, color: "#303F9F" ,labelName: 'avg_duration'},
+    { label: "Average Sentiment", value: 6.3, color: "#673AB7" ,max: 100,labelName: 'avg_sentiment'},
+    { label: "Average Frustration", value: 3.0, color: "#03A9F4" ,max: 100,labelName: 'avg_frustration'},
+    { label: "Average Messages", value: 9.0, color: "#9575CD" ,max: 100,labelName: 'avg_messages'},
+    { label: "Average Duration", value: 81.12, color: "#03A9F4" ,max: 100,labelName: 'avg_duration'}
+
+    // { label: "Average Duration", value: 6.0, color: "#3A4B6F" ,labelName: 'avg_duration'},
   ]
 
   )
   useEffect(() => {
     GetDetails();
     GetAverageValues();
-  });
+  },[]);
   const GetAverageValues = () => {
-    const username = "admin";
-    const password = "password";
-    const credentials = btoa(`${username}:${password}`);
-  const requestOptions = {
-    method: "GET",
-    headers: {
-      Authorization: "Basic " + credentials, // Base64 encoded username:password
-      Accept: "application/json"
-    },
-  };
-  // http://44.246.164.250:8502/analytics-overview
-
-  fetch("http://44.246.164.250:8502/analytics-overview", requestOptions)
-    .then((response) => response.json())
-    .then((result) => {
-      console.log('result',result);
-      localStorage.setItem("successrate", result.success_rate); // Store in localStorage
-      // setUsername(result);
-      if (result.key_metrics !== undefined) {
-        console.log(result.key_metrics);
-        setStats((prevStats) =>
-          prevStats.map((item) => ({
-            ...item,
-            value: result.key_metrics[item.labelName] ?? item.value, // Update if key exists, else keep old value
-          }))
-        );
-      }
-    })
-    .catch((error) => console.error(error));
+    if (data.key_metrics !== undefined) {
+      setStats((prevStats) =>
+                prevStats.map((item) => ({
+                  ...item,
+                  value: data.key_metrics[item.labelName] ?? item.value, // Update if key exists, else keep old value
+                }))
+              );
+    }
+  
   }
   const GetDetails = () => {
-    const username = "admin";
-    const password = "password";
+    const username = localStorage.getItem('apiUser');
+    const password =localStorage.getItem('apiPass');
     const credentials = btoa(`${username}:${password}`);
   const requestOptions = {
     method: "GET",
@@ -63,7 +45,8 @@ const DashboardStats = () => {
     .then((response) => response.json())
     .then((result) => {
       console.log('result',result);
-      setTotalConversations(result.total)
+      setTotalConversations(result.total);
+      localStorage.setItem("totalConv", result.total);
       if (result.status === "success") {
         // navigate('/dashboard');
       }
@@ -100,7 +83,7 @@ const DashboardStats = () => {
           <Box display="flex" alignItems="center" gap={1}>
             <LinearProgress
               variant="determinate"
-              value={(stat.value / 10) * 100}
+              value={Math.min(100, (stat.value / stat.max) * 100)} // Ensure value stays in 0-100 range
               sx={{
                 flex: 1,
                 height: 8,

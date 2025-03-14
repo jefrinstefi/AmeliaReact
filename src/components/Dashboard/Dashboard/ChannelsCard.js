@@ -1,7 +1,16 @@
-import React from "react";
+import React ,{useEffect,useState}from "react";
 import { Card, CardContent, Typography, Box, LinearProgress } from "@mui/material";
  
-const ChannelsCard = () => {
+const ChannelsCard = ({data}) => {
+  const [channel, setChannel] = useState('');
+        useEffect(() => {
+          getAvgDetails();
+        },[data]);
+        const getAvgDetails = () => {
+      if (data.channel_distribution !== undefined ) {
+        setChannel(data.channel_distribution.voice);
+      }
+        }
   return (
     <Card sx={{ 
         // width: 320,
@@ -37,13 +46,12 @@ const ChannelsCard = () => {
             Conversations
           </Typography>
           <Typography variant="body1" fontWeight={600}>
-            6,700
-          </Typography>
+{channel}          </Typography>
         </Box>
  
         {/* Description */}
         <Typography variant="caption" color="text.secondary" mt={1} display="block">
-          There are 6,700 total conversations and all of them are based on the voice channel.
+          There are { channel} total conversations and all of them are based on the voice channel.
         </Typography>
       </CardContent>
     </Card>

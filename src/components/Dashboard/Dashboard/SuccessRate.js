@@ -1,10 +1,22 @@
-import React from "react";
+import React , {useState, useEffect}from "react";
 import { Card, CardContent, Typography, Box, LinearProgress } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
  
-const SuccessRateCard = () => {
-  const storedsuccessrate = localStorage.getItem("successrate")
-  console.log(storedsuccessrate);
+const SuccessRateCard = ({ data }) => {
+  const [successPercentage, setSuccessPercentage] = useState(0);
+  const [failurePercentage, setFailurePercentage] = useState(0);
+  const [totalChats, setTotalChats] = useState(0);
+
+  useEffect(() => {
+    if (data.success_rate && data.success_rate.Y !== undefined && data.success_rate.N !== undefined) {
+      const total = data.success_rate.Y + data.success_rate.N;
+      setTotalChats(total);
+console.log(total);
+      setSuccessPercentage(total > 0 ? Math.round((data.success_rate.Y / total) * 100) : 0);
+      console.log(successPercentage)
+      setFailurePercentage(total > 0 ? 100 - Math.round((data.success_rate.Y / total) * 100) : 0);
+    }
+  }, [data]);
   return (
     <Card sx={{ 
       // width: 300,
@@ -17,14 +29,14 @@ const SuccessRateCard = () => {
             Success Rate
           </Typography>
           <Typography variant="body2" color="primary" fontWeight={600}>
-            Avg <span style={{ color: "#6937C6" }}>6.3</span>
+            {/* Avg <span style={{ color: "#6937C6" }}>6.3</span> */}
           </Typography>
         </Box>
  
         {/* Progress Bar */}
         <LinearProgress
           variant="determinate"
-          value={97} // Success percentage
+          value={successPercentage} // Success percentage
           sx={{
             height: 8,
             borderRadius: 5,
@@ -45,11 +57,11 @@ const SuccessRateCard = () => {
               <Typography fontSize="0.85rem">Chat Successful</Typography>
             </Box>
             <Typography fontSize="0.9rem" fontWeight={600}>
-              97%
+            {successPercentage}%
             </Typography>
           </Box>
           <Typography fontSize="1.2rem" fontWeight={700} color="#6937C6">
-            13,620
+          {data?.success_rate.Y ?? 0}
           </Typography>
  
           {/* Unsuccessful Chats */}
@@ -59,11 +71,11 @@ const SuccessRateCard = () => {
               <Typography fontSize="0.85rem">Chat Not Successful</Typography>
             </Box>
             <Typography fontSize="0.9rem" fontWeight={600}>
-              3%
+            {failurePercentage}%
             </Typography>
           </Box>
           <Typography fontSize="1.2rem" fontWeight={700} color="#46C5E0">
-            200
+          {data?.success_rate.N ?? 0}
           </Typography>
         </Box>
       </CardContent>

@@ -1,8 +1,17 @@
-import React from "react";
+import React ,{useEffect,useState} from "react";
 import { Card, CardContent, Typography, Box, Divider } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
  
-const DurationCard = () => {
+const DurationCard = ({data}) => {
+  const [avgSession, setAvgSession] = useState('')
+  useEffect(() => {
+    getDuration();
+  },[data]);
+  const getDuration = () => {
+if (data.key_metrics !== undefined ) {
+  setAvgSession(data.key_metrics.avg_duration);
+}
+  }
   return (
     <Card
       sx={{
@@ -40,8 +49,8 @@ const DurationCard = () => {
               Average Session Time
             </Typography>
             <Typography variant="h6" fontWeight={700} color="black">
-              15.6
-            </Typography>
+{avgSession}      
+      </Typography>
           </Box>
         </Box>
       </CardContent>
