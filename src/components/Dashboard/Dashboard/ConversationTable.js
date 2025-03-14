@@ -1,4 +1,4 @@
-import React, {} from "react";
+import React, {useEffect, useState} from "react";
 import {
   Table,
   TableBody,
@@ -17,18 +17,43 @@ import DownloadIcon from "@mui/icons-material/Download";
 import ExpandIcon from "@mui/icons-material/Fullscreen";
 import SearchIcon from "@mui/icons-material/Search";
  
-const data = Array(20).fill({
-  convId: "CONV162025",
-  dateTime: "04/03/2025 11:00am",
-  duration: "5.40 m",
-  channel: "Voice",
-  intent: "Information",
-  sentiment: "4 / 10",
-  misunderstanding: "Amelia misunderstood when the user asked about",
-  resolved: "Yes",
-});
+// const data = Array(20).fill({
+//   convId: "CONV162025",
+//   dateTime: "04/03/2025 11:00am",
+//   duration: "5.40 m",
+//   channel: "Voice",
+//   intent: "Information",
+//   sentiment: "4 / 10",
+//   misunderstanding: "Amelia misunderstood when the user asked about",
+//   resolved: "Yes",
+// });
  
 const ConversationTable = () => {
+  const [data,setTableData] = useState([])
+  useEffect(() => {
+    GetDetails()
+  },[])
+  const GetDetails = () => {
+    const username = localStorage.getItem('apiUser');
+    const password =localStorage.getItem('apiPass');
+    const credentials = btoa(`${username}:${password}`);
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: "Basic " + credentials, // Base64 encoded username:password
+      Accept: "application/json"
+    },
+  };
+
+  fetch("http://44.246.164.250:8502/analysis-results", requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      console.log('result',result);
+      setTableData(result.results)
+    })
+    .catch((error) => console.error(error));
+  
+    };
   const isMobile = useMediaQuery("(max-width: 600px)");
  
   return (
@@ -73,9 +98,9 @@ const ConversationTable = () => {
             <TableBody>
               {data.map((row, index) => (
                 <TableRow key={index}>
-                  <TableCell sx={{ color: "#737277", fontWeight: "bold" }}>{row.convId}</TableCell>
+                  <TableCell sx={{ color: "#737277", fontWeight: "bold" }}>{row.Conversation_ID}</TableCell>
                   <TableCell sx={{ color: "#737277" }}>{row.dateTime}</TableCell>
-                  <TableCell sx={{ color: "#737277" }}>{row.duration}</TableCell>
+                  <TableCell sx={{ color: "#737277" }}>{row.Duration_Seconds}</TableCell>
                   <TableCell sx={{ color: "#737277" }}>{row.channel}</TableCell>
                   <TableCell sx={{ color: "#737277" }}>{row.intent}</TableCell>
                   <TableCell sx={{ color: "#737277" }}>{row.sentiment}</TableCell>
