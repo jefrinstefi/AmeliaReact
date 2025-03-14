@@ -1,4 +1,4 @@
-import React from "react";
+import React , {useEffect,useState} from "react";
 import './SentimentAnalysis.css' // Import CSS
 import { Card, Typography } from "@mui/material";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
@@ -6,7 +6,7 @@ import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied
 import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
 import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
  
-const SentimentAnalysis = () => {
+const SentimentAnalysis = ({data}) => {
   const sentiments = [
     {
       icon: <SentimentVeryDissatisfiedIcon />,
@@ -33,6 +33,15 @@ const SentimentAnalysis = () => {
       className: "exceptional",
     },
   ];
+  const [avgSentiment, setAvgSentiment] = useState('');
+    useEffect(() => {
+      getAvgDetails();
+    },[data]);
+    const getAvgDetails = () => {
+  if (data.key_metrics !== undefined ) {
+    setAvgSentiment(data.key_metrics.avg_sentiment);
+  }
+    }
  
   return (
 <div>
@@ -42,7 +51,7 @@ const SentimentAnalysis = () => {
             Sentiment Analysis
 </Typography>
 <Typography className="avg-score">
-            Avg <strong>6.3</strong>
+            Avg <strong> {avgSentiment}</strong>
 </Typography>
 </div>
  

@@ -1,17 +1,27 @@
-import React from "react";
+import React, {useEffect,useState} from "react";
 import { Card, CardContent, Typography, Box } from "@mui/material";
 import { PieChart, Pie, Cell } from "recharts";
 import "./Messages.css"
  
-const data = [
+const dataValue = [
   { name: "Anonymous Users", value: 1400, color: "#27B3C5" },
   { name: "Users", value: 3980, color: "#C5B3D9" },
   { name: "Amelia", value: 6700, color: "#5D3FD3" },
 ];
+
  
-const totalMessages = data.reduce((acc, item) => acc + item.value, 0);
+const totalMessages = dataValue.reduce((acc, item) => acc + item.value, 0);
  
-const DonutChart = () => {
+const DonutChart = ({data}) => {
+  const [avgMsg, setAvgMsg] = useState('');
+      useEffect(() => {
+        getAvgDetails();
+      },[data]);
+      const getAvgDetails = () => {
+    if (data.key_metrics !== undefined ) {
+      setAvgMsg(data.key_metrics.avg_messages);
+    }
+      }
   return (
     <Box
       sx={{
@@ -29,12 +39,14 @@ const DonutChart = () => {
       <Card className="MessageCard">
         <CardContent>
           <Typography className="message-title">Messages</Typography>
- 
+ {/* <Typography className="avg-score">
+             Avg <strong> {avgMsg}</strong>
+ </Typography> */}
           <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
             <Box sx={{ width: 150, height: 150 }}>
               <PieChart width={150} height={150}>
                 <Pie
-                  data={data}
+                  data={dataValue}
                   cx="50%"
                   cy="50%"
                   innerRadius={30}
@@ -42,7 +54,7 @@ const DonutChart = () => {
                   dataKey="value"
                   label={false}
                 >
-                  {data.map((entry, index) => (
+                  {dataValue.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
@@ -50,7 +62,7 @@ const DonutChart = () => {
             </Box>
  
             <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-              {data.map((item, index) => (
+              {dataValue.map((item, index) => (
                 <Box
                   key={index}
                   sx={{

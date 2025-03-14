@@ -1,14 +1,59 @@
-import React from "react";
+import React,{useEffect, useState} from "react";
 import { Box, Typography, LinearProgress } from "@mui/material";
  
-const stats = [
-  { label: "Average Sentiment", value: 6.3, color: "#673AB7" },
-  { label: "Average Frustration", value: 3.0, color: "#03A9F4" },
-  { label: "Average Messages", value: 9.0, color: "#9575CD" },
-  { label: "Average Duration", value: 6.0, color: "#303F9F" },
-];
  
-const DashboardStats = () => {
+const DashboardStats = ({ data }) => {
+  const [totalConversations,setTotalConversations] = useState('');
+  const [stats, setStats] = useState([
+    { label: "Average Sentiment", value: 6.3, color: "#673AB7" ,max: 100,labelName: 'avg_sentiment'},
+    { label: "Average Frustration", value: 3.0, color: "#03A9F4" ,max: 100,labelName: 'avg_frustration'},
+    { label: "Average Messages", value: 9.0, color: "#9575CD" ,max: 100,labelName: 'avg_messages'},
+    { label: "Average Duration", value: 81.12, color: "#03A9F4" ,max: 100,labelName: 'avg_duration'}
+
+    // { label: "Average Duration", value: 6.0, color: "#3A4B6F" ,labelName: 'avg_duration'},
+  ]
+
+  )
+  useEffect(() => {
+    GetDetails();
+    GetAverageValues();
+  },[]);
+  const GetAverageValues = () => {
+    if (data.key_metrics !== undefined) {
+      setStats((prevStats) =>
+                prevStats.map((item) => ({
+                  ...item,
+                  value: data.key_metrics[item.labelName] ?? item.value, // Update if key exists, else keep old value
+                }))
+              );
+    }
+  
+  }
+  const GetDetails = () => {
+    const username = localStorage.getItem('apiUser');
+    const password =localStorage.getItem('apiPass');
+    const credentials = btoa(`${username}:${password}`);
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: "Basic " + credentials, // Base64 encoded username:password
+      Accept: "application/json"
+    },
+  };
+
+  fetch("http://44.246.164.250:8502/conversations", requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      console.log('result',result);
+      setTotalConversations(result.total);
+      localStorage.setItem("totalConv", result.total);
+      if (result.status === "success") {
+        // navigate('/dashboard');
+      }
+    })
+    .catch((error) => console.error(error));
+  
+    };
   return (
     <Box sx={{
       p: 2,
@@ -24,7 +69,7 @@ const DashboardStats = () => {
         Conversations / Sessions
       </Typography>
       <Typography variant="h3" fontWeight={700} color="#673AB7">
-        120
+        {totalConversations}
       </Typography>
       <Typography variant="body2" color="#666" mb={1}>
         Total Conversations
@@ -38,7 +83,7 @@ const DashboardStats = () => {
           <Box display="flex" alignItems="center" gap={1}>
             <LinearProgress
               variant="determinate"
-              value={(stat.value / 10) * 100}
+              value={Math.min(100, (stat.value / stat.max) * 100)} // Ensure value stays in 0-100 range
               sx={{
                 flex: 1,
                 height: 8,

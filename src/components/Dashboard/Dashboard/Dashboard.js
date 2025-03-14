@@ -1,5 +1,5 @@
-import { Box} from '@mui/material'
-import React from 'react'
+import { Box,CircularProgress } from '@mui/material'
+import React , {useEffect}from 'react'
 import companyLogo from "../../../assets/logo 1.png" // Company logo
 import Acouser from "../../../assets/Account circle.png";
 import DateRangeIcon from '@mui/icons-material/DateRange';
@@ -14,8 +14,31 @@ import SentimentAnalysis from './SentimentAnalysis';
 import DurationCard from './Duration';
 import ConversationTable from './ConversationTable'
 import ChannelsCard from './ChannelsCard';
-
+import { useContext } from "react";
+import { DataContext } from "./DataContext";
+// import
 const Dashboard = () => {
+  const storedUser = localStorage.getItem("username")
+  console.log(storedUser);
+  const { data, fetchData,loading } = useContext(DataContext);
+
+  console.log('test',storedUser,
+    
+  );
+  useEffect(() => {
+    if (!data) {
+      fetchData(); // Fetch data only if it's null
+    }
+  }, [data]);
+
+
+  if (loading) {
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+        <CircularProgress size={50} />
+      </Box>
+    );
+  }
   
   return (
     <div>
@@ -29,7 +52,7 @@ const Dashboard = () => {
                   <div>
                   {/* <h6 style={{border:'none',fontSize:10,fontWeight:400,color:'#2C2C2C'}}>Manager</h6> */}
             <select className="dropdowncs" >
-              <option value="">Jeyaprakash <br /> Manager</option>
+              <option value="">{storedUser} <br /> Manager</option>
               <option value="option1">Logout</option>
               {/* <option value="option2">Option 2</option> */}
             </select>
@@ -63,25 +86,25 @@ const Dashboard = () => {
   {/* <Card sx={{height:300,}}>
 
   </Card> */}
-  <Dashscreen/>
+  <Dashscreen  data={data}/>
     <div  style={{marginTop:20}}>
-   <SuccessRateCard/>
+   <SuccessRateCard data={data}/>
     </div>
   </Grid>
 
 {/* ----------------------2col-------------------------- */}
 
   <Grid size={{ xs: 12, md: 6 }}>
-  <ConverationIntents/>
+  <ConverationIntents data={data}/>
     
       <div style={{display:'flex',justifyContent:'space-between',marginTop:20}}>
         <div>
         {/* <Card style={{width:250,height:200,backgroundColor:'#c1c'}}></Card> */}
-        <ResolutionRateCard/>
+        <ResolutionRateCard data={data}/>
         </div>
         <div>
       {/* <Card style={{width:250,height:200}}></Card> */}
-      <SentimentAnalysis/>
+      <SentimentAnalysis data={data}/>
       </div>
      
       
@@ -92,11 +115,11 @@ const Dashboard = () => {
 {/* ----------------------3col-------------------------- */}
 
   <Grid size={{ xs: 12, md: 3 }}>
-  <Messages/>
+  <Messages data={data}/>
     <div style={{marginTop:20}}>
-    <DurationCard />
+    <DurationCard data={data}/>
     <div style={{marginTop:10}}>
-    <ChannelsCard />
+    <ChannelsCard data={data}/>
     </div>
     </div>
   </Grid>
