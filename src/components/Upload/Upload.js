@@ -75,8 +75,8 @@ useEffect(() => {
     console.log(username,password)
  const formData = new FormData();
 formData.append("file", file);
-    const username1 = username;
-  const password1 = password;
+    const username1 = "admin";
+  const password1 = "password";
   localStorage.setItem('apiUser',username1);
   localStorage.setItem('apiPass',password1)
 
