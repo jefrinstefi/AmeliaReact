@@ -16,6 +16,7 @@ import ConversationTable from './ConversationTable'
 import ChannelsCard from './ChannelsCard';
 import { useContext } from "react";
 import { DataContext } from "./DataContext";
+import '../../../App.css';
 // import
 const Dashboard = () => {
   const storedUser = localStorage.getItem("username")
@@ -42,7 +43,7 @@ const Dashboard = () => {
   
   return (
     <div>
-    <Box sx={{backgroundColor:'#ffffff',padding:2.5,boxShadow: '0px 4px 4px 0px #00000050',position:'sticky',top:0,zIndex:1}}>
+    <Box sx={{backgroundColor:'#ffffff',padding:2.5,boxShadow: '0px 3px 3px 0px #5e43b220',position:'sticky',top:0,zIndex:1}}>
             <header className="headmain" >
                 <div>
                 <img src={companyLogo} alt="Company Logo" style={{ }} />
@@ -67,12 +68,12 @@ const Dashboard = () => {
 
 <Box sx={{}}>
 <div style={{display:'flex',textAlign:'center',justifyContent:'center'}}>
-<text className='comname' >
-        AMELIA
+<text className='comname1' >
+Conversation Analysis and Customer Experience Scoring Tool
         </text>
 </div>
 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',height:40}} >
-  <h4 style={{fontSize:24,fontWeight:600,color:'#605192'}}>Amelia Analytics Dashboard</h4>
+  <h4 style={{fontSize:22,fontWeight:500,color:'#605192'}}>Amelia Analytics Dashboard</h4>
   {/* <div style={{display:'flex',alignItems:'center',border:'1px solid #CCCCCC',height:25,borderRadius:12,paddingLeft:10,paddingRight:10,paddingTop:3,paddingBottom:3}}>
 <DateRangeIcon sx={{ fontSize: 20, color: "#5E43B2",paddingRight:2 }} />
     <p style={{fontSize:14}}>Jan 21,2025-Jan 27,2025</p>
@@ -118,13 +119,17 @@ const Dashboard = () => {
   <Messages data={data}/>
     <div style={{marginTop:20}}>
     <DurationCard data={data}/>
-    <div style={{marginTop:10}}>
+    <div style={{marginTop:20}}>
     <ChannelsCard data={data}/>
     </div>
     </div>
   </Grid>
 
 </Grid>
+
+
+
+
 </Box>
 
 <Box>

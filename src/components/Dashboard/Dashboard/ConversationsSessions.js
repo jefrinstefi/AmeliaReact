@@ -65,7 +65,15 @@ const DashboardStats = ({ data }) => {
       minWidth: 280,
       height:339
     }}>
-      <Typography variant="subtitle1" fontWeight={500} color="#666" gutterBottom>
+      <Typography variant="subtitle1" 
+      style={{ 
+        fontWeight:600,
+    fontSize:14,
+    letterSpacing:0.5,
+    color: '#616163',
+    fontFamily: "Instrument Sans,sans-serif",
+  }} 
+    gutterBottom>
         Conversations / Sessions
       </Typography>
       <Typography variant="h3" fontWeight={700} color="#673AB7">

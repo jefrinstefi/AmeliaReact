@@ -13,7 +13,9 @@ import {
   Box,
   useMediaQuery,
   Typography,
-  Button 
+  Button, 
+  Breadcrumbs,
+  
 } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -21,7 +23,7 @@ import ExpandIcon from "@mui/icons-material/Fullscreen";
 import SearchIcon from "@mui/icons-material/Search";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import companyLogo from "../../../assets/logo 1.png"; // Company logo
 import Acouser from "../../../assets/Account circle.png";
 // import Jsonimg from "../../assets/JSON.png";
@@ -153,7 +155,35 @@ const ConversationFullDataTable = () => {
                             </div>
                         </header>
         </Box>
-    <Box sx={{ display: "flex", justifyContent: "center" }}>
+
+
+        <Box sx={{margin:3}}> 
+          {/* <div
+      variant="contained"
+      style={{
+         
+        color: "#7D6DB1", 
+       // Darker shade on hover
+      }}      startIcon={<ArrowBackIcon />} // Back arrow icon
+      onClick={() => navigate(-1)} // Navigate back
+    >
+      Back to Dashboard
+    </div> */}
+    <div role="presentation"  onClick={() => navigate(-1)}>
+     <Breadcrumbs aria-label="breadcrumb">
+      <Link style={{color:'#4f2580',textDecoration:'none'}} href="/">
+        Dashboard
+       </Link>
+      
+       <Typography sx={{ color: "#737277" }}>Conversations Table</Typography> 
+            </Breadcrumbs>
+       </div>
+    </Box>
+
+
+    <Box sx={{ display: "flex", justifyContent: "center",margin:3 }}>
+
+   
         
    
       <Paper elevation={4} sx={{  p: isMobile ? 1 : 3, width: "100%",  borderRadius: "12px",
@@ -162,17 +192,7 @@ const ConversationFullDataTable = () => {
         <Box display="flex" flexDirection={isMobile ? "column" : "row"} justifyContent="space-between" alignItems="center" mb={3}>
           <Typography variant={isMobile ? "h6" : "h5"} fontWeight={600} color="#4F2580">{totalConversations} Conversations</Typography>
           <Box display="flex" flexDirection={isMobile ? "column" : "row"} gap={2} alignItems="center">
-            <Box> <Button
-      variant="contained"
-      sx={{
-        backgroundColor: "#7D6DB1", 
-        color: "white", 
-        "&:hover": { backgroundColor: "#645A91" } // Darker shade on hover
-      }}      startIcon={<ArrowBackIcon />} // Back arrow icon
-      onClick={() => navigate(-1)} // Navigate back
-    >
-      Back to Dashboard
-    </Button></Box>
+           
             {/* <Box display="flex" alignItems="center" border="1px solid #ccc" borderRadius={2} px={2} py={1} bgcolor="white">
               <SearchIcon sx={{ color: "#4F2580", mr: 1 }} />
               <TextField
@@ -196,7 +216,7 @@ const ConversationFullDataTable = () => {
         {loading ? (
       <p>Loading data...</p>
     ) : data.length > 0 ? (
-      <TableContainer sx={{ maxHeight: 400 }}>
+      <TableContainer sx={{ }}>
       <Table stickyHeader>
         <TableHead>
           <TableRow sx={{ backgroundColor: "#7D6DB1" }}>

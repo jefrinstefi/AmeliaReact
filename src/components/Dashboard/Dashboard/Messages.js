@@ -24,17 +24,17 @@ const DonutChart = ({data}) => {
       }
   return (
     <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        borderRadius: "16px",
-        paddingLeft:15,
-        paddingRight:15,
-        position: "relative",
+      // sx={{
+      //   display: "flex",
+      //   flexDirection: "column",
+      //   alignItems: "center",
+      //   borderRadius: "16px",
+      //   paddingLeft:15,
+      //   paddingRight:15,
+      //   position: "relative",
        
        
-      }}
+      // }}
     >
       <Card className="MessageCard">
         <CardContent>
@@ -43,7 +43,7 @@ const DonutChart = ({data}) => {
              Avg <strong> {avgMsg}</strong>
  </Typography> */}
           <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
-            <Box sx={{ width: 150, height: 150 }}>
+            <Box sx={{ width: 150, height: 130 }}>
               <PieChart width={150} height={150}>
                 <Pie
                   data={dataValue}

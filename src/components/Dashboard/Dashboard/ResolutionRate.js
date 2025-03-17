@@ -46,7 +46,7 @@ const DonutChart = ({data}) => {
        
       // }}
     >
-      <Card className="MessageCard">
+      <Card className="resolutionCard">
         <CardContent>
           <Typography className="message-title">Resolution Rate</Typography>
  
