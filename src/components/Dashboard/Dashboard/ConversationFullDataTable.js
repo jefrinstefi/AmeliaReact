@@ -196,7 +196,7 @@ const ConversationFullDataTable = () => {
         {loading ? (
       <p>Loading data...</p>
     ) : data.length > 0 ? (
-      <TableContainer sx={{ maxHeight: 400 }}>
+      <TableContainer >
       <Table stickyHeader>
         <TableHead>
           <TableRow sx={{ backgroundColor: "#7D6DB1" }}>

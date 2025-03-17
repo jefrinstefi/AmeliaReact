@@ -16,11 +16,13 @@ import ConversationTable from './ConversationTable'
 import ChannelsCard from './ChannelsCard';
 import { useContext } from "react";
 import { DataContext } from "./DataContext";
+import { useNavigate } from 'react-router-dom';
 // import
 const Dashboard = () => {
   const storedUser = localStorage.getItem("username")
   console.log(storedUser);
   const { data, fetchData,loading } = useContext(DataContext);
+  const navigate = useNavigate();
 
   console.log('test',storedUser,
     
@@ -31,7 +33,12 @@ const Dashboard = () => {
     }
   }, [data]);
 
-
+  const handleLogout = () => {
+    console.log('data')
+    localStorage.clear();  // Clears all stored data
+    sessionStorage.clear(); // Clears session storage (optional)
+    navigate("/login"); // Redirect to login page (update path as needed)
+  };
   if (loading) {
     return (
       <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
@@ -51,9 +58,13 @@ const Dashboard = () => {
                   <img src={Acouser} alt="user" />
                   <div>
                   {/* <h6 style={{border:'none',fontSize:10,fontWeight:400,color:'#2C2C2C'}}>Manager</h6> */}
-            <select className="dropdowncs" >
+            <select className="dropdowncs" onChange={(e) => {
+    if (e.target.value === "Logout") {
+      handleLogout();
+    }
+  }}>
               <option value="">{storedUser} <br /> Manager</option>
-              <option value="option1">Logout</option>
+              <option value="Logout">Logout</option>
               {/* <option value="option2">Option 2</option> */}
             </select>
           </div>

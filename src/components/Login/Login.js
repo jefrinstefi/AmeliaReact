@@ -8,7 +8,10 @@ import {
   InputAdornment,
   IconButton,
   useMediaQuery,
+  Typography
 } from "@mui/material";
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+
 import { Person, Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import bgImage from "../../assets/loginimg.png"; // Background image
@@ -23,7 +26,7 @@ const LoginPage = () => {
     username: "sincera-analyzer",
     password:"sincera-sonnet"
   });
-  const [message, setMessage] = useState(""); 
+  const [message, setMessage] = useState(false); 
   const isMobile = useMediaQuery("(max-width:600px)");
   const isTablet = useMediaQuery("(max-width:960px)");
   const navigate = useNavigate();
@@ -36,9 +39,11 @@ const LoginPage = () => {
         localStorage.setItem("username", user.username); // Store in localStorage
   setUsername(user.username);
         navigate("/upload");
+      } else {
+        setMessage(true);
       }
     } else {
-      setMessage("❌ Invalid Credentails.");
+      setMessage(true);
     }
     console.log(username,password, user);
   };
@@ -149,18 +154,24 @@ const LoginPage = () => {
               ),
             }}
           />
-                  <text style={{fontSize:20,fontWeight:400,color:'#8F8F8F'}}>{message}</text>
-
+                  {/* <text style={{fontSize:20,fontWeight:400,color:'#8F8F8F'}}>{message}</text> */}
+                  {message && <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <ErrorOutlineIcon style={{ color: "#D32F2F",fontSize:20 }} />
+        <Typography style={{ fontSize: 16, fontWeight: 400, color: "#D32F2F" }}>
+          Invalid Credentials
+        </Typography>
+      </div>
+}
         </Box>
 
         {/* Remember Me Checkbox */}
-        <Box width="100%" display="flex" justifyContent="flex-start" marginTop={1}>
+        {/* <Box width="100%" display="flex" justifyContent="flex-start" marginTop={1}>
   <FormControlLabel
     control={<Checkbox sx={{ color: "#4F2580",borderColor:"#E6E4E6", "&.Mui-checked": { color: "#4F2580" } }} />}
     label="Remember Me"
     sx={{ color: "#4F2580", fontWeight: 400, fontSize:12 }} 
   />
-</Box>
+</Box> */}
 
         {/* Login Button */}
         <Button

@@ -27,6 +27,7 @@ const AmeliaUpload = () => {
   const [password,setPassword] = useState('')
   const [showPassword,setShowPassword] = useState('')
   // const { setUserData } = useDataContext(); // Get function from Context
+    const [loading, setLoading] = useState(false);
 
 // Check if a file is already attached 
 useEffect(() => {
@@ -73,6 +74,7 @@ useEffect(() => {
 
   const handleUpload = () => {
     console.log(username,password)
+    setLoading(true);
  const formData = new FormData();
 formData.append("file", file);
     const username1 = "admin";
@@ -95,6 +97,7 @@ fetch("http://44.246.164.250:8502/upload-transcript", requestOptions)
   .then((result) => {
     console.log('result',result,result.status);
     if (result.status === "success") {
+      setLoading(false);
       navigate('/dashboard');
     }
   })
@@ -106,7 +109,7 @@ fetch("http://44.246.164.250:8502/upload-transcript", requestOptions)
     console.log('data')
     localStorage.clear();  // Clears all stored data
     sessionStorage.clear(); // Clears session storage (optional)
-    navigate("/"); // Redirect to login page (update path as needed)
+    navigate("/login"); // Redirect to login page (update path as needed)
   };
   const clearFile = () => {
     setFileName(null); // Remove file from state
@@ -162,7 +165,7 @@ fetch("http://44.246.164.250:8502/upload-transcript", requestOptions)
     }
   }}>
               <option value="">{storedUser} <br /> Manager</option>
-              <option value="option1">Logout</option>
+              <option value="Logout">Logout</option>
               {/* <option value="option2">Option 2</option> */}
             </select>
           </div>
