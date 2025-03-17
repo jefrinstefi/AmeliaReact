@@ -7,38 +7,25 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
  
-.MessageCard{
-    /* width: 259px; */
+.resolutionCard{
+    width: 355px;
     /* Increased width for balanced layout */
-    height: 218px;
+    height:246px;
     /* Adjust height dynamically */
     border: 1px solid #c5c4ca !important;
     border-radius: 12px !important;
-    padding: 15px !important;
+    /* padding: 15px !important; */
     box-shadow: 0px 4px 4px 0px #00000040 !important;
     background: #fff !important;
     display: flex;
     flex-direction: column;
 }
- 
-.small-card {
-    width: 280px;
-    height: 65px;
-    border: 1px solid #c5c4ca !important;
-    border-radius: 12px !important;
-    padding: 15px !important;
-    box-shadow: 0px 4px 4px 0px #00000040 !important;
-    background: #fff !important;
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    bottom: -5px;
-}
+
  
  
-.css-k5rr6j {
+.resolutionCard .css-k5rr6j {
     /* s */
-    /* margin-top: 24px; */
+    /* margin-top: 104px; */
     margin-left: -22px !important;
     gap: 3px !important;
 }
@@ -48,7 +35,7 @@ body {
  
 .message-title {
     font-weight: 600 !important;
-    font-size: 1rem !important;
+    font-size: 14px !important;
     letter-spacing: 0.5px !important;
     color: #616163 !important;
     font-family: 'Instrument Sans', sans-serif !important;
@@ -81,10 +68,10 @@ body {
     color: #000;
 }
  
-.MessageCard .recharts-wrapper {
-    width: 100px !important;
+.resolutionCard .recharts-wrapper {
+    width: 150px !important;
  
-    height: 100px !important;
+    height: 150px !important;
     margin-top: -18px !important;
 }
  

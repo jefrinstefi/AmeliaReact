@@ -8,11 +8,11 @@ import {
   InputAdornment,
   IconButton,
   useMediaQuery,
-  Typography
 } from "@mui/material";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 import { Person, Visibility, VisibilityOff } from "@mui/icons-material";
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { useNavigate } from "react-router-dom";
 import bgImage from "../../assets/loginimg.png"; // Background image
 import companyLogo from "../../assets/logo 1.png"; // Company logo
@@ -60,9 +60,9 @@ const LoginPage = () => {
       position="relative"
     >
       {/* Company Logo (Fixed at Top Left) */}
-      <Box position="absolute" top={20} left={20}>
-        <img src={companyLogo} alt="Company Logo" style={{ height: "50px" }} />
-      </Box>
+      {/* <Box  top={20} left={20}>
+        <img src={companyLogo} alt="Company Logo" style={{ height: "50px", }} />
+      </Box> */}
 
       {/* Login Form */}
       <Box
@@ -76,8 +76,9 @@ const LoginPage = () => {
         padding={isMobile ? "20px" : "40px"}
       >
         {/* Title */}
+        <img src={companyLogo} alt="Company Logo" style={{ height: "50px",alignItems:'center', }} />
         <Box textAlign="center" mb={3}>
-          <Box sx={{ fontSize: 24, fontWeight: 700, color: "#5D3FD3" }}>AMELIA</Box>
+          <Box sx={{ fontSize: 24, fontWeight: 700, color: "#5D3FD3",paddingBottom:3,paddingTop:3 }}>Conversation Analysis and Customer Experience Scoring Tool </Box>
           <Box sx={{ fontSize: 14, fontWeight: 600, color: "#0E3169", mt: 1 }}>
             Login to your account
           </Box>
@@ -85,7 +86,7 @@ const LoginPage = () => {
 
         {/* Username Input */}
         <Box width="100%" marginTop={2}>
-          <Box sx={{ fontSize: 12, fontWeight: 500, color: "#8F8F8F", mb: 0.5 }}>Username</Box>
+          <Box sx={{ fontSize: 15, fontWeight: 500, color: "#8F8F8F", mb: 0.5 }}>Username</Box>
           <TextField
             fullWidth
             margin="dense"
@@ -96,8 +97,8 @@ const LoginPage = () => {
               "& .MuiOutlinedInput-root": {
                 borderRadius: "8px", 
                 borderColor:"#E6E4E6",
-                height: "38px",
-                fontSize:"12px", 
+                height: "42px",
+                fontSize:"14px", 
                 color:"#4F2580",
                 "&:hover .MuiOutlinedInput-notchedOutline": {
                   borderColor: "#4F2580", // Hover color
@@ -116,7 +117,7 @@ const LoginPage = () => {
 
         {/* Password Input */}
         <Box width="100%" marginTop={2}>
-          <Box sx={{ fontSize: 12, fontWeight: 500, color: "#8F8F8F", mb: 0.5 }}>Password</Box>
+          <Box sx={{ fontSize: 15, fontWeight: 500, color: "#8F8F8F", mb: 0.5 }}>Password</Box>
           <TextField
             fullWidth
             margin="dense"
@@ -128,9 +129,9 @@ const LoginPage = () => {
               "& .MuiOutlinedInput-root": {
                 borderRadius: "8px", 
                 borderColor:"#E6E4E6",
-                height: "38px", 
+                height: "42px", 
                 paddingRight:"10px",
-                fontSize:"12px",
+                fontSize:"14px",
                 color:"#4F2580",
                 "&:hover .MuiOutlinedInput-notchedOutline": {
                   borderColor: "#4F2580", // Hover color
@@ -154,14 +155,8 @@ const LoginPage = () => {
               ),
             }}
           />
-                  {/* <text style={{fontSize:20,fontWeight:400,color:'#8F8F8F'}}>{message}</text> */}
-                  {message && <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-        <ErrorOutlineIcon style={{ color: "#D32F2F",fontSize:20 }} />
-        <Typography style={{ fontSize: 16, fontWeight: 400, color: "#D32F2F" }}>
-          Invalid Credentials
-        </Typography>
-      </div>
-}
+                  <text style={{fontSize:20,fontWeight:400,color:'#8F8F8F'}}>{message}</text>
+
         </Box>
 
         {/* Remember Me Checkbox */}

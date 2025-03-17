@@ -150,7 +150,7 @@ fetch("http://44.246.164.250:8502/upload-transcript", requestOptions)
 
     <div>
 
-<Box sx={{backgroundColor:'#ffffff',padding:2.5,boxShadow: '0px 4px 4px 0px #00000050',position:'sticky',top:0,zIndex:1}}>
+<Box sx={{backgroundColor:'#ffffff',padding:2.5,boxShadow: '0px 3px 3px 0px #5e43b220',position:'sticky',top:0,zIndex:1}}>
             <header className="headmain" >
                 <div>
                 <img src={companyLogo} alt="Company Logo" style={{ }} />
@@ -175,7 +175,7 @@ fetch("http://44.246.164.250:8502/upload-transcript", requestOptions)
 
 
    
-    <Box sx={{backgroundColor:'#F5F4F9',padding:3}}>
+    <Box sx={{backgroundColor:'#ffffff',padding:3}}>
  
       {/* ----------------- header -------------------------------------------------------------------- */}  
      
@@ -186,7 +186,7 @@ fetch("http://44.246.164.250:8502/upload-transcript", requestOptions)
       <div className="bodymain" >
 <div>
 <text className='comname' >
-        AMELIA
+Conversation Analysis and Customer Experience Scoring Tool
         </text>
 </div>
 <div style={{marginTop:20}}>
@@ -241,7 +241,7 @@ files here</p>
           className="custom-button"
           variant="contained"
           onClick={handleProcess}
-          startIcon={<CloudUploadIcon />}
+          // startIcon={<CloudUploadIcon />}
           sx={{ mt: 2, width:'80%',height:47 , backgroundColor: "#5E43B2", borderRadius: "8px", fontSize:15, fontWeight:600 }}
         >
           Process
@@ -346,7 +346,9 @@ files here</p>
       </Dialog>
  
 <Box marginTop={3}>
-  <p className="copyright" >Developed for Amelia Conversation Analysis@2025</p>
+  <p className="copyright" >
+        © {new Date().getFullYear()}{" "}
+        <span style={{ color: "#4F2580" }}>SINCERA</span>. All rights reserved.</p>
 </Box>
  
 </div>

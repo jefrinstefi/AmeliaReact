@@ -130,7 +130,7 @@ const ConversationTable = () => {
  
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
-      <Paper elevation={4} sx={{  p: isMobile ? 1 : 3, width: "100%",  borderRadius: "12px",
+      <Paper elevation={4} sx={{  p: isMobile ? 1 : 3, width: "97%",  borderRadius: "12px",
         border: '1px solid #c5c4ca ',
       boxShadow: '0px 4px 4px 0px #00000040', }}>
         <Box display="flex" flexDirection={isMobile ? "column" : "row"} justifyContent="space-between" alignItems="center" mb={3}>
@@ -164,7 +164,7 @@ const ConversationTable = () => {
         <TableHead>
           <TableRow sx={{ backgroundColor: "#7D6DB1" }}>
             {["Conv Id", "Date & Time", "Duration", "Channel", "Intent", "Sentiment","Successful","Frustration","Total Msgs","Amelia Msgs","User Msgs","Misunderstanding", "Resolved"].map((head) => (
-              <TableCell key={head} sx={{ color: "#fff", fontWeight: "bold", fontSize: "14px", backgroundColor: "#7D6DB1",whiteSpace: "nowrap",
+              <TableCell key={head} sx={{ color: "#fff",borderRight:'none',borderLeft:'none', fontWeight: "bold", fontSize: "14px", backgroundColor: "#7D6DB1",whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 maxWidth: 120 }}>
@@ -173,13 +173,13 @@ const ConversationTable = () => {
             ))}
           </TableRow>
         </TableHead>
-        <TableBody>
+        <TableBody >
           {data.map((item, index) => (
              <TableRow key={index}>
              <TableCell sx={{ color: "#737277", fontWeight: "bold" }}>{item.Conversation_ID || "N/A" }</TableCell>
              <TableCell sx={{ color: "#737277" }}>{formatDate(item.Analysis_Date) || "N/A"}</TableCell>
-             <TableCell sx={{ color: "#737277" }}>{item.Duration_Seconds || "N/A"}</TableCell>
-             <TableCell sx={{ color: "#737277" }}>{CapitalizeText(item.Initial_Channel) || "N/A"}</TableCell>
+             <TableCell sx={{ color: "#737277",borderRight:'none' }}>{item.Duration_Seconds || "N/A"}</TableCell>
+             <TableCell sx={{ color: "#737277",borderLeftColor:'none' }}>{CapitalizeText(item.Initial_Channel) || "N/A"}</TableCell>
              <TableCell sx={{ color: "#737277" }}>{CapitalizeText(item.Intent)}</TableCell>
              <TableCell sx={{ color: "#737277" }}>{item.Sentiment_Score}</TableCell>
              <TableCell sx={{ color: "#737277" }}>{formatYesNo(item.Conversation_Successful)}</TableCell>

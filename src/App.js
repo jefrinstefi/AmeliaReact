@@ -5,22 +5,38 @@ import Upload from "./components/Upload/Upload";
 import Dashboard from "./components/Dashboard/Dashboard/Dashboard";
 import ConversationTable from "./components/Dashboard/Dashboard/ConversationTable";
 import ConversationFullDataTable from "./components/Dashboard/Dashboard/ConversationFullDataTable";
+import './App.css';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 // import Table from "./components/Dashboard/Table";
 
-
+const theme = createTheme({
+  typography: {
+    fontFamily: "'Instrument Sans', sans-serif",
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+         Margin:0,
+        },
+      },
+    },
+  },
+});
 
 function App() {
   return (
+    <ThemeProvider theme={theme}>
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
-
         <Route path="/upload" element={<Upload />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path = "/conversationTable" element={<ConversationFullDataTable />} />
       </Routes>
     </Router>
+    </ThemeProvider>
   );
 }
 

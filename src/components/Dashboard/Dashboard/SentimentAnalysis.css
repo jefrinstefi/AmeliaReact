@@ -16,9 +16,9 @@
 .sentiment-title {
     font-weight: 600 !important;
     font-size: 14px !important;
-    line-height: 100% !important;
+    /* line-height: 100% !important; */
     letter-spacing: 0.5px !important;
-    vertical-align: middle !important;
+    /* vertical-align: middle !important; */
     color: #616163 !important;
     font-family: Instrument Sans !important;
 }

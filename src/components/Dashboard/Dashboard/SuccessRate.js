@@ -20,12 +20,22 @@ console.log(total);
   return (
     <Card sx={{ 
       // width: 300,
-     borderRadius: "12px", p: 2, border: '1px solid #c5c4ca ',
+      height:246,
+     borderRadius: "12px",
+      // padding:'15px',
+       border: '1px solid #c5c4ca ',
      boxShadow: '0px 4px 4px 0px #00000040', }}>
       <CardContent>
         {/* Header */}
         <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Typography variant="subtitle1" fontWeight={600}>
+          <Typography variant="subtitle1" 
+           style={{ 
+        fontWeight:600,
+    fontSize:14,
+    letterSpacing:0.5,
+    color: '#616163',
+    fontFamily: "Instrument Sans,sans-serif",
+  }}>
             Success Rate
           </Typography>
           <Typography variant="body2" color="primary" fontWeight={600}>
@@ -49,7 +59,7 @@ console.log(total);
         />
  
         {/* Success & Failure Details */}
-        <Box mt={2}>
+        <Box mt={5}>
           {/* Successful Chats */}
           <Box display="flex" alignItems="center" justifyContent="space-between">
             <Box display="flex" alignItems="center">

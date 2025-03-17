@@ -44,7 +44,7 @@ select:focus {
   .uploadhead{
     font-size:24px;
     font-weight:500;
-    color:#5E43B2;
+    color:#737277;
   }
  
 .bodycard{
@@ -106,9 +106,9 @@ select:focus {
 }
  
 .copyright{
-  font-size:10px;
+  font-size:14px;
   font-weight:400;
-  color:#0E3169;
+  color:#737277;
 }
  
  
