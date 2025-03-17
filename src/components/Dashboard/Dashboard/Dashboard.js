@@ -73,10 +73,10 @@ const Dashboard = () => {
 </div>
 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',height:40}} >
   <h4 style={{fontSize:24,fontWeight:600,color:'#605192'}}>Amelia Analytics Dashboard</h4>
-  <div style={{display:'flex',alignItems:'center',border:'1px solid #CCCCCC',height:25,borderRadius:12,paddingLeft:10,paddingRight:10,paddingTop:3,paddingBottom:3}}>
+  {/* <div style={{display:'flex',alignItems:'center',border:'1px solid #CCCCCC',height:25,borderRadius:12,paddingLeft:10,paddingRight:10,paddingTop:3,paddingBottom:3}}>
 <DateRangeIcon sx={{ fontSize: 20, color: "#5E43B2",paddingRight:2 }} />
     <p style={{fontSize:14}}>Jan 21,2025-Jan 27,2025</p>
-  </div>
+  </div> */}
 </div>
 {/*-------------------- devide column----------------*/}
 <Box marginTop={3} marginBottom={3}>

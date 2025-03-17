@@ -20,7 +20,7 @@ const AmeliaUpload = () => {
   // const isMobile = useMediaQuery("(max-width:600px)");
   const fileInputRef = useRef(null);
   const [fileName, setFileName] = useState("");
-  const [fileUploaded] = useState(false);
+  const [fileUploaded,setFileUploaded] = useState(false);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [username,setUsername] = useState('');
@@ -39,7 +39,7 @@ useEffect(() => {
     event.preventDefault();
     if (file) {
       setFileName(file.name); // Store file name
-      // fileUploaded(true);
+       setFileUploaded(true);
     }
     if (event.dataTransfer.files.length) {
       setFile(event.dataTransfer.files[0]);
@@ -53,7 +53,7 @@ useEffect(() => {
     const file = event.target.files[0];
     if (file) {
       setFileName(file.name); // Store file name
-      // fileUploaded(true);
+      setFileUploaded(true);
     }
     if (event.target.files.length) {
       setFile(event.target.files[0]);
@@ -102,8 +102,19 @@ fetch("http://44.246.164.250:8502/upload-transcript", requestOptions)
 
   };
   
-
-
+  const handleLogout = () => {
+    console.log('data')
+    localStorage.clear();  // Clears all stored data
+    sessionStorage.clear(); // Clears session storage (optional)
+    navigate("/"); // Redirect to login page (update path as needed)
+  };
+  const clearFile = () => {
+    setFileName(null); // Remove file from state
+    setFileUploaded(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""; // Reset input field
+    }
+  };
 
  
  
@@ -145,7 +156,11 @@ fetch("http://44.246.164.250:8502/upload-transcript", requestOptions)
                   <img src={Acouser} alt="user" />
                   <div>
                   {/* <h6 style={{border:'none',fontSize:10,fontWeight:400,color:'#2C2C2C'}}>Manager</h6> */}
-            <select className="dropdowncs" >
+            <select className="dropdowncs"  onChange={(e) => {
+    if (e.target.value === "Logout") {
+      handleLogout();
+    }
+  }}>
               <option value="">{storedUser} <br /> Manager</option>
               <option value="option1">Logout</option>
               {/* <option value="option2">Option 2</option> */}
@@ -209,16 +224,16 @@ files here</p>
 {/*------------------------------- card 2 section-------------------- */}
  
 <div className="cardtwosection" >
-  <p className="ineercardslart2" >No Files Uploaded</p>
-  <div style={{backgroundColor:'#FFFFFF',border:'1px solid #D1D1D1',borderRadius:12,padding:10,display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+  {!fileUploaded && <p className="ineercardslart2" >No Files Uploaded</p>}
+  {fileUploaded && <div style={{backgroundColor:'#FFFFFF',border:'1px solid #D1D1D1',borderRadius:12,padding:10,display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
     <img src={Jsonimg} alt="json"/>
     <div>
       <p style={{fontSize:12,fontWeight:400,color:'#737277',marginBottom:5,marginTop:0}}> {fileName ? `Attached: ${fileName}`: '' }</p>
-      <BorderLinearProgress variant="determinate" value={60} style={{}} />
+      <BorderLinearProgress variant="determinate" value={100} style={{}} />
     </div>
-  <DeleteForeverIcon sx={{ fontSize: 30, color: "red" }} />
-  </div>
-  <div style={{display:'flex',justifyContent:'center',marginTop:15}}>
+  <DeleteForeverIcon sx={{ fontSize: 30, color: "red" }} onClick={clearFile}/>
+  </div> }
+  {fileUploaded &&<div style={{display:'flex',justifyContent:'center',marginTop:15}}>
   <Button
           className="custom-button"
           variant="contained"
@@ -226,10 +241,10 @@ files here</p>
           startIcon={<CloudUploadIcon />}
           sx={{ mt: 2, width:'80%',height:47 , backgroundColor: "#5E43B2", borderRadius: "8px", fontSize:15, fontWeight:600 }}
         >
-          Upload
+          Process
         </Button>
         
-  </div>
+  </div>}
 </div>
 
 

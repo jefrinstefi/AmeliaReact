@@ -12,21 +12,26 @@ import {
   IconButton,
   Box,
   useMediaQuery,
-  Typography
+  Typography,
+  Button 
 } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ExpandIcon from "@mui/icons-material/Fullscreen";
 import SearchIcon from "@mui/icons-material/Search";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import { useNavigate } from "react-router-dom";
-
+import companyLogo from "../../../assets/logo 1.png"; // Company logo
+import Acouser from "../../../assets/Account circle.png";
+// import Jsonimg from "../../assets/JSON.png";
  
-const ConversationTable = () => {
+const ConversationFullDataTable = () => {
   const tableRef = useRef(null);
    const isMobile = useMediaQuery("(max-width: 600px)");
   const navigate = useNavigate();
-
+  const storedUser = localStorage.getItem("username")
+  console.log(storedUser);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const totalConversations = localStorage.getItem("totalConv")
@@ -129,30 +134,62 @@ const ConversationTable = () => {
           }, []);
  
   return (
+    <div>
+        <Box sx={{backgroundColor:'#ffffff',padding:2.5,boxShadow: '0px 4px 4px 0px #00000050',position:'sticky',top:0,zIndex:1}}>
+             <header className="headmain" >
+                            <div>
+                            <img src={companyLogo} alt="Company Logo" style={{ }} />
+                            </div>
+                            <div className="userbox" >
+                              <img src={Acouser} alt="user" />
+                              <div>
+                              {/* <h6 style={{border:'none',fontSize:10,fontWeight:400,color:'#2C2C2C'}}>Manager</h6> */}
+                        <select className="dropdowncs" >
+                          <option value="">{storedUser} <br /> Manager</option>
+                          <option value="option1">Logout</option>
+                          {/* <option value="option2">Option 2</option> */}
+                        </select>
+                      </div>
+                            </div>
+                        </header>
+        </Box>
     <Box sx={{ display: "flex", justifyContent: "center" }}>
+        
+   
       <Paper elevation={4} sx={{  p: isMobile ? 1 : 3, width: "100%",  borderRadius: "12px",
         border: '1px solid #c5c4ca ',
       boxShadow: '0px 4px 4px 0px #00000040', }}>
         <Box display="flex" flexDirection={isMobile ? "column" : "row"} justifyContent="space-between" alignItems="center" mb={3}>
           <Typography variant={isMobile ? "h6" : "h5"} fontWeight={600} color="#4F2580">{totalConversations} Conversations</Typography>
           <Box display="flex" flexDirection={isMobile ? "column" : "row"} gap={2} alignItems="center">
-            {/* <Box display="flex" alignItems="center" border="1px solid #ccc" borderRadius={2} px={2} py={1} bgcolor="white"> */}
-              {/* <SearchIcon sx={{ color: "#4F2580", mr: 1 }} />
+            <Box> <Button
+      variant="contained"
+      sx={{
+        backgroundColor: "#7D6DB1", 
+        color: "white", 
+        "&:hover": { backgroundColor: "#645A91" } // Darker shade on hover
+      }}      startIcon={<ArrowBackIcon />} // Back arrow icon
+      onClick={() => navigate(-1)} // Navigate back
+    >
+      Back to Dashboard
+    </Button></Box>
+            {/* <Box display="flex" alignItems="center" border="1px solid #ccc" borderRadius={2} px={2} py={1} bgcolor="white">
+              <SearchIcon sx={{ color: "#4F2580", mr: 1 }} />
               <TextField
                 size="small"
                 variant="standard"
                 placeholder="Search..."
                 fullWidth
                 InputProps={{ disableUnderline: true }}
-              /> */}
-            {/* </Box> */}
+              />
+            </Box> */}
             <Box display="flex">
               <IconButton onClick={exportTableToExcel}>
                 <DownloadIcon sx={{ color: "#7D6DB1" }} />
               </IconButton>
-              <IconButton onClick={navigateToTablePage}>
+              {/* <IconButton onClick={navigateToTablePage}>
                 <ExpandIcon sx={{ color: "#7D6DB1" }} />
-              </IconButton>
+              </IconButton> */}
             </Box>
           </Box>
         </Box>
@@ -201,7 +238,8 @@ const ConversationTable = () => {
     )}
       </Paper>
     </Box>
+    </div>
   );
 };
  
-export default ConversationTable;
+export default ConversationFullDataTable;
