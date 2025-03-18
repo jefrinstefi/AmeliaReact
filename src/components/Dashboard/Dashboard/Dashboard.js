@@ -16,18 +16,15 @@ import ConversationTable from './ConversationTable'
 import ChannelsCard from './ChannelsCard';
 import { useContext } from "react";
 import { DataContext } from "./DataContext";
-import { useNavigate } from 'react-router-dom';
-import '../../../App.css';
-// import
+import { useNavigate ,useLocation} from 'react-router-dom';
 const Dashboard = () => {
   const storedUser = localStorage.getItem("username")
   console.log(storedUser);
   const { data, fetchData,loading } = useContext(DataContext);
   const navigate = useNavigate();
-
-  console.log('test',storedUser,
-    
-  );
+  const location = useLocation();
+  const message = location.state?.message || "No data Received";
+  console.log('test',storedUser);
   useEffect(() => {
     if (!data) {
       fetchData(); // Fetch data only if it's null
@@ -50,7 +47,7 @@ const Dashboard = () => {
   
   return (
     <div>
-    <Box sx={{backgroundColor:'#ffffff',padding:2.5,boxShadow: '0px 3px 3px 0px #5e43b220',position:'sticky',top:0,zIndex:1}}>
+    <Box sx={{backgroundColor:'#ffffff',padding:2.5,boxShadow: '0px 4px 4px 0px #00000050',position:'sticky',top:0,zIndex:1}}>
             <header className="headmain" >
                 <div>
                 <img src={companyLogo} alt="Company Logo" style={{ }} />
@@ -79,12 +76,12 @@ const Dashboard = () => {
 
 <Box sx={{}}>
 <div style={{display:'flex',textAlign:'center',justifyContent:'center'}}>
-<text className='comname1' >
-Conversation Analysis and Customer Experience Scoring Tool
+<text className='comname' >
+        AMELIA
         </text>
 </div>
 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',height:40}} >
-  <h4 style={{fontSize:22,fontWeight:500,color:'#605192'}}>Amelia Analytics Dashboard</h4>
+  <h4 style={{fontSize:24,fontWeight:600,color:'#605192'}}>Amelia Analytics Dashboard</h4>
   {/* <div style={{display:'flex',alignItems:'center',border:'1px solid #CCCCCC',height:25,borderRadius:12,paddingLeft:10,paddingRight:10,paddingTop:3,paddingBottom:3}}>
 <DateRangeIcon sx={{ fontSize: 20, color: "#5E43B2",paddingRight:2 }} />
     <p style={{fontSize:14}}>Jan 21,2025-Jan 27,2025</p>
@@ -116,7 +113,7 @@ Conversation Analysis and Customer Experience Scoring Tool
         </div>
         <div>
       {/* <Card style={{width:250,height:200}}></Card> */}
-      <SentimentAnalysis data={data}/>
+      <SentimentAnalysis data={message} Avg={data}/>
       </div>
      
       
@@ -127,24 +124,20 @@ Conversation Analysis and Customer Experience Scoring Tool
 {/* ----------------------3col-------------------------- */}
 
   <Grid size={{ xs: 12, md: 3 }}>
-  <Messages data={data}/>
+  <Messages data={message}/>
     <div style={{marginTop:20}}>
-    <DurationCard data={data}/>
-    <div style={{marginTop:20}}>
+    <DurationCard data={message} Avg={data}/>
+    <div style={{marginTop:10}}>
     <ChannelsCard data={data}/>
     </div>
     </div>
   </Grid>
 
 </Grid>
-
-
-
-
 </Box>
 
 <Box>
-  <ConversationTable/>
+  <ConversationTable data={message}/>
 </Box>
 
 </Box>

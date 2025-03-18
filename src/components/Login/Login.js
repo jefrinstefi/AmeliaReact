@@ -7,9 +7,9 @@ import {
   FormControlLabel,
   InputAdornment,
   IconButton,
-  useMediaQuery,
+  useMediaQuery,Typography
 } from "@mui/material";
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+// import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 import { Person, Visibility, VisibilityOff } from "@mui/icons-material";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
@@ -155,8 +155,14 @@ const LoginPage = () => {
               ),
             }}
           />
-                  <text style={{fontSize:20,fontWeight:400,color:'#8F8F8F'}}>{message}</text>
-
+                  {/* <text style={{fontSize:20,fontWeight:400,color:'#8F8F8F'}}>{message}</text> */}
+                  {message && <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <ErrorOutlineIcon style={{ color: "#D32F2F",fontSize:20 }} />
+        <Typography style={{ fontSize: 16, fontWeight: 400, color: "#D32F2F" }}>
+          Invalid Credentials
+        </Typography>
+      </div>
+}
         </Box>
 
         {/* Remember Me Checkbox */}

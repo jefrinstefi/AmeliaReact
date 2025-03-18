@@ -6,8 +6,8 @@ import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied
 import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
 import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
  
-const SentimentAnalysis = ({data}) => {
-  const sentiments = [
+const SentimentAnalysis = (message) => {
+  const [sentiments,setsentiments] = useState([
     {
       icon: <SentimentVeryDissatisfiedIcon />,
       percentage: "5%",
@@ -29,20 +29,67 @@ const SentimentAnalysis = ({data}) => {
     {
       icon: <SentimentVerySatisfiedIcon />,
       percentage: "30%",
-      label: "Exceptional",
+      label: "Good",
       className: "exceptional",
     },
-  ];
+  ]);
   const [avgSentiment, setAvgSentiment] = useState('');
     useEffect(() => {
-      getAvgDetails();
-    },[data]);
-    const getAvgDetails = () => {
-  if (data.key_metrics !== undefined ) {
-    setAvgSentiment(data.key_metrics.avg_sentiment);
-  }
-    }
+      getDuration()
+    },[]);
+  
+    const getDuration = () => {
+      console.log(message);
+      if (message.Avg.key_metrics !== undefined ) {
+        setAvgSentiment(message.Avg.key_metrics.avg_sentiment);
+      }   
+      
+      const totals = message.data.reduce((acc, obj) => {
+        acc.totalDuration += obj.Duration_Seconds;
+              acc.totalAmeliaMessages += obj.Amelia_Messages_Count;
+        acc.totalUserMessages += obj.User_Messages_Count;
+        if (obj.Sentiment_Score >= 7.5) {
+          acc.sentimentdata.good++;
+        } else if (obj.Sentiment_Score < 7.5 && obj.Sentiment_Score >= 5) {
+          acc.sentimentdata.average++;
+        } else if (obj.Sentiment_Score < 5 && obj.Sentiment_Score >= 2.5) {
+          acc.sentimentdata.needToImprove++;
+        } else {
+          acc.sentimentdata.bad++;
+        }
+        return acc;
+      }, { 
+        totalDuration: 0, 
+        totalAmeliaMessages: 0, 
+        totalUserMessages: 0, 
+        sentimentdata: { bad: 0, needToImprove: 0, average: 0, good: 0 }
+      });
+       
+      console.log("total",totals);
+      const sentimentData = totals.sentimentdata
+      const totalSentiments = Object.values(sentimentData).reduce((sum, value) => sum + value, 0);
+const percentages = Object.fromEntries(
+    Object.entries(sentimentData).map(([key, value]) => [
+        key, totalSentiments === 0 ? 0 : ((value / totalSentiments) * 100).toFixed(2) + "%"
+    ])
+);
  
+console.log(percentages);
+const updatevalues = sentiments.map(function(item) {
+  if(item.label === "Bad") {
+    item.percentage = percentages.bad;
+  } else if(item.label === "Need Improvement") {
+    item.percentage = percentages.needToImprove;
+  } else if(item.label === "Average") {
+    item.percentage = percentages.average;
+  } else if(item.label === "Good") {
+    item.percentage = percentages.good;
+  }
+  return item;
+});
+console.log('uypdate',updatevalues);
+setsentiments(updatevalues)
+    }
   return (
 <div>
 <Card className="card-container">

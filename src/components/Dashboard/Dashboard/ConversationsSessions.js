@@ -3,7 +3,9 @@ import { Box, Typography, LinearProgress } from "@mui/material";
  
  
 const DashboardStats = ({ data }) => {
-  const [totalConversations,setTotalConversations] = useState('');
+  const totalConversations = localStorage.getItem("totalConv")
+  console.log(totalConversations);
+  // const [totalConversations,setTotalConversations] = useState('');
   const [stats, setStats] = useState([
     { label: "Average Sentiment", value: 6.3, color: "#673AB7" ,max: 100,labelName: 'avg_sentiment'},
     { label: "Average Frustration", value: 3.0, color: "#03A9F4" ,max: 100,labelName: 'avg_frustration'},
@@ -15,7 +17,6 @@ const DashboardStats = ({ data }) => {
 
   )
   useEffect(() => {
-    GetDetails();
     GetAverageValues();
   },[]);
   const GetAverageValues = () => {
@@ -29,31 +30,31 @@ const DashboardStats = ({ data }) => {
     }
   
   }
-  const GetDetails = () => {
-    const username = localStorage.getItem('apiUser');
-    const password =localStorage.getItem('apiPass');
-    const credentials = btoa(`${username}:${password}`);
-  const requestOptions = {
-    method: "GET",
-    headers: {
-      Authorization: "Basic " + credentials, // Base64 encoded username:password
-      Accept: "application/json"
-    },
-  };
+  // const GetDetails = () => {
+  //   const username = "admin";
+  //   const password ="password";
+  //   const credentials = btoa(`${username}:${password}`);
+  // const requestOptions = {
+  //   method: "GET",
+  //   headers: {
+  //     Authorization: "Basic " + credentials, // Base64 encoded username:password
+  //     Accept: "application/json"
+  //   },
+  // };
 
-  fetch("http://44.246.164.250:8502/conversations", requestOptions)
-    .then((response) => response.json())
-    .then((result) => {
-      console.log('result',result);
-      setTotalConversations(result.total);
-      localStorage.setItem("totalConv", result.total);
-      if (result.status === "success") {
-        // navigate('/dashboard');
-      }
-    })
-    .catch((error) => console.error(error));
+  // fetch("http://44.246.164.250:8502/conversations", requestOptions)
+  //   .then((response) => response.json())
+  //   .then((result) => {
+  //     console.log('result',result);
+  //     setTotalConversations(result.total);
+  //     localStorage.setItem("totalConv", result.total);
+  //     if (result.status === "success") {
+  //       // navigate('/dashboard');
+  //     }
+  //   })
+  //   .catch((error) => console.error(error));
   
-    };
+  //   };
   return (
     <Box sx={{
       p: 2,

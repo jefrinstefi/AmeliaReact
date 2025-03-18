@@ -9,8 +9,8 @@ export const DataProvider = ({ children }) => {
 
   const fetchData = async () => {
     setLoading(true);
-    const username = localStorage.getItem("apiUser");
-    const password =localStorage.getItem("apiPass");
+    const username = "admin";
+    const password ="password";
     const credentials = btoa(`${username}:${password}`);
     // setUser(credentials);
 

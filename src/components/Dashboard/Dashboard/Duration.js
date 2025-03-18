@@ -2,15 +2,44 @@ import React ,{useEffect,useState} from "react";
 import { Card, CardContent, Typography, Box, Divider } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
  
-const DurationCard = ({data}) => {
-  const [avgSession, setAvgSession] = useState('')
+const DurationCard = (message) => {
+  const [avgSession, setAvgSession] = useState('');
+  const [TotalSession, setTotalSession] = useState('');
+
+  const totalConversations = localStorage.getItem("totalConv")
+  console.log(totalConversations);
   useEffect(() => {
     getDuration();
-  },[data]);
+  },[]);
   const getDuration = () => {
-if (data.key_metrics !== undefined ) {
-  setAvgSession(data.key_metrics.avg_duration);
-}
+    console.log(message);
+    if (message.Avg.key_metrics !== undefined ) {
+      setAvgSession(message.Avg.key_metrics.avg_duration);
+    }   
+    
+    const totals = message.data.reduce((acc, obj) => {
+      acc.totalDuration += obj.Duration_Seconds;
+            acc.totalAmeliaMessages += obj.Amelia_Messages_Count;
+      acc.totalUserMessages += obj.User_Messages_Count;
+      if (obj.Sentiment_Score >= 7.5) {
+        acc.sentimentdata.good++;
+      } else if (obj.Sentiment_Score < 7.5 && obj.Sentiment_Score >= 5) {
+        acc.sentimentdata.average++;
+      } else if (obj.Sentiment_Score < 5 && obj.Sentiment_Score >= 2.5) {
+        acc.sentimentdata.needToImprove++;
+      } else {
+        acc.sentimentdata.bad++;
+      }
+      return acc;
+    }, { 
+      totalDuration: 0, 
+      totalAmeliaMessages: 0, 
+      totalUserMessages: 0, 
+      sentimentdata: { bad: 0, needToImprove: 0, average: 0, good: 0 }
+    });
+     
+    console.log("total",totals);
+     setTotalSession(totals.totalDuration)
   }
   return (
     <Card
@@ -45,8 +74,7 @@ if (data.key_metrics !== undefined ) {
               Total Session Duration
             </Typography>
             <Typography variant="h5" fontWeight={700} color="#6937C6">
-              15,320
-            </Typography>
+{TotalSession}            </Typography>
           </Box>
  
           <Divider orientation="vertical" flexItem sx={{ mx: 2 }} />

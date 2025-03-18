@@ -24,7 +24,7 @@ const ConversationIntents = ({ data }) => {
   const [dataIntent, setDataIntent] = useState([
     { name: "Information", value: 850, labelName: 'information' },
     { name: "Service", value: 590, labelName: 'service' },
-    { name: "Greeting", value: 200, labelName: 'greeting' }
+    { name: "Others", value: 200, labelName: 'other' }
 
   ]);
 

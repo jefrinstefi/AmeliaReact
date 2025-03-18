@@ -3,24 +3,67 @@ import { Card, CardContent, Typography, Box } from "@mui/material";
 import { PieChart, Pie, Cell } from "recharts";
 import "./Messages.css"
  
-const dataValue = [
-  { name: "Anonymous Users", value: 1400, color: "#27B3C5" },
-  { name: "Users", value: 3980, color: "#C5B3D9" },
-  { name: "Amelia", value: 6700, color: "#5D3FD3" },
-];
+
 
  
-const totalMessages = dataValue.reduce((acc, item) => acc + item.value, 0);
  
-const DonutChart = ({data}) => {
+const DonutChart = (message) => {
+  const [dataValue, setDataValue] = useState([
+    // { name: "Anonymous Users", value: 1400, color: "#27B3C5",itemName:"" },
+    { name: "Users", value: 3980, color: "#C5B3D9" ,itemName:"totalAmeliaMessages"},
+    { name: "Amelia", value: 6700, color: "#5D3FD3",itemName:"totalUserMessages" },
+  ]);
+  const totalMessages = dataValue.reduce((acc, item) => acc + item.value, 0);
+
   const [avgMsg, setAvgMsg] = useState('');
       useEffect(() => {
-        getAvgDetails();
-      },[data]);
+        // getAvgDetails();
+        ValueCalculation();
+      },[]);
       const getAvgDetails = () => {
-    if (data.key_metrics !== undefined ) {
-      setAvgMsg(data.key_metrics.avg_messages);
-    }
+        
+    // if (data.key_metrics !== undefined ) {
+    //   setAvgMsg(data.key_metrics.avg_messages);
+    // }
+      }
+
+      const ValueCalculation = () => {
+        console.log(message);
+        const totals = message.data.reduce((acc, obj) => {
+
+          acc.totalDuration += obj.Duration_Seconds;
+          
+          acc.totalAmeliaMessages += obj.Amelia_Messages_Count;
+          acc.totalUserMessages += obj.User_Messages_Count;
+          if (obj.Sentiment_Score >= 7.5) {
+            acc.sentimentdata.good++;
+          } else if (obj.Sentiment_Score < 7.5 && obj.Sentiment_Score >= 5) {
+            acc.sentimentdata.average++;
+          } else if (obj.Sentiment_Score < 5 && obj.Sentiment_Score >= 2.5) {
+            acc.sentimentdata.needToImprove++;
+          } else {
+            acc.sentimentdata.bad++;
+          }
+          return acc;
+        }, { 
+          totalDuration: 0, 
+          totalAmeliaMessages: 0, 
+          totalUserMessages: 0, 
+          sentimentdata: { bad: 0, needToImprove: 0, average: 0, good: 0 }
+        });
+         
+        console.log("total",totals);
+      setAvgMsg(totals.totalAmeliaMessages+totals.totalUserMessages)
+       dataValue.map((item) => {
+        if(item.name === 'Amelia') {
+          item.value = totals.totalAmeliaMessages
+        } else if(item.name === 'Users') {
+          item.value = totals.totalUserMessages
+        }
+       }
+        // item.name === 'Amelia' ? { ...item, value: totals.totalAmeliaMessages } : item
+      );
+      console.log(dataValue)
       }
   return (
     <Box

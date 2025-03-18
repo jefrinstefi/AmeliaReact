@@ -22,11 +22,12 @@ import { saveAs } from "file-saver";
 import { useNavigate } from "react-router-dom";
 
  
-const ConversationTable = () => {
+const ConversationTable = (message) => {
   const tableRef = useRef(null);
+  console.log(message.data);
    const isMobile = useMediaQuery("(max-width: 600px)");
   const navigate = useNavigate();
-
+  const [calculatedDetails, setCalculatedDetails] = useState('')
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const totalConversations = localStorage.getItem("totalConv")
@@ -52,12 +53,13 @@ const ConversationTable = () => {
         let result = await response.json();
       
               console.log("Full API Response:", result);
-      
+              setCalculatedDetails(result.results);
+              
               if (result.results && Array.isArray(result.results)) {
                 console.log("API Data:", result.results);
                 setData(result.results);
                 console.log("Data:", data);
-      
+                ValueCalculation();
               } else {
                 console.warn("No results found.");
                 setData([]); // Set empty array to prevent map() errors
@@ -69,6 +71,30 @@ const ConversationTable = () => {
               setLoading(false);
             }
             
+          }
+          const ValueCalculation = () => {
+            const totals = message.data.reduce((acc, obj) => {
+              acc.totalDuration += obj.Duration_Seconds;
+              acc.totalAmeliaMessages += obj.Amelia_Messages_Count;
+              acc.totalUserMessages += obj.User_Messages_Count;
+              if (obj.Sentiment_Score >= 7.5) {
+                acc.sentimentdata.good++;
+              } else if (obj.Sentiment_Score < 7.5 && obj.Sentiment_Score >= 5) {
+                acc.sentimentdata.average++;
+              } else if (obj.Sentiment_Score < 5 && obj.Sentiment_Score >= 2.5) {
+                acc.sentimentdata.needToImprove++;
+              } else {
+                acc.sentimentdata.bad++;
+              }
+              return acc;
+            }, { 
+              totalDuration: 0, 
+              totalAmeliaMessages: 0, 
+              totalUserMessages: 0, 
+              sentimentdata: { bad: 0, needToImprove: 0, average: 0, good: 0 }
+            });
+             
+            console.log("total",totals);
           }
           const exportTableToExcel = () => {
             console.log('test')
@@ -92,15 +118,6 @@ const ConversationTable = () => {
           const formatDate = (dateString) => {
             if (!dateString) return "N/A"; // Handle missing values
             const date = new Date(dateString);
-            // return date.toLocaleString("en-US", {
-            //   year: "numeric",
-            //   month: "short",
-            //   day: "numeric",
-            //   hour: "2-digit",
-            //   minute: "2-digit",
-            //   // second: "2-digit",
-            //   hour12: true, // Convert to AM/PM format
-            // });
             return date.toLocaleString("en-US", { 
               year: "numeric", 
               month: "2-digit", 
@@ -125,7 +142,10 @@ const ConversationTable = () => {
             };
 
           useEffect(() => {
-            HandleClick(); 
+            ValueCalculation(); 
+            setData(message.data);
+            setLoading(false);
+
           }, []);
  
   return (
@@ -162,9 +182,9 @@ const ConversationTable = () => {
       <TableContainer sx={{ maxHeight: 400 }}>
       <Table stickyHeader>
         <TableHead>
-          <TableRow sx={{ backgroundColor: "#7D6DB1" }}>
-            {["Conv Id", "Date & Time", "Duration", "Channel", "Intent", "Sentiment","Successful","Frustration","Total Msgs","Amelia Msgs","User Msgs","Misunderstanding", "Resolved"].map((head) => (
-              <TableCell key={head} sx={{ color: "#fff",borderRight:'none',borderLeft:'none', fontWeight: "bold", fontSize: "14px", backgroundColor: "#7D6DB1",whiteSpace: "nowrap",
+          <TableRow sx={{ backgroundColor: "#7D6DB1",border:"1px solid #7D6DB1" }}>
+            {["Conv Id", "Date & Time", "Duration (ms)", "Channel", "Intent", "Sentiment (1-10)","Successful ?","Frustration (1-10)","Total Msgs","Amelia Msgs","User Msgs","Misunderstanding", "Resolved ?"].map((head) => (
+              <TableCell key={head} sx={{ color: "#fff", fontWeight: "bold", fontSize: "14px", backgroundColor: "#7D6DB1",whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 maxWidth: 120 }}>
@@ -175,11 +195,11 @@ const ConversationTable = () => {
         </TableHead>
         <TableBody >
           {data.map((item, index) => (
-             <TableRow key={index}>
+             <TableRow key={index} sx={{ border:"1px solid #7D6DB1" }}>
              <TableCell sx={{ color: "#737277", fontWeight: "bold" }}>{item.Conversation_ID || "N/A" }</TableCell>
              <TableCell sx={{ color: "#737277" }}>{formatDate(item.Analysis_Date) || "N/A"}</TableCell>
-             <TableCell sx={{ color: "#737277",borderRight:'none' }}>{item.Duration_Seconds || "N/A"}</TableCell>
-             <TableCell sx={{ color: "#737277",borderLeftColor:'none' }}>{CapitalizeText(item.Initial_Channel) || "N/A"}</TableCell>
+             <TableCell sx={{ color: "#737277" }}>{item.Duration_Seconds || "N/A"}</TableCell>
+             <TableCell sx={{ color: "#737277" }}>{CapitalizeText(item.Initial_Channel) || "N/A"}</TableCell>
              <TableCell sx={{ color: "#737277" }}>{CapitalizeText(item.Intent)}</TableCell>
              <TableCell sx={{ color: "#737277" }}>{item.Sentiment_Score}</TableCell>
              <TableCell sx={{ color: "#737277" }}>{formatYesNo(item.Conversation_Successful)}</TableCell>
