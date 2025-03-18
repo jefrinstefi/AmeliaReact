@@ -180,13 +180,14 @@ const LoginPage = () => {
           variant="contained"
           onClick={handleLogin}
           sx={{
-            mt: 2,
+            mt: 4,
             width: "100%",
             height: 47,
             backgroundColor: "#4F2580",
             borderRadius: "8px",
             fontSize: 14,
             fontWeight: 600,
+            
           }}
         >
           LOGIN

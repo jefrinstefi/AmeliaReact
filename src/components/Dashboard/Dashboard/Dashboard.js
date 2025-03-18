@@ -76,8 +76,8 @@ const Dashboard = () => {
 
 <Box sx={{}}>
 <div style={{display:'flex',textAlign:'center',justifyContent:'center'}}>
-<text className='comname' >
-        AMELIA
+<text className='comname1' >
+Conversation Analysis and Customer Experience Scoring Tool
         </text>
 </div>
 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',height:40}} >
@@ -95,7 +95,9 @@ const Dashboard = () => {
   {/* <Card sx={{height:300,}}>
 
   </Card> */}
+  <div>
   <Dashscreen  data={data}/>
+  </div>
     <div  style={{marginTop:20}}>
    <SuccessRateCard data={data}/>
     </div>
@@ -104,32 +106,40 @@ const Dashboard = () => {
 {/* ----------------------2col-------------------------- */}
 
   <Grid size={{ xs: 12, md: 6 }}>
+    <div>
   <ConverationIntents data={data}/>
-    
-      <div style={{display:'flex',justifyContent:'space-between',marginTop:20}}>
-        <div>
+  </div>
+  <Grid container spacing={2} >
+  <Grid size={{ xs: 12, md: 6 }}>
+  <div  style={{marginTop:20}}>
         {/* <Card style={{width:250,height:200,backgroundColor:'#c1c'}}></Card> */}
         <ResolutionRateCard data={data}/>
         </div>
-        <div>
+ 
+ </Grid>
+ <Grid size={{ xs: 12, md: 6 }}>
+
+ <div  style={{marginTop:20}}>
       {/* <Card style={{width:250,height:200}}></Card> */}
       <SentimentAnalysis data={message} Avg={data}/>
       </div>
-     
+     </Grid>
+     </Grid>
       
     
-    </div>
   </Grid>
 
 {/* ----------------------3col-------------------------- */}
 
   <Grid size={{ xs: 12, md: 3 }}>
+    <div>
   <Messages data={message}/>
-    <div style={{marginTop:20}}>
+  </div>
+    <div style={{marginTop:18}}>
     <DurationCard data={message} Avg={data}/>
-    <div style={{marginTop:10}}>
-    <ChannelsCard data={data}/>
     </div>
+    <div style={{marginTop:20}}>
+    <ChannelsCard data={data}/>
     </div>
   </Grid>
 

@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
  
 const ConversationTable = (message) => {
   const tableRef = useRef(null);
-  console.log(message.data);
+  console.log(message);
    const isMobile = useMediaQuery("(max-width: 600px)");
   const navigate = useNavigate();
   const [calculatedDetails, setCalculatedDetails] = useState('')
@@ -154,7 +154,7 @@ const ConversationTable = (message) => {
         border: '1px solid #c5c4ca ',
       boxShadow: '0px 4px 4px 0px #00000040', }}>
         <Box display="flex" flexDirection={isMobile ? "column" : "row"} justifyContent="space-between" alignItems="center" mb={3}>
-          <Typography variant={isMobile ? "h6" : "h5"} fontWeight={600} color="#4F2580">{totalConversations} Conversations</Typography>
+          <Typography variant={isMobile ? "h6" : "h5"} fontWeight={600} color="#4F2580">{data.length} Conversations</Typography>
           <Box display="flex" flexDirection={isMobile ? "column" : "row"} gap={2} alignItems="center">
             {/* <Box display="flex" alignItems="center" border="1px solid #ccc" borderRadius={2} px={2} py={1} bgcolor="white"> */}
               {/* <SearchIcon sx={{ color: "#4F2580", mr: 1 }} />

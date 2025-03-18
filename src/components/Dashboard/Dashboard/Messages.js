@@ -10,7 +10,7 @@ import "./Messages.css"
 const DonutChart = (message) => {
   const [dataValue, setDataValue] = useState([
     // { name: "Anonymous Users", value: 1400, color: "#27B3C5",itemName:"" },
-    { name: "Users", value: 3980, color: "#C5B3D9" ,itemName:"totalAmeliaMessages"},
+    { name: "Users", value: 3980, color: "#03A9F4" ,itemName:"totalAmeliaMessages"},
     { name: "Amelia", value: 6700, color: "#5D3FD3",itemName:"totalUserMessages" },
   ]);
   const totalMessages = dataValue.reduce((acc, item) => acc + item.value, 0);

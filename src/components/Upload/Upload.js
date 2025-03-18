@@ -12,8 +12,7 @@ import { styled } from '@mui/material/styles';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import { DataContext } from "../Dashboard/Dashboard/DataContext";
 import ConversationTable from "../Dashboard/Dashboard/ConversationTable";
-// import { useDataContext } from "./DataContext";
-// import { DataContext } from "../Dashboard/Dashboard/DataContext";
+
 const AmeliaUpload = () => {
   const storedUser = localStorage.getItem("username")
   console.log(storedUser);
@@ -371,7 +370,7 @@ fetch("http://44.246.164.250:8502/analyze-batch", requestOptions)
           flexDirection="column"
           justifyContent="center"
           alignItems="center"
-          height="100vh"
+          // height="100vh"
           
         >
 

@@ -18,7 +18,7 @@ select:focus {
   }
   .dropdowncs{
     border:none;
-    font-size:12px;
+    font-size:14px;
     font-weight:400;
     color:#2C2C2C;
   }
@@ -72,6 +72,7 @@ select:focus {
   align-items:center;
   margin-top:40px;
   margin-bottom:40px;
+  cursor:pointer;
 }
  
 .ineercard2{
@@ -100,7 +101,7 @@ select:focus {
  
 .ineercardslart2{
   text-align:center;
-  font-size:12px;
+  font-size:14px;
   font-weight:400;
   color:#0E3169;
 }

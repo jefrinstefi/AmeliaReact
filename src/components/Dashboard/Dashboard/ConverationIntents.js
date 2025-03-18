@@ -16,7 +16,7 @@ import {
 
 
 // individual bar colors
-const barColors = ["#968BB3", "#6BE0FF", "#605192", "#27BBE2", "#BAB2D0"];
+const barColors = ["#968BB3", "#03A9F4", "#605192", "#27BBE2", "#BAB2D0"];
 
 const ConversationIntents = ({ data }) => {
   const totalConversations = localStorage.getItem("totalConv")

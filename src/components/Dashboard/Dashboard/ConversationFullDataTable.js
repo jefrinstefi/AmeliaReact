@@ -155,6 +155,7 @@ const ConversationFullDataTable = () => {
                             </div>
                         </header>
         </Box>
+    <Box  sx={{backgroundColor:'#F5F4F9',padding:3}}>
 
 
         <Box sx={{margin:3}}> 
@@ -171,11 +172,11 @@ const ConversationFullDataTable = () => {
     </div> */}
     <div role="presentation"  onClick={() => navigate(-1)}>
      <Breadcrumbs aria-label="breadcrumb">
-      <Link style={{color:'#4f2580',textDecoration:'none'}} href="/">
+      <Link style={{color: "#737277",textDecoration:'none'}} href="/">
         Dashboard
        </Link>
       
-       <Typography sx={{ color: "#737277" }}>Conversations Table</Typography> 
+       <Typography sx={{ color:'#4f2580' }}>Conversations Table</Typography> 
             </Breadcrumbs>
        </div>
     </Box>
@@ -186,7 +187,7 @@ const ConversationFullDataTable = () => {
    
         
    
-      <Paper elevation={4} sx={{  p: isMobile ? 1 : 3, width: "100%",  borderRadius: "12px",
+      <Paper elevation={4} sx={{  p: isMobile ? 1 : 3, width: "97%",  borderRadius: "12px",
         border: '1px solid #c5c4ca ',
       boxShadow: '0px 4px 4px 0px #00000040', }}>
         <Box display="flex" flexDirection={isMobile ? "column" : "row"} justifyContent="space-between" alignItems="center" mb={3}>
@@ -216,11 +217,11 @@ const ConversationFullDataTable = () => {
         {loading ? (
       <p>Loading data...</p>
     ) : data.length > 0 ? (
-      <TableContainer sx={{ maxHeight: 400 }}>
-      <Table stickyHeader>
+      <TableContainer >
+      <Table >
         <TableHead>
           <TableRow sx={{ backgroundColor: "#7D6DB1" }}>
-            {["Conv Id", "Date & Time", "Duration", "Channel", "Intent", "Sentiment","Successful","Frustration","Total Msgs","Amelia Msgs","User Msgs","Misunderstanding", "Resolved"].map((head) => (
+            {["Conv Id", "Date & Time", "Duration (ms)", "Channel", "Intent", "Sentiment (1-10)","Successful ?","Frustration (1-10)","Total Msgs","Amelia Msgs","User Msgs","Misunderstanding", "Resolved ?"].map((head) => (
               <TableCell key={head} sx={{ color: "#fff", fontWeight: "bold", fontSize: "14px", backgroundColor: "#7D6DB1",whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
@@ -257,6 +258,7 @@ const ConversationFullDataTable = () => {
       <p>No data available.</p>
     )}
       </Paper>
+    </Box>
     </Box>
     </div>
   );
