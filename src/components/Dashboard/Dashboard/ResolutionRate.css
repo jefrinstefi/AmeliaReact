@@ -8,7 +8,7 @@ body {
 }
  
 .resolutionCard{
-    width: 355px;
+    /* width: 355px; */
     /* Increased width for balanced layout */
     height:246px;
     /* Adjust height dynamically */

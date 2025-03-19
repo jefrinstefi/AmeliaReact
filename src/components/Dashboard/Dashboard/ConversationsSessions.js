@@ -62,8 +62,8 @@ const DashboardStats = ({ data }) => {
       border: '1px solid #c5c4ca ',
       boxShadow: '0px 4px 4px 0px #00000040',
       backgroundColor: "#fff",
-      maxWidth: 320,
-      minWidth: 280,
+      // maxWidth: 320,
+      // minWidth: 280,
       height:339
     }}>
       <Typography variant="subtitle1" 

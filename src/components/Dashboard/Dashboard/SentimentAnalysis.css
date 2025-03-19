@@ -1,5 +1,5 @@
 .card-container {
-     width: 320px;
+     /* width: 320px; */
     height: 218px; 
     border: 1px solid #c5c4ca !important;
     border-radius: 12px !important;
@@ -90,7 +90,7 @@
 .sentiment-label {
     font-family: Instrument Sans !important;
     font-weight: 400 !important;
-    font-size: 10px !important;
+    font-size: 12px !important;
     line-height: 100% !important;
     letter-spacing: 5% !important;
     vertical-align: middle !important;

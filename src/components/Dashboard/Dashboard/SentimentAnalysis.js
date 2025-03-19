@@ -11,25 +11,25 @@ const SentimentAnalysis = (message) => {
     {
       icon: <SentimentVeryDissatisfiedIcon />,
       percentage: "5%",
-      label: "Bad",
+      label: "Bad (0 < 2.5)",
       className: "bad",
     },
     {
       icon: <SentimentDissatisfiedIcon />,
       percentage: "10%",
-      label: "Need Improvement",
+      label: "Improva (2.5 < 5) ",
       className: "need-improvement",
     },
     {
       icon: <SentimentSatisfiedIcon />,
       percentage: "65%",
-      label: "Average",
+      label: "Average (5 < 7.5)",
       className: "average",
     },
     {
       icon: <SentimentVerySatisfiedIcon />,
       percentage: "30%",
-      label: "Good",
+      label: "Good (7.5 <= 10)",
       className: "exceptional",
     },
   ]);

@@ -111,11 +111,10 @@ const raw = JSON.stringify({
 const requestOptions = {
   method: "POST",
   headers: myHeaders,
-  body: raw,
   redirect: "follow"
 };
  
-fetch("http://44.246.164.250:8502/analyze-batch", requestOptions)
+fetch("http://44.246.164.250:8502/analyze-all", requestOptions)
   .then((response) => response.json())
   .then((result) => {console.log(result);
     // setTotalConversations(result.total);
@@ -126,36 +125,7 @@ fetch("http://44.246.164.250:8502/analyze-batch", requestOptions)
           }
   })
   .catch((error) => console.error(error));
-  //   const username = "admin";
-  //   const password ="password";
-  //   const credentials = btoa(`${username}:${password}`);
-  //   const raw = JSON.stringify({
-  //     "batch_size": 2,
-  //     "batch_number": 1
-  //   });
-     
-  // const requestOptions = {
-  //   method: "POST",
-  //   headers: {
-  //     Authorization: "Basic " + credentials, // Base64 encoded username:password
-  //     Accept: "application/json"
-  //   },
-  //   body: raw
-
-  // };
-
-  // fetch("http://44.246.164.250:8502/analyze-batch", requestOptions)
-  //   .then((response) => response.json())
-  //   .then((result) => {
-  //     console.log('result',result);
-  //     setTotalConversations(result.total);
-  //     localStorage.setItem("totalConv", result.total);
-  //     if (result.conversations.length >0) {
-  //        fetchData();
-  //       setLoading(false);
-  //       navigate('/dashboard');      }
-  //   })
-  //   .catch((error) => console.error(error));
+  
   }
   const GetTabelValues  = () => {
     const username = "admin";
