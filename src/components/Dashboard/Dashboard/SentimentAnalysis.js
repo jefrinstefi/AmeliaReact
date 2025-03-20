@@ -11,25 +11,25 @@ const SentimentAnalysis = (message) => {
     {
       icon: <SentimentVeryDissatisfiedIcon />,
       percentage: "5%",
-      label: "Bad (0 < 2.5)",
+      label: "Bad (0 to 2.5)",
       className: "bad",
     },
     {
       icon: <SentimentDissatisfiedIcon />,
       percentage: "10%",
-      label: "Improva (2.5 < 5) ",
+      label: "Improve (2.5 to 5)",
       className: "need-improvement",
     },
     {
       icon: <SentimentSatisfiedIcon />,
       percentage: "65%",
-      label: "Average (5 < 7.5)",
+      label: "Average (5 to 7.5)",
       className: "average",
     },
     {
       icon: <SentimentVerySatisfiedIcon />,
       percentage: "30%",
-      label: "Good (7.5 <= 10)",
+      label: "Good (7.5 to 10)",
       className: "exceptional",
     },
   ]);
@@ -76,13 +76,13 @@ const percentages = Object.fromEntries(
  
 console.log(percentages);
 const updatevalues = sentiments.map(function(item) {
-  if(item.label === "Bad") {
+  if(item.label === "Bad (0 to 2.5)") {
     item.percentage = percentages.bad;
-  } else if(item.label === "Need Improvement") {
+  } else if(item.label === "Improve (2.5 to 5)") {
     item.percentage = percentages.needToImprove;
-  } else if(item.label === "Average") {
+  } else if(item.label === "Average (5 to 7.5)") {
     item.percentage = percentages.average;
-  } else if(item.label === "Good") {
+  } else if(item.label === "Good (7.5 to 10)") {
     item.percentage = percentages.good;
   }
   return item;

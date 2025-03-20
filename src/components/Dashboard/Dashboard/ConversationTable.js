@@ -12,7 +12,8 @@ import {
   IconButton,
   Box,
   useMediaQuery,
-  Typography
+  Typography,
+  TableSortLabel
 } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import ExpandIcon from "@mui/icons-material/Fullscreen";
@@ -30,48 +31,50 @@ const ConversationTable = (message) => {
   const [calculatedDetails, setCalculatedDetails] = useState('')
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const totalConversations = localStorage.getItem("totalConv")
-    //console.log(totalConversations);
-     const HandleClick = async() => {
-      setLoading(true);
-      const myHeaders = new Headers();
-      myHeaders.append("Authorization", "Basic YWRtaW46cGFzc3dvcmQ=");
-      const username = "admin";
-      const password = "password";
-      const credentials = btoa(`${username}:${password}`);
-      const requestOptions = {
-        method: "GET",
-        headers: {
-        Authorization: "Basic " + credentials, // Base64 encoded username:password},
-        redirect: "follow",
-        Accept : "application/json"
-      } 
-      }
+    const totalConversations = localStorage.getItem("totalConv");
+    const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
 
-      try {
-        let response = await fetch("http://44.246.164.250:8502/analysis-results", requestOptions);
-        let result = await response.json();
+    //console.log(totalConversations);
+    //  const HandleClick = async() => {
+    //   setLoading(true);
+    //   const myHeaders = new Headers();
+    //   myHeaders.append("Authorization", "Basic YWRtaW46cGFzc3dvcmQ=");
+    //   const username = "admin";
+    //   const password = "password";
+    //   const credentials = btoa(`${username}:${password}`);
+    //   const requestOptions = {
+    //     method: "GET",
+    //     headers: {
+    //     Authorization: "Basic " + credentials, // Base64 encoded username:password},
+    //     redirect: "follow",
+    //     Accept : "application/json"
+    //   } 
+    //   }
+
+    //   try {
+    //     let response = await fetch("http://52.12.103.246:8502/analysis-results", requestOptions);
+    //     let result = await response.json();
       
-              console.log("Full API Response:", result);
-              setCalculatedDetails(result.results);
+    //           console.log("Full API Response:", result);
+    //           setCalculatedDetails(result.results);
               
-              if (result.results && Array.isArray(result.results)) {
-                console.log("API Data:", result.results);
-                setData(result.results);
-                console.log("Data:", data);
-                ValueCalculation();
-              } else {
-                console.warn("No results found.");
-                setData([]); // Set empty array to prevent map() errors
-              }
-            } catch (error) {
-              console.error("Error:", error);
-              setData([]); // Ensure data is an empty array if an error occurs
-            } finally {
-              setLoading(false);
-            }
+    //           if (result.results && Array.isArray(result.results)) {
+    //             console.log("API Data:", result.results);
+    //             setData(result.results);
+    //             console.log("Data:", data);
+    //             ValueCalculation();
+    //           } else {
+    //             console.warn("No results found.");
+    //             setData([]); // Set empty array to prevent map() errors
+    //           }
+    //         } catch (error) {
+    //           console.error("Error:", error);
+    //           setData([]); // Ensure data is an empty array if an error occurs
+    //         } finally {
+    //           setLoading(false);
+    //         }
             
-          }
+    //       }
           const ValueCalculation = () => {
             const totals = message.data.reduce((acc, obj) => {
               acc.totalDuration += obj.Duration_Seconds;
@@ -147,7 +150,19 @@ const ConversationTable = (message) => {
             setLoading(false);
 
           }, []);
- 
+          const handleSort = (column) => {
+            const isAsc = sortConfig.key === column && sortConfig.direction === "asc";
+            const direction = isAsc ? "desc" : "asc";
+        
+            const sortedData = [...data].sort((a, b) => {
+              if (a[column] < b[column]) return direction === "asc" ? -1 : 1;
+              if (a[column] > b[column]) return direction === "asc" ? 1 : -1;
+              return 0;
+            });
+        
+            setSortConfig({ key: column, direction });
+            setData(sortedData);
+          };
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
       <Paper elevation={4} sx={{  p: isMobile ? 1 : 3, width: "97%",  borderRadius: "12px",
@@ -182,8 +197,8 @@ const ConversationTable = (message) => {
       <TableContainer sx={{ maxHeight: 400 }}>
       <Table stickyHeader>
         <TableHead>
-          <TableRow sx={{ backgroundColor: "#7D6DB1",border:"1px solid #7D6DB1" }}>
-            {["Conv Id", "Date & Time", "Duration (ms)", "Channel", "Intent", "Sentiment (1-10)","Successful ?","Frustration (1-10)","Total Msgs","Amelia Msgs","User Msgs","Misunderstanding", "Resolved ?"].map((head) => (
+          {/* <TableRow sx={{ backgroundColor: "#7D6DB1",border:"1px solid #7D6DB1" }}>
+            {["Conv Id", "Date & Time", "Duration (ms)", "Channel", "Intent", "Sentiment (1-10)","Successful ?","Frustration (1-10)","Total Msgs","Amelia Msgs","User Msgs","Misunderstanding", "Resolved ?"].map((head,label ) => (
               <TableCell key={head} sx={{ color: "#fff", fontWeight: "bold", fontSize: "14px", backgroundColor: "#7D6DB1",whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
@@ -191,7 +206,36 @@ const ConversationTable = (message) => {
                 {head}
               </TableCell>
             ))}
-          </TableRow>
+          </TableRow> */}
+           <TableRow sx={{ backgroundColor: "#7D6DB1" }}>
+                  {[
+                    { key: "Conversation_ID", label: "Conv Id" },
+                    { key: "Analysis_Date", label: "Date & Time" },
+                    { key: "Duration_Seconds", label: "Duration (ms)" },
+                    { key: "Initial_Channel", label: "Channel" },
+                    { key: "Intent", label: "Intent" },
+                    { key: "Sentiment_Score", label: "Sentiment (1-10)" },
+                    { key: "Conversation_Successful", label: "Successful ?" },
+                    { key: "Frustration_Score", label: "Frustration (1-10)" },
+                    { key: "Messages_Count", label: "Total Msgs" },
+                    { key: "User_Messages_Count", label: "User Msgs" },
+                    { key: "Amelia_Messages_Count", label: "Amelia Msgs" },
+                    { key: "Misunderstandings", label: "Misunderstanding" },
+                    { key: "Resolution", label: "Resolved ?" },
+                  ].map(({ key, label }) => (
+                    <TableCell key={key} sx={{ color: "#fff", fontWeight: "bold",fontSize: "14px", backgroundColor: "#7D6DB1",whiteSpace: "nowrap",overflow: "hidden",
+                      textOverflow: "ellipsis",  maxWidth: 120}} >
+                      <TableSortLabel
+                        active={true}
+                        direction={sortConfig.key === key ? sortConfig.direction : "asc"}
+                        onClick={() => handleSort(key)}
+                        sx={{ color: "#fff" }}
+                      >
+                        {label}
+                      </TableSortLabel>
+                    </TableCell>
+                  ))}
+                </TableRow>
         </TableHead>
         <TableBody >
           {data.map((item, index) => (
