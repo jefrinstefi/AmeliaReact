@@ -17,19 +17,31 @@ import {
 
 // individual bar colors
 const barColors = ["#968BB3", "#03A9F4", "#605192", "#27BBE2", "#BAB2D0"];
-
+const getRandomColor = () => {
+  return barColors[Math.floor(Math.random() * barColors.length)];
+};
 const ConversationIntents = ({ data }) => {
   const totalConversations = localStorage.getItem("totalConv")
   console.log(totalConversations);
-  const [dataIntent, setDataIntent] = useState([
-    { name: "Information", value: 850, labelName: 'information' },
-    { name: "Service", value: 590, labelName: 'service' },
-    { name: "Others", value: 200, labelName: 'other' }
+  // const [dataIntent, setDataIntent] = useState([
+  //   { name: "Information", value: 850, labelName: 'information',color: getRandomColor() },
+  //   { name: "Service", value: 590, labelName: 'service',color: getRandomColor() },
+  //   { name: "Others", value: 200, labelName: 'other',color: getRandomColor() }
 
-  ]);
+  // ]);
+  const [dataIntent, setDataIntent]  = useState([])
 
   useEffect(() => {
-    GetIntentDetails();
+    if (data.intent_distribution) {
+      const intentsArray = Object.entries(data.intent_distribution).map(
+        ([key, value]) => ({
+          name: key.charAt(0).toUpperCase() + key.slice(1),
+          value: value,
+          color: barColors[Math.floor(Math.random() * barColors.length)],
+        })
+      );
+      setDataIntent(intentsArray);
+    }
   }, [data]);
 
   const GetIntentDetails = () => {
@@ -37,7 +49,8 @@ const ConversationIntents = ({ data }) => {
       setDataIntent((prevStats) =>
         prevStats.map((item) => ({
           ...item,
-          value: data.intent_distribution[item.labelName] ?? item.value, // Update if key exists, else keep old value
+          value: data.intent_distribution[item.labelName] ?? item.value, 
+          color: getRandomColor(),// Update if key exists, else keep old value
         }))
       );
     }
