@@ -29,6 +29,8 @@ const ConversationTable = (message) => {
    const isMobile = useMediaQuery("(max-width: 600px)");
   const navigate = useNavigate();
   const [calculatedDetails, setCalculatedDetails] = useState('')
+  const [searchTerm, setSearchTerm] = useState("");
+
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const totalConversations = localStorage.getItem("totalConv");
@@ -115,7 +117,7 @@ const ConversationTable = (message) => {
           }
 
           const navigateToTablePage = () => {
-            navigate('/conversationTable');
+            navigate('/conversationTable',{ state: { message: message.data } });
           }
 
           const formatDate = (dateString) => {
@@ -143,13 +145,29 @@ const ConversationTable = (message) => {
             const truncateText = (text, limit) => {
               return text.length > limit ? text.substring(0, limit) + "..." : text;
             };
+            const handleSearch = (event) => {
 
+              setSearchTerm(event.target.value.toLowerCase());
+          
+            };
           useEffect(() => {
             ValueCalculation(); 
             setData(message.data);
             setLoading(false);
 
           }, []);
+          useEffect(() => {
+            if (searchTerm.trim() === "") {
+              setData(message.data); // Show all data when search is cleared
+            } else {
+              const filteredData = message.data.filter((item) =>
+                Object.values(item).some((value) =>
+                  String(value).toLowerCase().includes(searchTerm.toLowerCase())
+                )
+              );
+              setData(filteredData);
+            }
+          }, [searchTerm, message.data]);
           const handleSort = (column) => {
             const isAsc = sortConfig.key === column && sortConfig.direction === "asc";
             const direction = isAsc ? "desc" : "asc";
@@ -181,6 +199,42 @@ const ConversationTable = (message) => {
                 InputProps={{ disableUnderline: true }}
               /> */}
             {/* </Box> */}
+            <Box
+
+              display="flex"
+
+              alignItems="center"
+
+              border="1px solid #ccc"
+
+              borderRadius={2}
+
+              px={2}
+
+              py={1}
+
+              bgcolor="white"
+
+            >
+            <TextField
+
+size="small"
+
+variant="standard"
+
+placeholder="Search..."
+
+fullWidth
+
+value={searchTerm}
+
+onChange={handleSearch}
+
+InputProps={{ disableUnderline: true }}
+
+/>
+
+</Box>
             <Box display="flex">
               <IconButton onClick={exportTableToExcel}>
                 <DownloadIcon sx={{ color: "#7D6DB1" }} />
@@ -207,7 +261,12 @@ const ConversationTable = (message) => {
               </TableCell>
             ))}
           </TableRow> */}
-           <TableRow sx={{ backgroundColor: "#7D6DB1" }}>
+           <TableRow sx={{ backgroundColor: "#7D6DB1",
+                 border: "1px solid #7D6DB1", // Border for the header row
+                 zIndex: 1, // Ensure the sticky header is on top
+          position: "sticky", // Ensure the header sticks
+          top: 0, // Make sure it sticks to the top of the table container
+          boxShadow: "0 2px 2px rgba(0, 0, 0, 0.2)" }}>
                   {[
                     { key: "Conversation_ID", label: "Conv Id" },
                     { key: "Analysis_Date", label: "Date & Time" },
@@ -224,14 +283,30 @@ const ConversationTable = (message) => {
                     { key: "Resolution", label: "Resolved ?" },
                   ].map(({ key, label }) => (
                     <TableCell key={key} sx={{ color: "#fff", fontWeight: "bold",fontSize: "14px", backgroundColor: "#7D6DB1",whiteSpace: "nowrap",overflow: "hidden",
-                      textOverflow: "ellipsis",  maxWidth: 120}} >
-                      <TableSortLabel
+                      textOverflow: "ellipsis", border: "none",zIndex:1}} >
+                      {/* <TableSortLabel
                         active={true}
                         direction={sortConfig.key === key ? sortConfig.direction : "asc"}
                         onClick={() => handleSort(key)}
                         sx={{ color: "#fff" }}
                       >
                         {label}
+                      </TableSortLabel> */}
+                      <TableSortLabel
+                        active={true}
+                        direction={
+                          sortConfig.key === key ? sortConfig.direction : "asc"
+                        }
+                        onClick={() => handleSort(key)}
+                        sx={{
+                          color: "#fff", // Ensures the label text is white
+                          "& .MuiTableSortLabel-icon": {
+                            color: "#fff !important", // Ensures the sorting icon is white
+                          },
+                        }}
+                      >
+                        <span style={{ color: "#fff" }}>{label}</span>{" "}
+                        {/* White label text */}
                       </TableSortLabel>
                     </TableCell>
                   ))}
