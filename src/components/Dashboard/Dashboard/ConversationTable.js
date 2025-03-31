@@ -54,7 +54,7 @@ const ConversationTable = (message) => {
     //   }
 
     //   try {
-    //     let response = await fetch("http://52.12.103.246:8502/analysis-results", requestOptions);
+    //     let response = await fetch("https://ameliaapp.sincera.net/api/analysis-results", requestOptions);
     //     let result = await response.json();
       
     //           console.log("Full API Response:", result);

@@ -86,7 +86,7 @@ const AmeliaUpload = () => {
       },
       body: formData
     };
-    fetch("http://52.12.103.246:8502/upload-transcript", requestOptions)
+    fetch("https://ameliaapp.sincera.net/api/upload-transcript", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log('result', result, result.status);
@@ -114,7 +114,7 @@ const requestOptions = {
   redirect: "follow"
 };
  
-fetch("http://52.12.103.246:8502/analyze-all", requestOptions)
+fetch("https://ameliaapp.sincera.net/api/analyze-all", requestOptions)
   .then((response) => response.json())
   .then((result) => {console.log(result);
     // setTotalConversations(result.total);
@@ -139,7 +139,7 @@ fetch("http://52.12.103.246:8502/analyze-all", requestOptions)
     },
   };
 
-  fetch("http://52.12.103.246:8502/analysis-results", requestOptions)
+  fetch("https://ameliaapp.sincera.net/api/analysis-results", requestOptions)
     .then((response) => response.json())
     .then((result) => {
       console.log('result',result);
@@ -162,7 +162,7 @@ fetch("http://52.12.103.246:8502/analyze-all", requestOptions)
     },
   };
 
-  fetch("http://52.12.103.246:8502/conversations", requestOptions)
+  fetch("https://ameliaapp.sincera.net/api/conversations", requestOptions)
     .then((response) => response.json())
     .then((result) => {
       console.log('result',result);

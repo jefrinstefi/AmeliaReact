@@ -16,7 +16,7 @@ export const DataProvider = ({ children }) => {
 
 
     try {
-      const response = await fetch("http://52.12.103.246:8502/analytics-overview", {
+      const response = await fetch("https://ameliaapp.sincera.net/api/analytics-overview", {
         method: "GET",
         headers: {
           Authorization: "Basic " + credentials,

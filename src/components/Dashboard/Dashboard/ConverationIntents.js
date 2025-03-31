@@ -40,6 +40,7 @@ const ConversationIntents = ({ data }) => {
           color: barColors[Math.floor(Math.random() * barColors.length)],
         })
       );
+      console.log(intentsArray);
       setDataIntent(intentsArray);
     }
   }, [data]);
