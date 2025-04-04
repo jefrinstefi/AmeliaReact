@@ -7,7 +7,8 @@ import companyLogo from "../../assets/logo 1.png" // Company logo
 import Acouser from "../../assets/Account circle.png";
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 // import { Link, useLocation, useNavigate } from "react-router-dom";
-
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 import {
   LineChart,
   Line,
@@ -16,6 +17,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  ReferenceLine
 } from "recharts";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import SmartToyIcon from "@mui/icons-material/SmartToy";
@@ -59,6 +61,8 @@ export default function ConversationAnalysis() {
   const [metricsData, setMetricsData] = useState({duration: 0});
   const [metaData, setMetadata] = useState('')
   const [summaryData,setSummaryData] = useState('')
+  const [sentimentLoaded, setSentimentLoaded] = useState(false);
+  const [apiResponse,setAPIRESPONSE] = useState("")
   // const [ConvList,setConvList] = useState([]);
   useEffect(() => {
     // setLoading(true);
@@ -69,12 +73,28 @@ export default function ConversationAnalysis() {
     setMetricsData(message.metrics || {});
     setMetadata(message.meta || {});
     setSummaryData(message.summary);
+    setAPIRESPONSE(message);
     // setConvList(conversationList);
     console.log('messages', message);
     console.log('List',conversationList)
+    setSentimentLoaded(true)
     // setLoading(false);
     }
   }, [message]);
+  const CustomTooltip = ({payload }) => {
+     if (sentimentLoaded &&payload.length) {
+      const { message_id, sentiment } = payload[0].payload; // Extract values dynamically
+
+      return (
+  <div style={{ background: "#968BB3", padding: "10px 16px", borderRadius: "5px" }}>
+
+  <p style={{ color:"#fff" ,margin:"0"}}>{`Msg_id : ${message_id}`}</p>
+  <p style={{ color: "#fff" ,margin:"0"}}>{`Sentiment : ${sentiment}`}</p>
+  </div>
+      );
+     }
+    return null;
+  };
   const handleTabChange = (event, newValue) => {
     setTabIndex(newValue);
   };
@@ -100,6 +120,18 @@ export default function ConversationAnalysis() {
       hour12: false // 24-hour format
     }).replace(",", "");
   };
+  const formatDatefromUnix = (datestring) => {
+    const date = new Date(datestring * 1000);
+    // return date.toISOString()
+    return date.toLocaleString("en-US", { 
+      year: "numeric", 
+      month: "2-digit", 
+      day: "2-digit", 
+      hour: "2-digit", 
+      minute: "2-digit", 
+      hour12: false // 24-hour format
+    }).replace(",", "");
+  }
   const formatYesNo = (value) => {
     return value === "Y" ? "Yes" : value === "N" ? "No" : "No"; // Default fallback
   };
@@ -128,7 +160,7 @@ export default function ConversationAnalysis() {
       },
     };
 
-    fetch("https://ameliaapp.sincera.net/api/conversation-details/" + row, requestOptions)
+    fetch("http://52.12.103.246:8008/conversation-details/" + row, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log('result', result);
@@ -139,6 +171,7 @@ export default function ConversationAnalysis() {
           setMetricsData(result.metrics);
     setMetadata(result.meta);
     setSummaryData(result.summary);
+    setAPIRESPONSE(result);
 
           setLoading(false);
 
@@ -150,6 +183,26 @@ export default function ConversationAnalysis() {
 
     // alert(`Clicked on Conversation ID: ${row.Conversation_ID}`);
   };
+  const exportTableToExcel = () => {
+      console.log('test')
+      // if (!tableRef.current) return;
+  
+      // Convert the table to a worksheet
+      let downloadData = [{
+         "Analysis-Date": apiResponse.Analysis_Date,
+         "Conversation-Id":apiResponse.Conversation_ID,
+         "Duration":apiResponse.Duration_Seconds,
+         "Total Messages" :apiResponse.Messages_Count
+      }]
+      const ws = XLSX.utils.json_to_sheet(downloadData);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "TableData");
+  
+      // Convert to buffer and save
+      const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+      const dataBlob = new Blob([excelBuffer], { type: "application/octet-stream" });
+      saveAs(dataBlob, "Conversation_table.xlsx");
+    }
   return (
     
     <div>
@@ -188,7 +241,7 @@ export default function ConversationAnalysis() {
         </div>
 
         <Paper elevation={3} sx={{ padding: 3, borderRadius: 3, margin: "auto", backgroundColor: "#fff", width: "98%" }}>
-          <Typography variant="body1" fontWeight="small" fontSize={12}>Select a conversation for detailed analysis</Typography>
+          <Typography variant="body1" fontWeight="small" fontSize={13}>Select a conversation for detailed analysis</Typography>
           <Grid container justifyContent="space-between" alignItems="center" mt={2}>
             <Select
               value={selectedConversation}
@@ -205,7 +258,7 @@ export default function ConversationAnalysis() {
     </MenuItem>
   ))}
             </Select>
-            <Button variant="outlined" startIcon={<DownloadIcon />} sx={{ borderColor: "#4A1C9D", color: "#4A1C9D", fontSize: "14px", fontWeight: 600 }}>
+            <Button variant="outlined" onClick={exportTableToExcel} startIcon={<DownloadIcon />} sx={{ borderColor: "#4A1C9D", color: "#4A1C9D", fontSize: "14px", fontWeight: 600 }}>
               Download Analysis Results
             </Button>
           </Grid>
@@ -221,44 +274,44 @@ export default function ConversationAnalysis() {
           </AppBar>
 
           {!loading &&<TabPanel value={tabIndex} index={0}>
-            <Typography variant="body1" fontWeight="small" fontSize={12}>Select a conversation for detailed analysis</Typography>
+            {/* <Typography variant="body1" fontWeight="small" fontSize={12}>Select a conversation for detailed analysis</Typography> */}
             <Grid container justifyContent="space-between" alignItems="center" mt={2}>
               <Typography variant="body1" fontWeight="bold" fontSize={16} sx={{ color: "#3A4B6F", mb: 2 }}>Conversation Summary</Typography>
 
               <Typography
                 variant="body1"
                 fontWeight="bold"
-                fontSize={13}
+                fontSize={14}
                 sx={{ color: "#3A4B6F", mb: 2 }}
               >
-                Conversation ID: <span style={{ color: "#4A1C9D", fontSize: 15 }}>{selectedConversation}</span>
+                Conversation ID : <span style={{ color: "#4A1C9D", fontSize: 15 }}>{selectedConversation}</span>
               </Typography>
             </Grid>
 
-            <Box sx={{ backgroundColor: "#F5F5F5", border: "1px solid #D1D1D1", borderRadius: 2, padding: 2 }}>
+            <Box sx={{ backgroundColor: "#FAF9FF", border: "1px solid #D1D1D1", borderRadius: 2, padding: 2 }}>
               <Grid container spacing={2} mb={4}>
-                <Grid item xs={12} sm={2}><Typography variant="body2" sx={{ color: "#737277", fontSize: 12 }}><b>Date & Time</b></Typography><Typography variant="body2" sx={{ color: "#4A1C9D", fontSize: 14, fontWeight: 600 }}>{formatDate(conversationDetails.Analysis_Date) || "N/A"}</Typography></Grid>
-                <Grid item xs={12} sm={2}><Typography variant="body2" sx={{ color: "#737277", fontSize: 12 }}><b>Duration</b></Typography><Typography variant="body2" sx={{ color: "#4A1C9D", fontSize: 14, fontWeight: 600 }}>{metricsData.duration ? metricsData.duration.toFixed(2): 'N/A'}ms</Typography></Grid>
-                <Grid item xs={12} sm={2}><Typography variant="body2" sx={{ color: "#737277", fontSize: 12 }}><b>Channel</b></Typography><Typography variant="body2" sx={{ color: "#4A1C9D", fontSize: 14, fontWeight: 600 }}>{CapitalizeText(metaData.initial_channel)|| "N/A"}</Typography></Grid>
-                <Grid item xs={12} sm={2}><Typography variant="body2" sx={{ color: "#737277", fontSize: 12 }}><b>Intent</b></Typography><Typography variant="body2" sx={{ color: "#4A1C9D", fontSize: 14, fontWeight: 600 }}>{CapitalizeText(conversationDetails.Intent) || "N/A"}</Typography></Grid>
-                <Grid item xs={12} sm={2}><Typography variant="body2" sx={{ color: "#737277", fontSize: 12 }}><b>Resolved?</b></Typography><Typography variant="body2" sx={{ color: "#4A1C9D", fontSize: 14, fontWeight: 600 }}>{formatYesNo(conversationDetails.Resolution)}</Typography></Grid>
-                <Grid item xs={12} sm={2}><Typography variant="body2" sx={{ color: "#737277", fontSize: 12 }}><b>Successful?</b></Typography><Typography variant="body2" sx={{ color: "#4A1C9D", fontSize: 14, fontWeight: 600 }}>{formatYesNo(conversationDetails.Conversation_Successful)}</Typography></Grid>
+                <Grid item xs={12} sm={2}><Typography variant="body2" sx={{ color: "#737277", fontSize: 13 }}><b>Date & Time</b></Typography><Typography variant="body2" sx={{ color: "#4A1C9D", fontSize: 14, fontWeight: 600 }}>{formatDate(apiResponse.Analysis_Date) || "N/A"}</Typography></Grid>
+                <Grid item xs={12} sm={2}><Typography variant="body2" sx={{ color: "#737277", fontSize: 13 }}><b>Duration</b></Typography><Typography variant="body2" sx={{ color: "#4A1C9D", fontSize: 14, fontWeight: 600 }}>{metricsData.duration ? metricsData.duration.toFixed(2): 'N/A'}ms</Typography></Grid>
+                <Grid item xs={12} sm={2}><Typography variant="body2" sx={{ color: "#737277", fontSize: 13 }}><b>Channel</b></Typography><Typography variant="body2" sx={{ color: "#4A1C9D", fontSize: 14, fontWeight: 600 }}>{CapitalizeText(metaData.initial_channel)|| "N/A"}</Typography></Grid>
+                <Grid item xs={12} sm={2}><Typography variant="body2" sx={{ color: "#737277", fontSize: 13 }}><b>Intent</b></Typography><Typography variant="body2" sx={{ color: "#4A1C9D", fontSize: 14, fontWeight: 600 }}>{CapitalizeText(apiResponse.Intent) || "N/A"}</Typography></Grid>
+                <Grid item xs={12} sm={2}><Typography variant="body2" sx={{ color: "#737277", fontSize: 13 }}><b>Resolved?</b></Typography><Typography variant="body2" sx={{ color: "#4A1C9D", fontSize: 14, fontWeight: 600 }}>{formatYesNo(apiResponse.Resolution)}</Typography></Grid>
+                <Grid item xs={12} sm={2}><Typography variant="body2" sx={{ color: "#737277", fontSize: 13 }}><b>Successful?</b></Typography><Typography variant="body2" sx={{ color: "#4A1C9D", fontSize: 14, fontWeight: 600 }}>{formatYesNo(apiResponse.Conversation_Successful)}</Typography></Grid>
               </Grid>
               <Divider sx={{ mb: 2 }} />
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={2}><Typography variant="body2" sx={{ color: "#737277", fontSize: 12 }}><b>Total Messages</b></Typography><Typography variant="body2" sx={{ color: "#4A1C9D", fontSize: 14, fontWeight: 600 }}>{metricsData.total_messages}</Typography></Grid>
-                <Grid item xs={12} sm={2}><Typography variant="body2" sx={{ color: "#737277", fontSize: 12 }}><b>Amelia Messages</b></Typography><Typography variant="body2" sx={{ color: "#4A1C9D", fontSize: 14, fontWeight: 600 }}>{metricsData.amelia_messages}</Typography></Grid>
-                <Grid item xs={12} sm={2}><Typography variant="body2" sx={{ color: "#737277", fontSize: 12 }}><b>User Messages</b></Typography><Typography variant="body2" sx={{ color: "#4A1C9D", fontSize: 14, fontWeight: 600 }}>{metricsData.user_messages}</Typography></Grid>
-                <Grid item xs={12} sm={2}><Typography variant="body2" sx={{ color: "#737277", fontSize: 12 }}><b>Anonymous User</b></Typography><Typography variant="body2" sx={{ color: "#4A1C9D", fontSize: 14, fontWeight: 600 }}>{formatTrueFalse(metaData.anonymous)}</Typography></Grid>
-                <Grid item xs={12} sm={2}><Typography variant="body2" sx={{ color: "#737277", fontSize: 12 }}><b>Sentiment (1-10)</b></Typography><Typography variant="body2" sx={{ color: "#4A1C9D", fontSize: 14, fontWeight: 600 }}>{conversationDetails.Sentiment_Score}</Typography></Grid>
-                <Grid item xs={12} sm={2}><Typography variant="body2" sx={{ color: "#737277", fontSize: 12 }}><b>Frustration (1-10)</b></Typography><Typography variant="body2" sx={{ color: "#4A1C9D", fontSize: 14, fontWeight: 600 }}>{conversationDetails.Frustration_Score}</Typography></Grid>
+                <Grid item xs={12} sm={2}><Typography variant="body2" sx={{ color: "#737277", fontSize: 13 }}><b>Total Messages</b></Typography><Typography variant="body2" sx={{ color: "#4A1C9D", fontSize: 14, fontWeight: 600 }}>{metricsData.total_messages}</Typography></Grid>
+                <Grid item xs={12} sm={2}><Typography variant="body2" sx={{ color: "#737277", fontSize: 13 }}><b>Amelia Messages</b></Typography><Typography variant="body2" sx={{ color: "#4A1C9D", fontSize: 14, fontWeight: 600 }}>{metricsData.amelia_messages}</Typography></Grid>
+                <Grid item xs={12} sm={2}><Typography variant="body2" sx={{ color: "#737277", fontSize: 13 }}><b>User Messages</b></Typography><Typography variant="body2" sx={{ color: "#4A1C9D", fontSize: 14, fontWeight: 600 }}>{metricsData.user_messages}</Typography></Grid>
+                <Grid item xs={12} sm={2}><Typography variant="body2" sx={{ color: "#737277", fontSize: 13 }}><b>Anonymous User</b></Typography><Typography variant="body2" sx={{ color: "#4A1C9D", fontSize: 14, fontWeight: 600 }}>{formatTrueFalse(metaData.anonymous)}</Typography></Grid>
+                <Grid item xs={12} sm={2}><Typography variant="body2" sx={{ color: "#737277", fontSize: 13 }}><b>Sentiment (1-10)</b></Typography><Typography variant="body2" sx={{ color: "#4A1C9D", fontSize: 14, fontWeight: 600 }}>{apiResponse.Sentiment_Score}</Typography></Grid>
+                <Grid item xs={12} sm={2}><Typography variant="body2" sx={{ color: "#737277", fontSize: 13 }}><b>Frustration (1-10)</b></Typography><Typography variant="body2" sx={{ color: "#4A1C9D", fontSize: 14, fontWeight: 600 }}>{apiResponse.Frustration_Score}</Typography></Grid>
               </Grid>
             </Box>
-            <Typography variant="body1" mt={3} fontWeight="bold" sx={{ color: "#737277" }}>AI Generated Insights</Typography>
-            <Typography variant="body2" sx={{ color: "#737277", mt: 2 }}><b>Main Query:</b>{summaryData.QUERY_SUMMARY}</Typography>
-            <Typography variant="body2" sx={{ color: "#737277", mt: 2 }}><b>Understanding:</b>{summaryData.UNDERSTANDING} </Typography>
-            <Typography variant="body2" sx={{ color: "#737277", mt: 2 }}><b>Key Insight1:</b>{summaryData.INSIGHT1}</Typography>
-            <Typography variant="body2" sx={{ color: "#737277", mt: 2 }}><b>Key Insight2:</b>{summaryData.INSIGHT2} </Typography>
+            <Typography variant="body1" mt={3} fontWeight="bold" sx={{ color: "#3A4B6F" }}>AI Generated Insights</Typography>
+            <Typography variant="body2" sx={{ color: "#737277", mt: 2 }}><b>Main Query : </b>{summaryData.QUERY_SUMMARY}</Typography>
+            <Typography variant="body2" sx={{ color: "#737277", mt: 2 }}><b>Understanding : </b>{summaryData.UNDERSTANDING} </Typography>
+            <Typography variant="body2" sx={{ color: "#737277", mt: 2 }}><b>Key Insight 1 : </b>{summaryData.INSIGHT1}</Typography>
+            <Typography variant="body2" sx={{ color: "#737277", mt: 2 }}><b>Key Insight 2 : </b>{summaryData.INSIGHT2} </Typography>
 
           </TabPanel>
 }
@@ -266,43 +319,43 @@ export default function ConversationAnalysis() {
           {!loading &&<TabPanel value={tabIndex} index={1}>
             {/* <Typography variant="h6">Sentiment Analysis</Typography> */}
             <div >
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 30 }}>
-                <p style={{ fontSize: 16, fontWeight: 500, color: '#3A4B6F' }}>Sentiment Analysis</p>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <p style={{ fontSize: 16, fontWeight: 600, color: '#3A4B6F' }}>Sentiment Analysis</p>
                 <p style={{ fontSize: 16, fontWeight: 400, color: '#3A4B6F' }}>
-                  Average Sentiment: <span style={{ color: '#4F2580', fontSize: 18, fontWeight: 600 }}>{message.sentiment_analysis.avg_sentiment.toFixed(2)}</span>
+                  Average Sentiment : <span style={{ color: '#4F2580', fontSize: 18, fontWeight: 600 }}>{message.sentiment_analysis.avg_sentiment.toFixed(2)}</span>
                 </p>
               </div>
 
               <div style={{ width: "100%", height: 300 }}>
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={data} margin={{ top: 10, right: 30, left: 10, bottom: 10 }}>
+                  <LineChart data={data} margin={{ top: 10, right: 30, left: 10, bottom: 40 }}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="message_id" label={{ value: "Message Sequence", position: "insideBottom", offset: -5 }} />
-                    <YAxis label={{ value: "Sentiment Score", angle: -90, position: "insideLeft" }} />
-                    <Tooltip />
-
+                    <XAxis dataKey="message_id" label={{ value: "Message Sequence", position: "insideBottom", offset: -12 ,dy:16}} />
+                    <YAxis label={{ value: "Sentiment Score", angle: -90, position: "insideLeft",dy:40 }} />
+                    <Tooltip content={<CustomTooltip />} />
                     {/* First Line - Sentiment Score 1 (Dots Kept) */}
                     <Line type="monotone" dataKey="sentiment" stroke="#5E43B2" strokeWidth={2} dot={{ r: 5 }} />
-
+                    <ReferenceLine y={0} stroke="#C4A484" strokeWidth={2} />
+ 
                     {/* Second Line - Sentiment Score 2 (Dots Kept) */}
-                    <Line type="monotone" dataKey="sentimentScore2" stroke="#1590E2" strokeWidth={2} dot={{ r: 5 }} />
+                    {/* <Line type="monotone" data={data.map(d => ({ message_id: d.message_id, y: 0 }))} stroke="red" dataKey="y" strokeWidth={2} dot={{ r: 5 }} dot={false}/> */}
                   </LineChart>
                 </ResponsiveContainer>
               </div>
 
-              <div style={{ border: '1px solid #D1D1D1', backgroundColor: '#FAF9FF', borderRadius: 8, marginTop: 50, paddingLeft: 20, paddingRight: 20, paddingTop: 15, paddingBottom: 20 }}>
-                <h4 style={{ fontSize: 18, color: '#616163', fontWeight: 400 }}>Sentiment Score Interpretation</h4>
+              <div style={{ border: '1px solid #D1D1D1', backgroundColor: '#FAF9FF', borderRadius: 8, marginTop: 100, paddingLeft: 20, paddingRight: 20, paddingTop: 0, paddingBottom: 20 }}>
+                <h4 style={{ fontSize: 18, color: '#616163', fontWeight: 400, marginBottom:12 }}>Sentiment Score Interpretation</h4>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <CheckCircleOutlineIcon style={{ color: '#8C7BC0', fontSize: 20, paddingRight: 5 }} />
-                  <p style={{ fontSize: 14, fontWeight: 400, color: '#737277' }}>Score ranges from -1 (very negative) to +1 (very positive)</p>
+                  <p style={{ fontSize: 14, fontWeight: 400, color: '#737277',margin:4 }}>Score ranges from -1 (very negative) to +1 (very positive)</p>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <CheckCircleOutlineIcon style={{ color: '#8C7BC0', fontSize: 20, paddingRight: 5 }} />
-                  <p style={{ fontSize: 14, fontWeight: 400, color: '#737277' }}>0 represents neutral sentiment</p>
+                  <p style={{ fontSize: 14, fontWeight: 400, color: '#737277',margin:4 }}>0 represents neutral sentiment</p>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <CheckCircleOutlineIcon style={{ color: '#8C7BC0', fontSize: 20, paddingRight: 5 }} />
-                  <p style={{ fontSize: 14, fontWeight: 400, color: '#737277' }}>The chart shows how sentiment changes throughout the conversation</p>
+                  <p style={{ fontSize: 14, fontWeight: 400, color: '#737277',margin:4 }}>The chart shows how sentiment changes throughout the conversation</p>
                 </div>
               </div>
 
@@ -379,7 +432,7 @@ export default function ConversationAnalysis() {
               color: msg.speaker === "User" ? "#E0E0E0" : "#666",
             }}
           >
-            {formatDate(msg.timestamp)}
+            {formatDatefromUnix(msg.timestamp)}
           </Typography>
         </Paper>
  

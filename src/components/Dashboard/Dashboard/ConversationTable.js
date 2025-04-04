@@ -154,10 +154,10 @@ const ConversationTable = (message) => {
       },
     };
 
-    fetch("https://ameliaapp.sincera.net/api/conversation-details/" + row.Conversation_ID, requestOptions)
+    fetch("http://52.12.103.246:8008/conversation-details/" + row.Conversation_ID, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log('result', result);
+        console.log('result1', result);
         if (result.detail === undefined) {
           navigate('/detailedAnalysis', { state: { message: result, selectedConversationDetails: row, ConversationList: ConvIds } });
 
