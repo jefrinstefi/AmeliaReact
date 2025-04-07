@@ -14,7 +14,7 @@ import {
   useMediaQuery,
   Typography,
   TableSortLabel,
-  Button
+  Button,CircularProgress, Backdrop
 } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import ExpandIcon from "@mui/icons-material/Fullscreen";
@@ -33,6 +33,8 @@ const ConversationTable = (message) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  // const [isNavigating, setIsNavigating] = useState(true);
+
   // const totalConversations = localStorage.getItem("totalConv");
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
   const [ConvIds, setConversationIds] = useState([])
@@ -117,7 +119,7 @@ const ConversationTable = (message) => {
     console.log(message.data)
     const conversationIds = message.data.map((obj) => ({
       conversation_id: obj.Conversation_ID ,
-      count:" - " + obj.User_Name + " (" + obj.Messages_Count + ")"
+      count:" - " + obj.User_Name + " (" + obj.Messages_Count + " Messages)"
     }));
   
     setConversationIds(conversationIds);
@@ -143,9 +145,13 @@ const ConversationTable = (message) => {
   }, [searchTerm, message.data]);
 
   const handleRowClick = (row) => {
+    // setLoading(true);
+    // setIsNavigating(true);
     const username = "admin";
     const password = "password";
     const credentials = btoa(`${username}:${password}`);
+    // console.log(isNavigating);
+
     const requestOptions = {
       method: "GET",
       headers: {
@@ -154,17 +160,23 @@ const ConversationTable = (message) => {
       },
     };
 
-    fetch("http://52.12.103.246:8008/conversation-details/" + row.Conversation_ID, requestOptions)
+    fetch("https://ameliaapp.sincera.net/api/conversation-details/" + row.Conversation_ID, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log('result1', result);
         if (result.detail === undefined) {
-          navigate('/detailedAnalysis', { state: { message: result, selectedConversationDetails: row, ConversationList: ConvIds } });
+          // setIsNavigating(false);
+          // console.log(isNavigating)
+
+          navigate('/detailedAnalysis', { state: { message: result, selectedConversationDetails: row, ConversationList: ConvIds,FullData:message.data } });
 
         }
 
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(error))
+      .finally(() => {
+        // setIsNavigating(false); // hide overlay loader
+      });
 
     // alert(`Clicked on Conversation ID: ${row.Conversation_ID}`);
   };
@@ -354,6 +366,7 @@ const ConversationTable = (message) => {
         ) : (
           <p>No data available.</p>
         )}
+    
       </Paper>
     </Box>
   );

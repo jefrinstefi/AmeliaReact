@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { AppBar, Tabs, Tab, Box, Typography, Paper, Button, MenuItem, Select, Grid, Divider, Avatar, Stack } from "@mui/material";
+import { AppBar, Tabs, Tab, Box, Typography, Paper, Button, MenuItem, Select, Grid, Divider, Avatar, Stack,Breadcrumbs } from "@mui/material";
 import DownloadIcon from '@mui/icons-material/Download';
 import PersonIcon from "@mui/icons-material/Person";
 import flowdiagram from '../../assets/flowdiagramimage.png';
 import companyLogo from "../../assets/logo 1.png" // Company logo
 import Acouser from "../../assets/Account circle.png";
-import { useNavigate, useLocation, Navigate } from 'react-router-dom';
+import { useNavigate, useLocation, Navigate ,Link} from 'react-router-dom';
 // import { Link, useLocation, useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+// import { Link, useLocation, useNavigate } from "react-router-dom";
+
 import {
   LineChart,
   Line,
@@ -55,14 +57,20 @@ export default function ConversationAnalysis() {
   const location = useLocation();
   const message = location.state?.message || "No data Received";
   const conversationDetails = location.state?.selectedConversationDetails || "No Data";
-  const conversationList = location.state?.ConversationList || 'NO Data'
+  const convList = location.state?.ConversationList || 'NO Data'
+  const [conversationList,setConversationList] = useState([]); 
   const [data,setSentimentAnalysisData] = useState([]);
+  const [avgSentiment,setavgSentiment] = useState('')
   const [loading, setLoading] = useState(false); // Handle loading state
   const [metricsData, setMetricsData] = useState({duration: 0});
   const [metaData, setMetadata] = useState('')
   const [summaryData,setSummaryData] = useState('')
   const [sentimentLoaded, setSentimentLoaded] = useState(false);
-  const [apiResponse,setAPIRESPONSE] = useState("")
+  const [apiResponse,setAPIRESPONSE] = useState("");
+  const FullConversationList = location.state?.FullData|| 'NO Data';
+    const navigate = useNavigate();
+  
+  // const [FullData,setFullDAta]
   // const [ConvList,setConvList] = useState([]);
   useEffect(() => {
     // setLoading(true);
@@ -70,13 +78,16 @@ export default function ConversationAnalysis() {
     setMessages(message.transcript);
     setSelectedConversation(message.conversation_id);
     setSentimentAnalysisData(message.sentiment_analysis.data);
+    setavgSentiment(message.sentiment_analysis.avg_sentiment.toFixed(2));
     setMetricsData(message.metrics || {});
     setMetadata(message.meta || {});
     setSummaryData(message.summary);
     setAPIRESPONSE(message);
+    setConversationList(convList);
     // setConvList(conversationList);
     console.log('messages', message);
-    console.log('List',conversationList)
+    console.log('List',conversationList);
+    console.log('Download',FullConversationList)
     setSentimentLoaded(true)
     // setLoading(false);
     }
@@ -160,7 +171,7 @@ export default function ConversationAnalysis() {
       },
     };
 
-    fetch("http://52.12.103.246:8008/conversation-details/" + row, requestOptions)
+    fetch("https://ameliaapp.sincera.net/api/conversation-details/" + row, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log('result', result);
@@ -172,10 +183,7 @@ export default function ConversationAnalysis() {
     setMetadata(result.meta);
     setSummaryData(result.summary);
     setAPIRESPONSE(result);
-
           setLoading(false);
-
-
         }
 
       })
@@ -188,13 +196,13 @@ export default function ConversationAnalysis() {
       // if (!tableRef.current) return;
   
       // Convert the table to a worksheet
-      let downloadData = [{
-         "Analysis-Date": apiResponse.Analysis_Date,
-         "Conversation-Id":apiResponse.Conversation_ID,
-         "Duration":apiResponse.Duration_Seconds,
-         "Total Messages" :apiResponse.Messages_Count
-      }]
-      const ws = XLSX.utils.json_to_sheet(downloadData);
+      // let downloadData = [{
+      //    "Analysis-Date": apiResponse.Analysis_Date,
+      //    "Conversation-Id":apiResponse.Conversation_ID,
+      //    "Duration":apiResponse.Duration_Seconds,
+      //    "Total Messages" :apiResponse.Messages_Count
+      // }]
+      const ws = XLSX.utils.json_to_sheet(FullConversationList);
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, "TableData");
   
@@ -212,6 +220,9 @@ export default function ConversationAnalysis() {
           <div>
             <img src={companyLogo} alt="Company Logo" style={{}} />
           </div>
+          <Typography variant="h6" align="center" gutterBottom sx={{ color: "#5E43B2", fontWeight: 600, fontSize: 22, marginLeft:20 }}>
+          Conversation Analysis and Customer Experience Scoring Tool
+        </Typography>
           <div className="userbox" >
             <img src={Acouser} alt="user" />
             <div>
@@ -229,11 +240,22 @@ export default function ConversationAnalysis() {
           </div>
         </header>
       </Box>
+       
 
       <Box p={2} sx={{ margin: "auto", backgroundColor: "#F5F4F9", minHeight: "100vh", paddingX: "5%", paddingTop: 5 }}>
-        <Typography variant="h6" align="center" gutterBottom sx={{ color: "#5E43B2", fontWeight: "bold", fontSize: 24 }}>
-          Conversation Analysis and Customer Experience Scoring Tool
-        </Typography>
+      <Box sx={{ marginBottom:2 }}>
+                <div role="presentation" onClick={() => navigate(-1)}>
+                  <Breadcrumbs aria-label="breadcrumb">
+                    <Link style={{ color: "#737277", textDecoration: 'none' }} href="/">
+                      Dashboard
+                    </Link>
+      
+                    <Typography sx={{ color: '#4f2580' }}>Detailed Analysis</Typography>
+                  </Breadcrumbs>
+                </div>
+
+              </Box>
+       
         <div style={{}}>
           <Typography variant="body1" align="start" fontWeight="bold" mt={1} sx={{ color: "#605192", paddingBottom: 3, fontSize: 20 }}>
             Detailed Conversation Analysis
@@ -254,12 +276,12 @@ export default function ConversationAnalysis() {
             >
               {conversationList.map((conv) => (
     <MenuItem key={conv.conversation_id} value={conv.conversation_id}>
-      {conv.conversation_id} {conv.count}
+      {conv.conversation_id} {conv.count} 
     </MenuItem>
   ))}
             </Select>
             <Button variant="outlined" onClick={exportTableToExcel} startIcon={<DownloadIcon />} sx={{ borderColor: "#4A1C9D", color: "#4A1C9D", fontSize: "14px", fontWeight: 600 }}>
-              Download Analysis Results
+              Download All Analysis Results
             </Button>
           </Grid>
 
@@ -322,7 +344,7 @@ export default function ConversationAnalysis() {
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <p style={{ fontSize: 16, fontWeight: 600, color: '#3A4B6F' }}>Sentiment Analysis</p>
                 <p style={{ fontSize: 16, fontWeight: 400, color: '#3A4B6F' }}>
-                  Average Sentiment : <span style={{ color: '#4F2580', fontSize: 18, fontWeight: 600 }}>{message.sentiment_analysis.avg_sentiment.toFixed(2)}</span>
+                  Average Sentiment : <span style={{ color: '#4F2580', fontSize: 18, fontWeight: 600 }}>{avgSentiment}</span>
                 </p>
               </div>
 
@@ -331,7 +353,7 @@ export default function ConversationAnalysis() {
                   <LineChart data={data} margin={{ top: 10, right: 30, left: 10, bottom: 40 }}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="message_id" label={{ value: "Message Sequence", position: "insideBottom", offset: -12 ,dy:16}} />
-                    <YAxis label={{ value: "Sentiment Score", angle: -90, position: "insideLeft",dy:40 }} />
+                    <YAxis   domain={[-1, 1]} label={{ value: "Sentiment Score", angle: -90, position: "insideLeft",dy:40 }} />
                     <Tooltip content={<CustomTooltip />} />
                     {/* First Line - Sentiment Score 1 (Dots Kept) */}
                     <Line type="monotone" dataKey="sentiment" stroke="#5E43B2" strokeWidth={2} dot={{ r: 5 }} />
@@ -374,6 +396,7 @@ export default function ConversationAnalysis() {
       p: 3,
       background: "#F8F9FA",
       borderRadius: 3,
+
       border: "1px solid #e0e0e0",
       scrollbarWidth: "bold",
       scrollbarColor: "#8C7BC0 #e0e0e0",
@@ -416,7 +439,9 @@ export default function ConversationAnalysis() {
             maxWidth: "75%",
             backgroundColor: msg.speaker === "User" ? "#8C7BC0" : "#FFFFFF",
             color: msg.speaker === "User" ? "#fff" : "#333",
-            borderRadius: 3,
+            borderRadius:3,
+            borderTopRightRadius :msg.speaker === "User" ? 0 : 10,
+            borderTopLeftRadius :msg.speaker === "User" ? 10 : 0,
             boxShadow: msg.speaker === "User" ? 0 : 1,
           }}
         >

@@ -1,4 +1,4 @@
-import { Box,CircularProgress } from '@mui/material'
+import { Box,CircularProgress, Typography } from '@mui/material'
 import React , {useEffect}from 'react'
 import companyLogo from "../../../assets/logo 1.png" // Company logo
 import Acouser from "../../../assets/Account circle.png";
@@ -52,6 +52,9 @@ const Dashboard = () => {
                 <div>
                 <img src={companyLogo} alt="Company Logo" style={{ }} />
                 </div>
+                 <Typography variant="h6" align="center" gutterBottom sx={{ color: "#5E43B2", fontWeight: 600, fontSize: 22, marginLeft:20 }}>
+                          Conversation Analysis and Customer Experience Scoring Tool
+                        </Typography>
                 <div className="userbox" >
                   <img src={Acouser} alt="user" />
                   <div>
@@ -75,13 +78,13 @@ const Dashboard = () => {
 {/*----------------------------------------- body------------------------------ */}
 
 <Box sx={{}}>
-<div style={{display:'flex',textAlign:'center',justifyContent:'center'}}>
+{/* <div style={{display:'flex',textAlign:'center',justifyContent:'center'}}>
 <text className='comname1' >
 Conversation Analysis and Customer Experience Scoring Tool
         </text>
-</div>
+</div> */}
 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',height:40}} >
-  <h4 style={{fontSize:24,fontWeight:600,color:'#605192'}}>Amelia Analytics Dashboard</h4>
+  <h4 style={{fontSize:20,fontWeight:600,color:'#605192',marginTop:20,marginBottom:0}}>Amelia Analytics Dashboard</h4>
   {/* <div style={{display:'flex',alignItems:'center',border:'1px solid #CCCCCC',height:25,borderRadius:12,paddingLeft:10,paddingRight:10,paddingTop:3,paddingBottom:3}}>
 <DateRangeIcon sx={{ fontSize: 20, color: "#5E43B2",paddingRight:2 }} />
     <p style={{fontSize:14}}>Jan 21,2025-Jan 27,2025</p>
