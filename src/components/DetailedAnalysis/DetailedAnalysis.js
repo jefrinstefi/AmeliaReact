@@ -265,7 +265,7 @@ export default function ConversationAnalysis() {
           </Typography>
         </div>
 
-        <Paper elevation={3} sx={{ padding: 3, borderRadius: 3, margin: "auto", backgroundColor: "#fff", width: "98%" }}>
+        <Paper elevation={3} sx={{ padding: 3, borderRadius: 3, margin: "auto", backgroundColor: "#fff", }}>
           <Typography variant="body1" fontWeight="small" fontSize={13}>Select a conversation for detailed analysis</Typography>
           <Grid container justifyContent="space-between" alignItems="center" mt={2}>
             <Select
@@ -290,7 +290,10 @@ export default function ConversationAnalysis() {
           </Grid>
 
           <AppBar position="static" color="default" sx={{ mt: 3, boxShadow: "none", backgroundColor: "#fff" }}>
-            <Tabs value={tabIndex} onChange={handleTabChange} indicatorColor="primary" textColor="primary"
+            <Tabs value={tabIndex} onChange={handleTabChange} indicatorColor="primary" textColor="primary"   variant="scrollable"        // Enables horizontal scroll
+    scrollButtons="auto"        // Auto shows arrows on overflow
+    allowScrollButtonsMobile    // Optional: forces scroll arrows on mobile
+    aria-label="conversation tabs"
               sx={{ "& .MuiTabs-indicator": { backgroundColor: "#4A1C9D" } }}>
               <Tab label="Overview" sx={{ fontSize: "16px", textTransform: "none", mr: 2, fontWeight: 600, color: "#737277", "&.Mui-selected": { color: "#4A1C9D" } }} />
               <Tab label="Sentiment Analysis" sx={{ fontSize: "16px", textTransform: "none", mr: 2, fontWeight: 600, color: "#737277", "&.Mui-selected": { color: "#4A1C9D" } }} />
