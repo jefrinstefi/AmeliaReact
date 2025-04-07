@@ -6,7 +6,7 @@ import Dashboard from "./components/Dashboard/Dashboard/Dashboard";
 import ConversationAnalysis from "./components/DetailedAnalysis/DetailedAnalysis";
 import ConversationTable from "./components/Dashboard/Dashboard/ConversationTable";
 import ConversationFullDataTable from "./components/Dashboard/Dashboard/ConversationFullDataTable";
-import ChatTimeline from "./components/HeatMap";
+
 import './App.css';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 // import Table from "./components/Dashboard/Table";
@@ -37,7 +37,6 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path = "/conversationTable" element={<ConversationFullDataTable />} />
         <Route path="/detailedAnalysis" element={<ConversationAnalysis />}/>
-        <Route path="/map" element={<ChatTimeline />}/>
 
       </Routes>
     </Router>

@@ -220,9 +220,9 @@ export default function ConversationAnalysis() {
           <div>
             <img src={companyLogo} alt="Company Logo" style={{}} />
           </div>
-          <Typography variant="h6" align="center" gutterBottom sx={{ color: "#5E43B2", fontWeight: 600, fontSize: 22, marginLeft:20 }}>
+          {/* <Typography variant="h6" align="center" gutterBottom sx={{ color: "#5E43B2", fontWeight: 600, fontSize: 22, marginLeft:20 }}>
           Conversation Analysis and Customer Experience Scoring Tool
-        </Typography>
+        </Typography> */}
           <div className="userbox" >
             <img src={Acouser} alt="user" />
             <div>
@@ -243,6 +243,9 @@ export default function ConversationAnalysis() {
        
 
       <Box p={2} sx={{ margin: "auto", backgroundColor: "#F5F4F9", minHeight: "100vh", paddingX: "5%", paddingTop: 5 }}>
+         <Typography variant="h6" align="center" gutterBottom sx={{ color: "#5E43B2", fontWeight: 600, fontSize: 25 }}>
+                                            Conversation Analysis and Customer Experience Scoring Tool
+                                          </Typography>
       <Box sx={{ marginBottom:2 }}>
                 <div role="presentation" onClick={() => navigate(-1)}>
                   <Breadcrumbs aria-label="breadcrumb">
@@ -269,9 +272,10 @@ export default function ConversationAnalysis() {
               value={selectedConversation}
               onChange={handleConversationChange}
               sx={{
-                minWidth: 400, backgroundColor: "#f8f8f8", height: 35, fontSize: "14px",
+                minWidth: { xs: '100%', sm: 300, md: 400 }, backgroundColor: "#f8f8f8", height: 35, fontSize: "14px",
                 '&:hover': { borderColor: "#4A1C9D" },
-                '&.Mui-focused': { borderColor: "#4A1C9D" }
+                '&.Mui-focused': { borderColor: "#4A1C9D" },
+                marginBottom:3
               }}
             >
               {conversationList.map((conv) => (

@@ -33,7 +33,7 @@ const ConversationTable = (message) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  // const [isNavigating, setIsNavigating] = useState(true);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   // const totalConversations = localStorage.getItem("totalConv");
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
@@ -146,11 +146,11 @@ const ConversationTable = (message) => {
 
   const handleRowClick = (row) => {
     // setLoading(true);
-    // setIsNavigating(true);
+    setIsNavigating(true);
     const username = "admin";
     const password = "password";
     const credentials = btoa(`${username}:${password}`);
-    // console.log(isNavigating);
+    console.log(isNavigating);
 
     const requestOptions = {
       method: "GET",
@@ -166,7 +166,7 @@ const ConversationTable = (message) => {
         console.log('result1', result);
         if (result.detail === undefined) {
           // setIsNavigating(false);
-          // console.log(isNavigating)
+          console.log(isNavigating)
 
           navigate('/detailedAnalysis', { state: { message: result, selectedConversationDetails: row, ConversationList: ConvIds,FullData:message.data } });
 
@@ -175,7 +175,7 @@ const ConversationTable = (message) => {
       })
       .catch((error) => console.error(error))
       .finally(() => {
-        // setIsNavigating(false); // hide overlay loader
+        setIsNavigating(false); // hide overlay loader
       });
 
     // alert(`Clicked on Conversation ID: ${row.Conversation_ID}`);
@@ -366,8 +366,14 @@ const ConversationTable = (message) => {
         ) : (
           <p>No data available.</p>
         )}
+        {isNavigating &&
+   <Backdrop open={isNavigating} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, color: '#fff' }}  style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%' }}>
+   <CircularProgress color="inherit" />
+ </Backdrop>
+        }
     
       </Paper>
+   
     </Box>
   );
 };

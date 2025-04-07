@@ -52,9 +52,9 @@ const Dashboard = () => {
                 <div>
                 <img src={companyLogo} alt="Company Logo" style={{ }} />
                 </div>
-                 <Typography variant="h6" align="center" gutterBottom sx={{ color: "#5E43B2", fontWeight: 600, fontSize: 22, marginLeft:20 }}>
+                 {/* <Typography variant="h6" align="center" gutterBottom sx={{ color: "#5E43B2", fontWeight: 600, fontSize: 22, marginLeft:20 }}>
                           Conversation Analysis and Customer Experience Scoring Tool
-                        </Typography>
+                        </Typography> */}
                 <div className="userbox" >
                   <img src={Acouser} alt="user" />
                   <div>
@@ -78,11 +78,11 @@ const Dashboard = () => {
 {/*----------------------------------------- body------------------------------ */}
 
 <Box sx={{}}>
-{/* <div style={{display:'flex',textAlign:'center',justifyContent:'center'}}>
+<div style={{display:'flex',textAlign:'center',justifyContent:'center'}}>
 <text className='comname1' >
 Conversation Analysis and Customer Experience Scoring Tool
         </text>
-</div> */}
+</div>
 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',height:40}} >
   <h4 style={{fontSize:20,fontWeight:600,color:'#605192',marginTop:20,marginBottom:0}}>Amelia Analytics Dashboard</h4>
   {/* <div style={{display:'flex',alignItems:'center',border:'1px solid #CCCCCC',height:25,borderRadius:12,paddingLeft:10,paddingRight:10,paddingTop:3,paddingBottom:3}}>

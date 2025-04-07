@@ -227,9 +227,9 @@ fetch("https://ameliaapp.sincera.net/api/analyze-all", requestOptions)
           <div>
             <img src={companyLogo} alt="Company Logo" style={{}} />
           </div>
-          <Typography variant="h6" align="center" gutterBottom sx={{ color: "#5E43B2", fontWeight: 600, fontSize: 22, marginLeft:20 }}>
+          {/* <Typography variant="h6" align="center" gutterBottom sx={{ color: "#5E43B2", fontWeight: 600, fontSize: 22, marginLeft:20 }}>
                                     Conversation Analysis and Customer Experience Scoring Tool
-                                  </Typography>
+                                  </Typography> */}
           <div className="userbox" >
             <img src={Acouser} alt="user" />
             <div>
@@ -259,11 +259,11 @@ fetch("https://ameliaapp.sincera.net/api/analyze-all", requestOptions)
 
         {!loading && <Box>
           <div className="bodymain" >
-            {/* <div>
+             <div>
               <text className='comname' >
                 Conversation Analysis and Customer Experience Scoring Tool
               </text>
-            </div> */}
+            </div> 
             <div style={{ marginTop: 20 }}>
               <text className="uploadhead">
                 Upload JSON to Generate Dashboard Insights
