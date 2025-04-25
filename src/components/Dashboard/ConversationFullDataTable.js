@@ -24,13 +24,13 @@ import SearchIcon from "@mui/icons-material/Search";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import companyLogo from "../../../assets/logo 1.png"; // Company logo
-import Acouser from "../../../assets/Account circle.png";
+import companyLogo from "../../assets/logo 1.png"; // Company logo
+import Acouser from "../../assets/Account circle.png";
 // import Jsonimg from "../../assets/JSON.png";
 
 const ConversationFullDataTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
-
+   
   const tableRef = useRef(null);
   const isMobile = useMediaQuery("(max-width: 600px)");
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
@@ -65,7 +65,7 @@ const ConversationFullDataTable = () => {
     }
 
     try {
-      let response = await fetch("https://ameliaapp.sincera.net/api/analysis-results", requestOptions);
+      let response = await fetch("http://52.12.103.246:8009/analysis-results", requestOptions);
       let result = await response.json();
 
       console.log("Full API Response:", result);
@@ -87,25 +87,25 @@ const ConversationFullDataTable = () => {
     }
 
   }
-    // useEffect(() => {
-    //   // ValueCalculation();
-    //   if(message){
-    //   setData(message.data);
-    //   console.log(message.data)
-    //   const conversationIds = message.data.map((obj) => ({
-    //     conversation_id: obj.Conversation_ID ,
-    //     count:" - " + obj.User_Name + " (" + obj.Messages_Count + " Messages)"
-    //   }));
-    
-    //   setConversationIds(conversationIds);
-    //   // + " - " + obj.User_Name + " (" + obj.Messages_Count + ")"
-    //   setLoading(false);
-    // }
-    // }, [message]);
-  
-    useEffect(() => {
-      console.log("Updated ConvIds:", ConvIds); // Logs after state updates
-    }, [ConvIds]); // Runs only when ConvIds changes
+  // useEffect(() => {
+  //   // ValueCalculation();
+  //   if(message){
+  //   setData(message.data);
+  //   console.log(message.data)
+  //   const conversationIds = message.data.map((obj) => ({
+  //     conversation_id: obj.Conversation_ID ,
+  //     count:" - " + obj.User_Name + " (" + obj.Messages_Count + " Messages)"
+  //   }));
+
+  //   setConversationIds(conversationIds);
+  //   // + " - " + obj.User_Name + " (" + obj.Messages_Count + ")"
+  //   setLoading(false);
+  // }
+  // }, [message]);
+
+  useEffect(() => {
+    console.log("Updated ConvIds:", ConvIds); // Logs after state updates
+  }, [ConvIds]); // Runs only when ConvIds changes
   const handleRowClick = (row) => {
     const username = "admin";
     const password = "password";
@@ -118,12 +118,12 @@ const ConversationFullDataTable = () => {
       },
     };
 
-    fetch("https://ameliaapp.sincera.net/api/conversation-details/" + row.Conversation_ID, requestOptions)
+    fetch("http://52.12.103.246:8009/conversation-details/" + row.Conversation_ID, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log('result1', result);
         if (result.detail === undefined) {
-          navigate('/detailedAnalysis', { state: { message: result, selectedConversationDetails: row, ConversationList: ConvIds,FullData:data } });
+          navigate('/detailedAnalysis', { state: { message: result, selectedConversationDetails: row, ConversationList: ConvIds, FullData: data } });
 
         }
 
@@ -192,10 +192,10 @@ const ConversationFullDataTable = () => {
       setData(message);
       console.log(message)
       const conversationIds = message.map((obj) => ({
-        conversation_id: obj.Conversation_ID ,
-        count:" - " + obj.User_Name + " (" + obj.Messages_Count + " Messages)"
+        conversation_id: obj.Conversation_ID,
+        count: " - " + obj.User_Name + " (" + obj.Messages_Count + " Messages)"
       }));
-    
+
       setConversationIds(conversationIds);
     } else {
       setData([]); // Ensure `data` is an empty array to avoid rendering issues
@@ -241,9 +241,9 @@ const ConversationFullDataTable = () => {
           <div>
             <img src={companyLogo} alt="Company Logo" style={{}} />
           </div>
-          <Typography variant="h6" align="center" gutterBottom sx={{ color: "#5E43B2", fontWeight: 600, fontSize: 22, marginLeft:20 }}>
+          {/* <Typography variant="h6" align="center" gutterBottom sx={{ color: "#5E43B2", fontWeight: 600, fontSize: 22, marginLeft:20 }}>
                                     Conversation Analysis and Customer Experience Scoring Tool
-                                  </Typography>
+                                  </Typography> */}
           <div className="userbox" >
             <img src={Acouser} alt="user" />
             <div>
@@ -258,7 +258,11 @@ const ConversationFullDataTable = () => {
         </header>
       </Box>
       <Box sx={{ backgroundColor: '#F5F4F9', padding: 3 }}>
-
+        <div style={{ display: 'flex', textAlign: 'center', justifyContent: 'center' }}>
+          <text className='comname1' >
+            Conversation Analysis and Customer Experience Scoring Tool
+          </text>
+        </div>
 
         <Box sx={{ margin: 3 }}>
           <div role="presentation" onClick={() => navigate(-1)}>
@@ -351,20 +355,20 @@ const ConversationFullDataTable = () => {
                   <TableHead>
                     <TableRow sx={{ backgroundColor: "#7D6DB1" }}>
                       {[
-                    { key: "Conversation_ID", label: "Conv Id" },
-                    { key: "Analysis_Date", label: "Date & Time" },
-                    { key: "Duration_Seconds", label: "Duration (ms)" },
-                    { key: "Initial_Channel", label: "Channel" },
-                    { key: "Intent", label: "Intent" },
-                    { key: "Sentiment_Score", label: "Sentiment (1-10)" },
-                    { key: "Conversation_Successful", label: "Successful ?" },
-                    { key: "Frustration_Score", label: "Frustration (1-10)" },
-                    { key: "Messages_Count", label: "Total Msgs" },
-                    { key: "User_Messages_Count", label: "User Msgs" },
-                    { key: "Amelia_Messages_Count", label: "Amelia Msgs" },
-                    { key: "Misunderstandings", label: "Misunderstanding" },
-                    { key: "Resolution", label: "Resolved ?" },
-                  ].map(({ key, label }) => (
+                        { key: "Conversation_ID", label: "Conv Id" },
+                        { key: "Analysis_Date", label: "Date & Time" },
+                        { key: "Duration_Seconds", label: "Duration (ms)" },
+                        { key: "Initial_Channel", label: "Channel" },
+                        { key: "Intent", label: "Intent" },
+                        { key: "Sentiment_Score", label: "Sentiment (1-10)" },
+                        { key: "Conversation_Successful", label: "Successful ?" },
+                        { key: "Frustration_Score", label: "Frustration (1-10)" },
+                        { key: "Messages_Count", label: "Total Msgs" },
+                        { key: "User_Messages_Count", label: "User Msgs" },
+                        { key: "Amelia_Messages_Count", label: "Amelia Msgs" },
+                        { key: "Misunderstandings", label: "Misunderstanding" },
+                        { key: "Resolution", label: "Resolved ?" },
+                      ].map(({ key, label }) => (
                         <TableCell key={key} sx={{
                           color: "#fff", fontWeight: "bold", fontSize: "14px", backgroundColor: "#7D6DB1", whiteSpace: "nowrap",
                           overflow: "hidden",
@@ -394,8 +398,8 @@ const ConversationFullDataTable = () => {
                     {data.map((item, index) => (
                       <TableRow key={index}>
                         {/* <TableCell sx={{ color: "#737277", fontWeight: "bold" }}>{item.Conversation_ID || "N/A"}</TableCell> */}
-                        <TableCell sx={{ color: "#737277", fontWeight: "bold" }}><Button onClick={() => handleRowClick(item)} sx={{textTransform: "none",color: "#737277",textDecoration: "underline","&:hover": { color: "darkblue" },}}>
-                  {item.Conversation_ID || "N/A"} </Button></TableCell>
+                        <TableCell sx={{ color: "#737277", fontWeight: "bold" }}><Button onClick={() => handleRowClick(item)} sx={{ textTransform: "none", color: "#737277", textDecoration: "underline", "&:hover": { color: "darkblue" }, }}>
+                          {item.Conversation_ID || "N/A"} </Button></TableCell>
                         <TableCell sx={{ color: "#737277" }}>{formatDate(item.Analysis_Date) || "N/A"}</TableCell>
                         <TableCell sx={{ color: "#737277" }}>{item.Duration_Seconds || "N/A"}</TableCell>
                         <TableCell sx={{ color: "#737277" }}>{CapitalizeText(item.Initial_Channel) || "N/A"}</TableCell>

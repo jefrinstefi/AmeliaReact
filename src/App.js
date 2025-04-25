@@ -2,10 +2,12 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./components/Login/Login";
 import Upload from "./components/Upload/Upload";
-import Dashboard from "./components/Dashboard/Dashboard/Dashboard";
+// import Dashboard from "./components/Dashboard";
+import Dashboard from "./components/Dashboard/Dashboard"
+// import { Dashboard } from "@mui/icons-material";
 import ConversationAnalysis from "./components/DetailedAnalysis/DetailedAnalysis";
-import ConversationTable from "./components/Dashboard/Dashboard/ConversationTable";
-import ConversationFullDataTable from "./components/Dashboard/Dashboard/ConversationFullDataTable";
+// import ConversationTable from "./components/Dashboard/Dashboard/ConversationTable";
+import ConversationFullDataTable from "./components/Dashboard/ConversationFullDataTable";
 
 import './App.css';
 import { createTheme, ThemeProvider } from "@mui/material/styles";

@@ -41,7 +41,7 @@ const ConversationTable = (message) => {
 
 
   const ValueCalculation = () => {
-    const totals = message.data.reduce((acc, obj) => {
+    const totals = message.data.results.reduce((acc, obj) => {
       acc.totalDuration += obj.Duration_Seconds;
       acc.totalAmeliaMessages += obj.Amelia_Messages_Count;
       acc.totalUserMessages += obj.User_Messages_Count;
@@ -80,7 +80,7 @@ const ConversationTable = (message) => {
   }
 
   const navigateToTablePage = () => {
-    navigate('/conversationTable', { state: { message: message.data } });
+    navigate('/conversationTable', { state: { message: message.data.results } });
   }
 
   const formatDate = (dateString) => {
@@ -115,9 +115,9 @@ const ConversationTable = (message) => {
   };
   useEffect(() => {
     ValueCalculation();
-    setData(message.data);
-    console.log(message.data)
-    const conversationIds = message.data.map((obj) => ({
+    setData(message.data.results);
+    console.log(message.data.results)
+    const conversationIds = message.data.results.map((obj) => ({
       conversation_id: obj.Conversation_ID ,
       count:" - " + obj.User_Name + " (" + obj.Messages_Count + " Messages)"
     }));
@@ -133,16 +133,16 @@ const ConversationTable = (message) => {
   }, [ConvIds]); // Runs only when ConvIds changes
   useEffect(() => {
     if (searchTerm.trim() === "") {
-      setData(message.data); // Show all data when search is cleared
+      setData(message.data.results); // Show all data when search is cleared
     } else {
-      const filteredData = message.data.filter((item) =>
+      const filteredData = message.data.results.filter((item) =>
         Object.values(item).some((value) =>
           String(value).toLowerCase().includes(searchTerm.toLowerCase())
         )
       );
       setData(filteredData);
     }
-  }, [searchTerm, message.data]);
+  }, [searchTerm, message.data.results]);
 
   const handleRowClick = (row) => {
     // setLoading(true);
@@ -160,7 +160,7 @@ const ConversationTable = (message) => {
       },
     };
 
-    fetch("https://ameliaapp.sincera.net/api/conversation-details/" + row.Conversation_ID, requestOptions)
+    fetch("http://52.12.103.246:8009/conversation-details/" + row.Conversation_ID, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log('result1', result);
@@ -168,7 +168,7 @@ const ConversationTable = (message) => {
           // setIsNavigating(false);
           console.log(isNavigating)
 
-          navigate('/detailedAnalysis', { state: { message: result, selectedConversationDetails: row, ConversationList: ConvIds,FullData:message.data } });
+          navigate('/detailedAnalysis', { state: { message: result, selectedConversationDetails: row, ConversationList: ConvIds,FullData:message.data.results } });
 
         }
 

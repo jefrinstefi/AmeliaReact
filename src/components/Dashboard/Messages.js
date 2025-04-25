@@ -29,7 +29,7 @@ const DonutChart = (message) => {
 
       const ValueCalculation = () => {
         console.log(message);
-        const totals = message.data.reduce((acc, obj) => {
+        const totals = message.data.results.reduce((acc, obj) => {
 
           acc.totalDuration += obj.Duration_Seconds;
           

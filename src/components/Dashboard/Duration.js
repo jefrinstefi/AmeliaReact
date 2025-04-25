@@ -17,7 +17,7 @@ const DurationCard = (message) => {
       setAvgSession(message.Avg.key_metrics.avg_duration);
     }   
     
-    const totals = message.data.reduce((acc, obj) => {
+    const totals = message.data.results.reduce((acc, obj) => {
       acc.totalDuration += obj.Duration_Seconds;
             acc.totalAmeliaMessages += obj.Amelia_Messages_Count;
       acc.totalUserMessages += obj.User_Messages_Count;

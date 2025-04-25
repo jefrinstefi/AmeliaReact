@@ -8,7 +8,9 @@ const SuccessRateCard = ({ data }) => {
   const [totalChats, setTotalChats] = useState(0);
 
   useEffect(() => {
-    if (data.success_rate && data.success_rate.Y !== undefined && data.success_rate.N !== undefined) {
+    console.log(data)
+    if(data?.success_rate) {
+    if (data?.success_rate && data.success_rate.Y !== undefined && data.success_rate.N !== undefined) {
       const total = data.success_rate.Y + data.success_rate.N;
       setTotalChats(total);
 console.log(total);
@@ -16,6 +18,7 @@ console.log(total);
       console.log(successPercentage)
       setFailurePercentage(total > 0 ? 100 - Math.round((data.success_rate.Y / total) * 100) : 0);
     }
+  }
   }, [data]);
   return (
     <Card sx={{ 

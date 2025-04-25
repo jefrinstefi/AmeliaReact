@@ -8,7 +8,8 @@ const ChannelsCard = ({data}) => {
         },[data]);
         const getAvgDetails = () => {
       if (data.channel_distribution !== undefined ) {
-        setChannel(data.channel_distribution.voice);
+        const total = Object.values(data.channel_distribution).reduce((acc, value) => acc + value, 0);
+        setChannel(total);
       }
         }
   return (

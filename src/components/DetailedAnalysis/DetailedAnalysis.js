@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { AppBar, Tabs, Tab, Box, Typography, Paper, Button, MenuItem, Select, Grid, Divider, Avatar, Stack,Breadcrumbs } from "@mui/material";
+import { AppBar, Tabs, Tab, Box, Typography, Paper, Button, MenuItem, Select, Grid, Divider, Avatar, Stack,Breadcrumbs,CircularProgress, Backdrop } from "@mui/material";
 import DownloadIcon from '@mui/icons-material/Download';
 import PersonIcon from "@mui/icons-material/Person";
 import flowdiagram from '../../assets/flowdiagramimage.png';
@@ -77,8 +77,12 @@ export default function ConversationAnalysis() {
     if(message){
     setMessages(message.transcript);
     setSelectedConversation(message.conversation_id);
+    if (message?.sentiment_analysis?.data) {
     setSentimentAnalysisData(message.sentiment_analysis.data);
+    }
+    if (message.sentiment_analysis.avg_sentiment) {
     setavgSentiment(message.sentiment_analysis.avg_sentiment.toFixed(2));
+    }
     setMetricsData(message.metrics || {});
     setMetadata(message.meta || {});
     setSummaryData(message.summary);
@@ -171,7 +175,7 @@ export default function ConversationAnalysis() {
       },
     };
 
-    fetch("https://ameliaapp.sincera.net/api/conversation-details/" + row, requestOptions)
+    fetch("http://52.12.103.246:8009/conversation-details/" + row, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log('result', result);
@@ -193,23 +197,36 @@ export default function ConversationAnalysis() {
   };
   const exportTableToExcel = () => {
       console.log('test')
-      // if (!tableRef.current) return;
+      // // if (!tableRef.current) return;
   
-      // Convert the table to a worksheet
-      // let downloadData = [{
-      //    "Analysis-Date": apiResponse.Analysis_Date,
-      //    "Conversation-Id":apiResponse.Conversation_ID,
-      //    "Duration":apiResponse.Duration_Seconds,
+      // // Convert the table to a worksheet
+      // // let downloadData = [{
+      // //    "Analysis-Date": apiResponse.Analysis_Date,
+      // //    "Conversation-Id":apiResponse.Conversation_ID,
+      // //    "Duration":apiResponse.Duration_Seconds,
       //    "Total Messages" :apiResponse.Messages_Count
-      // }]
-      const ws = XLSX.utils.json_to_sheet(FullConversationList);
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "TableData");
+      // // }]
+      // const ws = XLSX.utils.json_to_sheet(FullConversationList);
+      // const wb = XLSX.utils.book_new();
+      // XLSX.utils.book_append_sheet(wb, ws, "TableData");
   
-      // Convert to buffer and save
-      const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-      const dataBlob = new Blob([excelBuffer], { type: "application/octet-stream" });
-      saveAs(dataBlob, "Conversation_table.xlsx");
+      // // Convert to buffer and save
+      // const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+      // const dataBlob = new Blob([excelBuffer], { type: "application/octet-stream" });
+      // saveAs(dataBlob, "Conversation_table.xlsx");
+      const content = messages.map((conv, i) => 
+        `Speaker: ${conv.speaker}\nMessage: ${conv.message}\nTimestamp: ${new Date(conv.timestamp * 1000).toLocaleString()}\n`
+      ).join('\n----------------------\n\n');
+  
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+  
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'conversations.txt';
+      a.click();
+  
+      URL.revokeObjectURL(url);
     }
   return (
     
@@ -285,8 +302,7 @@ export default function ConversationAnalysis() {
   ))}
             </Select>
             <Button variant="outlined" onClick={exportTableToExcel} startIcon={<DownloadIcon />} sx={{ borderColor: "#4A1C9D", color: "#4A1C9D", fontSize: "14px", fontWeight: 600 }}>
-              Download All Analysis Results
-            </Button>
+            Export Conversation Transcript            </Button>
           </Grid>
 
           <AppBar position="static" color="default" sx={{ mt: 3, boxShadow: "none", backgroundColor: "#fff" }}>
@@ -301,7 +317,9 @@ export default function ConversationAnalysis() {
               {/* <Tab label="Conversation Flow" sx={{ fontSize: "16px", textTransform: "none", fontWeight: 600, color: "#737277", "&.Mui-selected": { color: "#4A1C9D" } }} /> */}
             </Tabs>
           </AppBar>
-
+          {loading &&  <Backdrop open={loading} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, color: '#fff' }}  style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%' }}>
+   <CircularProgress color="inherit" />
+ </Backdrop>}
           {!loading &&<TabPanel value={tabIndex} index={0}>
             {/* <Typography variant="body1" fontWeight="small" fontSize={12}>Select a conversation for detailed analysis</Typography> */}
             <Grid container justifyContent="space-between" alignItems="center" mt={2}>

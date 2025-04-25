@@ -35,14 +35,23 @@ const LoginPage = () => {
   const handleLogin = () => {
     // Authentication logic
     // check username:
-    if (user.username === username) {
-      if(user.password === password){
+    if (username === "sincera-analyzer") {
+      if(password === "sincera-sonnet"){
         localStorage.setItem("username", user.username); // Store in localStorage
   setUsername(user.username);
-        navigate("/upload");
+        navigate("/dashboard");
       } else {
         setMessage(true);
       }
+    } else if (username === "Amelia") {
+      if(password === "Amel1a@VSP"){
+        localStorage.setItem("username", username); // Store in localStorage
+  setUsername(username);
+        navigate("/dashboard");
+      } else {
+        setMessage(true);
+      }
+
     } else {
       setMessage(true);
     }
