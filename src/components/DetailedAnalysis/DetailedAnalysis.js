@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { AppBar, Tabs, Tab, Box, Typography, Paper, Button, MenuItem, Select, Grid, Divider, Avatar, Stack,Breadcrumbs,CircularProgress, Backdrop } from "@mui/material";
+import { AppBar, Tabs, Tab, Box, Typography, Paper, Button, MenuItem, Select, Divider, Avatar, Stack,Breadcrumbs,CircularProgress, Backdrop } from "@mui/material";
 import DownloadIcon from '@mui/icons-material/Download';
+import Grid from '@mui/material/Grid';
 import PersonIcon from "@mui/icons-material/Person";
 import flowdiagram from '../../assets/flowdiagramimage.png';
 import companyLogo from "../../assets/logo 1.png" // Company logo
@@ -301,7 +302,7 @@ export default function ConversationAnalysis() {
     </MenuItem>
   ))}
             </Select>
-            <Button variant="outlined" onClick={exportTableToExcel} startIcon={<DownloadIcon />} sx={{ borderColor: "#4A1C9D", color: "#4A1C9D", fontSize: "14px", fontWeight: 600 }}>
+            <Button variant="outlined" onClick={exportTableToExcel} startIcon={<DownloadIcon />} sx={{ borderColor: "#4A1C9D", color: "#4A1C9D", fontSize: "14px", fontWeight: 600,marginTop:-3 }}>
             Export Conversation Transcript            </Button>
           </Grid>
 

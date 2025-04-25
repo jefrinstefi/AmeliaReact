@@ -13,6 +13,7 @@ export const DataProvider = ({ children }) => {
 
   const fetchDataFromAPI = async (from,to) => {
     console.log(from,to);
+    setLoading(true);
     // const start = dayjs(from).format('MM/DD/YYYY')+" 00:00"
     // const end = dayjs(to).format('MM/DD/YYYY')+" 00:00"
     // console.log(start,end);
@@ -40,13 +41,41 @@ export const DataProvider = ({ children }) => {
       console.log("Export result:", result);
 
       if (result) {
-        await analyzeBatch(from,to);
+        await getDetails(from,to);
       }
 
     } catch (error) {
       console.error("fetchDataFromAPI error:", error);
     }
   };
+
+  const getDetails = async (from,to) => {
+    try {
+      const username = "admin";
+      const password = "password";
+      const credentials = btoa(`${username}:${password}`);
+
+      const requestOptions = {
+        method: "GET",
+        headers: {
+          Authorization: "Basic " + credentials,
+          Accept: "application/json"
+        },
+      };
+
+      const result = await fetch(`http://52.12.103.246:8009/conversations`, requestOptions)
+        .then(res => res.json());
+
+      // console.log("Table result:", result);
+      // localStorage.setItem("totalConv", result.total_analyzed);
+
+      // setAnalysisResults(result);
+
+      await analyzeBatch(from,to);
+    } catch (error) {
+      console.error("fetchTableData error:", error);
+    }
+  }
 
   const analyzeBatch = async (from,to) => {
     try {
@@ -87,7 +116,7 @@ export const DataProvider = ({ children }) => {
         },
       };
 
-      const result = await fetch(`http://52.12.103.246:8009/analysis-results?start_date=${from}&end_date=${to}`, requestOptions)
+      const result = await fetch(`http://52.12.103.246:8009/analysis-results?startdate=${from}&enddate=${to}`, requestOptions)
         .then(res => res.json());
 
       console.log("Table result:", result);
@@ -115,7 +144,7 @@ export const DataProvider = ({ children }) => {
         },
       };
 
-      const result = await fetch(`http://52.12.103.246:8009/analytics-overview?start_date=${from}&end_date=${to}`, requestOptions)
+      const result = await fetch(`http://52.12.103.246:8009/analytics-overview?startdate=${from}&enddate=${to}`, requestOptions)
         .then(res => res.json());
 
       console.log("Overview result:", result);

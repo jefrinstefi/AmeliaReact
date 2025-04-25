@@ -24,6 +24,8 @@ import dayjs from 'dayjs';
 import TextField from '@mui/material/TextField';
 import { useContext } from "react";
 import { DataContext } from "./DataContext";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import loaderImage from '../../assets/amelialoader.gif'
 
 const Dashboard = () => {
     // const { fetchData } = useContext(DataContext);
@@ -34,6 +36,7 @@ const Dashboard = () => {
     const [toDate, setToDate] = React.useState(dayjs('2025-04-23'));
     // const [analysisResults, setAnalysisResults] = useState('');
     // const [analysisOverview, setAnalysisOverview] = useState('');
+    const today = dayjs();
     const {
         analysisResults,
         analysisOverview,
@@ -207,7 +210,7 @@ const Dashboard = () => {
                             Conversation Analysis and Customer Experience Scoring Tool
                         </text>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 30, marginBottom: 40 }} >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 30, marginBottom: 30 }} >
                         <h4 style={{ fontSize: 20, fontWeight: 600, color: '#605192', marginTop: 20 }}>Amelia Analytics Dashboard ({displayDateRange()})</h4>
                         {/* <div style={{display:'flex',alignItems:'center',border:'1px solid #CCCCCC',height:25,borderRadius:12,paddingLeft:10,paddingRight:10,paddingTop:3,paddingBottom:3}}>
     <DateRangeIcon sx={{ fontSize: 20, color: "#5E43B2",paddingRight:2 }} />
@@ -215,28 +218,41 @@ const Dashboard = () => {
       </div> */}
                         <div>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <Box display="flex" gap={2} alignItems="center">
-                                    <DatePicker sx={{ backgroundColor: "#fff" }}
+                                <Box display="flex" gap={1} alignItems="center">
+                                    <DatePicker sx={{ backgroundColor: "#fff",zIndex:0 }}
                                         label="From Date"
                                         value={fromDate}
                                         onChange={(newValue) => setFromDate(newValue)}
+                                        maxDate={today}
                                         slots={{ openPickerIcon: () => <CalendarTodayIcon sx={{ color: '#5E43B2' }} /> }}
                                         renderInput={(params) => (
                                             <TextField {...params} size="small" />
                                         )}
                                     />
-                                    <DatePicker sx={{ backgroundColor: "#fff" }}
+                                    <DatePicker sx={{ backgroundColor: "#fff",zIndex:0 }}
                                         label="To Date"
                                         value={toDate}
                                         onChange={(newValue) => setToDate(newValue)}
                                         minDate={fromDate}
+                                        maxDate={today}
                                         slots={{ openPickerIcon: () => <CalendarTodayIcon sx={{ color: '#5E43B2' }} /> }}
                                         renderInput={(params) => (
                                             <TextField {...params} size="small" />
                                         )}
                                     />
-                        <Button onClick={handleFetchData}>Proceed</Button>
-                                </Box>
+<Button
+  onClick={handleFetchData}
+  sx={{
+    backgroundColor: '#5E43B2',
+    height:'55px',
+    '&:hover': {
+      backgroundColor: '#605192',
+     
+    },
+  }}
+>
+  <ArrowForwardIcon sx={{ color: '#fff' }} />
+</Button>                                </Box>
                             </LocalizationProvider>
 
                         </div>
@@ -245,8 +261,14 @@ const Dashboard = () => {
                     </div>
 
                     {loading ? (
-                    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+                    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center",flexDirection:"column",height:"70vh" }}>
                         <CircularProgress size={50} />
+                        {/* <img src={loaderImage} alt="Loading..." style={{ width: "350px" }} /> */}
+                                  <div style={{marginTop:30}}>
+                                    <text className='comname' >
+                                      Processing ....
+                                    </text>
+                                  </div>
                     </Box>
                 ) : (
                     <Box marginTop={3} marginBottom={3}>
