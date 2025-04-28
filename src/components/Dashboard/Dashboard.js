@@ -32,8 +32,8 @@ const Dashboard = () => {
     const storedUser = localStorage.getItem("username")
     const navigate = useNavigate();
     // const [loading, setLoading] = useState(true);
-    const [fromDate, setFromDate] = React.useState(dayjs('2025-04-16'));
-    const [toDate, setToDate] = React.useState(dayjs('2025-04-23'));
+    // const [fromDate, setFromDate] = React.useState(dayjs('2025-04-16'));
+    // const [toDate, setToDate] = React.useState(dayjs('2025-04-23'));
     // const [analysisResults, setAnalysisResults] = useState('');
     // const [analysisOverview, setAnalysisOverview] = useState('');
     const today = dayjs();
@@ -151,6 +151,15 @@ const Dashboard = () => {
         fetchDataFromAPI(dayjs(fromDate).format('MM/DD/YYYY')+" 00:00",dayjs(toDate).format('MM/DD/YYYY')+" 00:00");
     };
 
+
+    const minimumDate = dayjs('2020-01-01'); // 1st Jan 2020
+
+    const oneWeekAgo = today.subtract(7, "day"); // today - 7 days
+
+    const [fromDate, setFromDate] = useState(oneWeekAgo);
+    const [toDate, setToDate] = useState(today);
+
+
     const handleLogout = () => {
         console.log('data')
         localStorage.clear();  // Clears all stored data
@@ -217,43 +226,58 @@ const Dashboard = () => {
         <p style={{fontSize:14}}>Jan 21,2025-Jan 27,2025</p>
       </div> */}
                         <div>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <Box display="flex" gap={1} alignItems="center">
-                                    <DatePicker sx={{ backgroundColor: "#fff",zIndex:0 }}
-                                        label="From Date"
-                                        value={fromDate}
-                                        onChange={(newValue) => setFromDate(newValue)}
-                                        maxDate={today}
-                                        slots={{ openPickerIcon: () => <CalendarTodayIcon sx={{ color: '#5E43B2' }} /> }}
-                                        renderInput={(params) => (
-                                            <TextField {...params} size="small" />
-                                        )}
-                                    />
-                                    <DatePicker sx={{ backgroundColor: "#fff",zIndex:0 }}
-                                        label="To Date"
-                                        value={toDate}
-                                        onChange={(newValue) => setToDate(newValue)}
-                                        minDate={fromDate}
-                                        maxDate={today}
-                                        slots={{ openPickerIcon: () => <CalendarTodayIcon sx={{ color: '#5E43B2' }} /> }}
-                                        renderInput={(params) => (
-                                            <TextField {...params} size="small" />
-                                        )}
-                                    />
-<Button
-  onClick={handleFetchData}
-  sx={{
-    backgroundColor: '#5E43B2',
-    height:'55px',
-    '&:hover': {
-      backgroundColor: '#605192',
-     
-    },
-  }}
->
-  <ArrowForwardIcon sx={{ color: '#fff' }} />
-</Button>                                </Box>
-                            </LocalizationProvider>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <Box display="flex" gap={1} alignItems="center">
+        
+        <DatePicker
+          sx={{ backgroundColor: "#fff" }}
+          label="From Date"
+          value={fromDate}
+          onChange={(newValue) => setFromDate(newValue)}
+          maxDate={today}  // Cannot pick future date
+          minDate={minimumDate}  // Not before 2020 Jan 1
+          slots={{
+            openPickerIcon: () => (
+              <CalendarTodayIcon sx={{ color: "#5E43B2" }} />
+            ),
+          }}
+          renderInput={(params) => (
+            <TextField {...params} size="small" />
+          )}
+        />
+
+        <DatePicker
+          sx={{ backgroundColor: "#fff" }}
+          label="To Date"
+          value={toDate}
+          onChange={(newValue) => setToDate(newValue)}
+          minDate={fromDate || minimumDate} // Cannot pick before FromDate
+          maxDate={today} // Cannot pick future dates
+          slots={{
+            openPickerIcon: () => (
+              <CalendarTodayIcon sx={{ color: "#5E43B2" }} />
+            ),
+          }}
+          renderInput={(params) => (
+            <TextField {...params} size="small" />
+          )}
+        />
+
+        <Button
+          onClick={handleFetchData}
+          sx={{
+            backgroundColor: "#5E43B2",
+            height: "55px",
+            "&:hover": {
+              backgroundColor: "#605192",
+            },
+          }}
+        >
+          <ArrowForwardIcon sx={{ color: "#fff" }} />
+        </Button>
+
+      </Box>
+    </LocalizationProvider>
 
                         </div>
 
