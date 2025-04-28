@@ -29,7 +29,8 @@ const ConversationIntents = ({ data }) => {
   //   { name: "Others", value: 200, labelName: 'other',color: getRandomColor() }
 
   // ]);
-  const [dataIntent, setDataIntent]  = useState([])
+  const [dataIntent, setDataIntent]  = useState([]);
+  const [dataIntentLength,setDataIntentArray] = useState(0)
 
   useEffect(() => {
     if (data.intent_distribution) {
@@ -41,6 +42,7 @@ const ConversationIntents = ({ data }) => {
         })
       );
       console.log(intentsArray);
+      setDataIntentArray(intentsArray.length)
       setDataIntent(intentsArray);
     }
   }, [data]);
@@ -116,7 +118,7 @@ const ConversationIntents = ({ data }) => {
         <Grid item>
           <div className="info-box">
             <Typography variant="h6" className="intent-types">
-              03
+              {dataIntentLength}
             </Typography>
             <Typography variant="body2" className="total-conversations-text">
               Intent Types

@@ -33,7 +33,7 @@ export const DataProvider = ({ children }) => {
       };
 
       const response = await fetch(
-        `http://52.12.103.246:8009/get-conversation-exports?start_date=${from}&end_date=${to}`,
+        `https://ameliaapp.sincera.net/api/get-conversation-exports?start_date=${from}&end_date=${to}`,
         requestOptions
       );
 
@@ -63,7 +63,7 @@ export const DataProvider = ({ children }) => {
         },
       };
 
-      const result = await fetch(`http://52.12.103.246:8009/conversations`, requestOptions)
+      const result = await fetch(`https://ameliaapp.sincera.net/api/conversations`, requestOptions)
         .then(res => res.json());
 
       // console.log("Table result:", result);
@@ -89,7 +89,7 @@ export const DataProvider = ({ children }) => {
         redirect: "follow"
       };
 
-      const response = await fetch("http://52.12.103.246:8009/analyze-all", requestOptions);
+      const response = await fetch("https://ameliaapp.sincera.net/api/analyze-all", requestOptions);
       const result = await response.json();
 
       console.log("Analyze result:", result);
@@ -116,7 +116,7 @@ export const DataProvider = ({ children }) => {
         },
       };
 
-      const result = await fetch(`http://52.12.103.246:8009/analysis-results?startdate=${from}&enddate=${to}`, requestOptions)
+      const result = await fetch(`https://ameliaapp.sincera.net/api/analysis-results?startdate=${from}&enddate=${to}`, requestOptions)
         .then(res => res.json());
 
       console.log("Table result:", result);
@@ -144,7 +144,7 @@ export const DataProvider = ({ children }) => {
         },
       };
 
-      const result = await fetch(`http://52.12.103.246:8009/analytics-overview?startdate=${from}&enddate=${to}`, requestOptions)
+      const result = await fetch(`https://ameliaapp.sincera.net/api/analytics-overview?startdate=${from}&enddate=${to}`, requestOptions)
         .then(res => res.json());
 
       console.log("Overview result:", result);

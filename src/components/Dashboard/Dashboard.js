@@ -62,7 +62,7 @@ const Dashboard = () => {
     //     };
     //     let startDate = "04/18/2025 00:00";
     //     let endDate = "04/21/2025 00:00"
-    //     fetch("http://52.12.103.246:8009/get-conversation-exports?start_date=" + startDate + "&end_date=" + endDate, requestOptions)
+    //     fetch("https://ameliaapp.sincera.net/api/get-conversation-exports?start_date=" + startDate + "&end_date=" + endDate, requestOptions)
     //         .then((response) => response.json())
     //         .then((result) => {
     //             console.log('result', result, result.status);
@@ -108,7 +108,7 @@ const Dashboard = () => {
     //     // 03/18/2025 00:00
     //     let startDate = "04/18/2025 00:00";
     //     let endDate = "04/21/2025 00:00"
-    //     fetch("http://52.12.103.246:8009/analysis-results?start_date=" + startDate + "&end_date=" + endDate, requestOptions)
+    //     fetch("https://ameliaapp.sincera.net/api/analysis-results?start_date=" + startDate + "&end_date=" + endDate, requestOptions)
     //         .then((response) => response.json())
     //         .then((result) => {
     //             console.log('result', result);
@@ -134,7 +134,7 @@ const Dashboard = () => {
     //     // 03/18/2025 00:00
     //     let startDate = "04/18/2025 00:00";
     //     let endDate = "04/21/2025 00:00"
-    //     fetch("http://52.12.103.246:8009/analytics-overview?start_date=" + startDate + "&end_date=" + endDate, requestOptions)
+    //     fetch("https://ameliaapp.sincera.net/api/analytics-overview?start_date=" + startDate + "&end_date=" + endDate, requestOptions)
     //         .then((response) => response.json())
     //         .then((result) => {
     //             console.log('result', result);
