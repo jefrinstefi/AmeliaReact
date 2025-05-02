@@ -116,36 +116,40 @@ const AmeliaInsightsPicker = () => {
 
           <Box
             sx={{
-              backgroundColor: '#f0f0f0', // Light grey background color for the content
+              backgroundColor: '#fff', // Light grey background color for the content
               minHeight: '100vh',
               display: 'flex',
+              flexDirection:'column',
               justifyContent: 'center',
               alignItems: 'center',
               padding: isSmallScreen ? 2 : 4,
+              margin:2
             }}
           >
+             <div>
+              <text className='comname' >
+                Conversation Analysis and Customer Experience Scoring Tool
+              </text>
+            </div>
+            
             <Card
               sx={{
-                backgroundColor: '#f0f0f0', // Set background color to match the content area
+                backgroundColor: '#EDEBF9', // Set background color to match the content area
                 padding: isSmallScreen ? 2 : 4,
                 width: '100%',
                 maxWidth: 1200,
                 textAlign: 'center',
                 boxShadow: 'none',
                 borderRadius: 2,
+               marginTop:5
               }}
             >
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <text className='comname1'>
-                  Conversation Analysis and Customer Experience Scoring Tool
-                </text>
-              </div>
-
-              <Typography variant="h6" gutterBottom>
+             
+              <Typography variant="h6" gutterBottom sx={{color:'#0E3169',fontSize:20,fontWeight:500}} >
                 Select date and time for processing Amelia insights
               </Typography>
-              <Typography variant="body2" color="text.secondary" mb={4}>
-                Select dates and times using the calendar and dropdowns for From and To
+              <Typography variant="body2" mb={4} sx={{color:'#0E3169',fontSize:14,fontWeight:400}} >
+              Slect date and time from the DateTime Picker for From and To input fields to process Amelia insights
               </Typography>
 
               <Grid container spacing={4}>
@@ -159,12 +163,12 @@ const AmeliaInsightsPicker = () => {
                       readOnly: true,
                       startAdornment: (
                         <InputAdornment position="start">
-                          <CalendarTodayIcon sx={{ color: '#5e2ced' }} />
+                          <CalendarTodayIcon sx={{ color: '#5E43B2' }} />
                         </InputAdornment>
                       ),
                     }}
                     size="small"
-                    sx={{ marginBottom: 2 }}
+                    sx={{ marginBottom: 2,zIndex:0 }}
                   />
                   <StaticDatePicker
                     displayStaticWrapperAs="desktop"
@@ -176,7 +180,7 @@ const AmeliaInsightsPicker = () => {
                   <Grid container spacing={1} mt={1}>
                     {['hour', 'minute', 'period'].map((type) => (
                       <Grid item xs={4} key={type}>
-                        <TextField
+                        <TextField sx={{zIndex:0}}
                           select
                           label={type === 'period' ? 'AM/PM' : type.charAt(0).toUpperCase() + type.slice(1)}
                           value={fromTime[type]}
@@ -197,20 +201,20 @@ const AmeliaInsightsPicker = () => {
 
                 {/* TO Section */}
                 <Grid item xs={12} md={6}>
-                  <TextField
+                  <TextField 
                     label="To"
                     value={updateDateTime(toDate, toTime).format('MM/DD/YYYY hh:mm A')}
                     fullWidth
                     InputProps={{
                       readOnly: true,
                       startAdornment: (
-                        <InputAdornment position="start">
-                          <CalendarTodayIcon sx={{ color: '#5e2ced' }} />
+                        <InputAdornment position="start" >
+                          <CalendarTodayIcon sx={{ color: '#5E43B2' }} />
                         </InputAdornment>
                       ),
                     }}
                     size="small"
-                    sx={{ marginBottom: 2 }}
+                    sx={{ marginBottom: 2,zIndex:0 }}
                   />
                   <StaticDatePicker
                     displayStaticWrapperAs="desktop"
@@ -222,7 +226,7 @@ const AmeliaInsightsPicker = () => {
                   <Grid container spacing={1} mt={1}>
                     {['hour', 'minute', 'period'].map((type) => (
                       <Grid item xs={4} key={type}>
-                        <TextField
+                        <TextField sx={{zIndex:0}}
                           select
                           label={type === 'period' ? 'AM/PM' : type.charAt(0).toUpperCase() + type.slice(1)}
                           value={toTime[type]}
@@ -249,13 +253,13 @@ const AmeliaInsightsPicker = () => {
                 disabled={loading}
                 sx={{
                   marginTop: 4,
-                  backgroundColor: '#5e2ced',
+                  backgroundColor: '#5E43B2',
                   textTransform: 'none',
                   paddingX: 4,
                   height: 45,
-                  borderRadius: 3,
+                  borderRadius: 2,
                   '&:hover': {
-                    backgroundColor: '#4c23c9',
+                    backgroundColor: '#4F2580',
                   },
                 }}
               >
@@ -266,6 +270,13 @@ const AmeliaInsightsPicker = () => {
                 )}
               </Button>
             </Card>
+
+            <Box marginTop={3}>
+              <p className="copyright" >
+                © {new Date().getFullYear()}{" "}
+                <span style={{ color: "#4F2580" }}>SINCERA</span>. All rights reserved.</p>
+            </Box>
+
           </Box>
         </div>
       </LocalizationProvider>
