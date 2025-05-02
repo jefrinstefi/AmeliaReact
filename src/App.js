@@ -8,6 +8,7 @@ import Dashboard from "./components/Dashboard/Dashboard"
 import ConversationAnalysis from "./components/DetailedAnalysis/DetailedAnalysis";
 // import ConversationTable from "./components/Dashboard/Dashboard/ConversationTable";
 import ConversationFullDataTable from "./components/Dashboard/ConversationFullDataTable";
+import DatePage from "./components/DatePage"
 
 import './App.css';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -33,12 +34,13 @@ function App() {
     <ThemeProvider theme={theme}>
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
+      <Route path="/" element={<DatePage />} />
+        {/* <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/upload" element={<Upload />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path = "/conversationTable" element={<ConversationFullDataTable />} />
-        <Route path="/detailedAnalysis" element={<ConversationAnalysis />}/>
+        <Route path="/detailedAnalysis" element={<ConversationAnalysis />}/> */}
 
       </Routes>
     </Router>
