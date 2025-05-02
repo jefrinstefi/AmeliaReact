@@ -23,6 +23,7 @@ import companyLogo from "../assets/logo 1.png";
 import Acouser from "../assets/Account circle.png";
 import { useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const AmeliaInsightsPicker = () => {
   const theme = useTheme();
@@ -141,7 +142,9 @@ const AmeliaInsightsPicker = () => {
                 textAlign: 'center',
                 boxShadow: 'none',
                 borderRadius: 2,
-               marginTop:5
+               marginTop:5,
+               paddingLeft:7,
+               paddingRight:7,
               }}
             >
              
@@ -168,9 +171,9 @@ const AmeliaInsightsPicker = () => {
                       ),
                     }}
                     size="small"
-                    sx={{ marginBottom: 2,zIndex:0 }}
+                    sx={{ marginBottom: 2,zIndex:0, }}
                   />
-                  <StaticDatePicker
+                  <StaticDatePicker sx={{borderRadius:3}}
                     displayStaticWrapperAs="desktop"
                     value={fromDate}
                     onChange={(newDate) => setFromDate(newDate)}
@@ -216,7 +219,7 @@ const AmeliaInsightsPicker = () => {
                     size="small"
                     sx={{ marginBottom: 2,zIndex:0 }}
                   />
-                  <StaticDatePicker
+                  <StaticDatePicker sx={{borderRadius:3}}
                     displayStaticWrapperAs="desktop"
                     value={toDate}
                     onChange={(newDate) => setToDate(newDate)}
@@ -245,7 +248,7 @@ const AmeliaInsightsPicker = () => {
                   </Grid>
                 </Grid>
               </Grid>
-
+                    <div style={{justifyContent:'space-between',display:'flex'}}>
               <Button
                 variant="contained"
                 color="secondary"
@@ -269,6 +272,23 @@ const AmeliaInsightsPicker = () => {
                   'Process Insights'
                 )}
               </Button>
+              <Button
+              sx={{
+                marginTop: 4,
+                // backgroundColor: '#5E43B2',
+                border:'2px solid #5e43b2',
+                textTransform: 'none',
+                paddingX: 2,
+                height: 45,
+                borderRadius: 2,
+                '&:hover': {
+                  backgroundColor: '#4F2580',
+                },
+              }}
+              >
+              <ArrowForwardIcon sx={{ fontSize: 20,color:'#blue' }} />
+              </Button>
+              </div>
             </Card>
 
             <Box marginTop={3}>

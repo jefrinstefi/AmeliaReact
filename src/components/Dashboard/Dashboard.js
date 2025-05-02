@@ -276,6 +276,19 @@ const Dashboard = () => {
           <ArrowForwardIcon sx={{ color: "#fff" }} />
         </Button>
 
+        <Button
+        sx={{
+            // backgroundColor: "#5E43B2",
+            border:'2px solid #5E43B2',
+            height: "55px",
+            "&:hover": {
+              backgroundColor: "#605192",
+            },
+          }}
+        >
+        Process
+        </Button>
+
       </Box>
     </LocalizationProvider>
 
