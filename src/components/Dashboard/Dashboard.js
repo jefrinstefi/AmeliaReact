@@ -280,13 +280,15 @@ const Dashboard = () => {
         sx={{
             // backgroundColor: "#5E43B2",
             border:'2px solid #5E43B2',
+            color:"#5e43b2",
             height: "55px",
             "&:hover": {
               backgroundColor: "#605192",
+              color:"#fff"
             },
           }}
         >
-        Process
+        GO To Process
         </Button>
 
       </Box>
