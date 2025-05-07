@@ -35,12 +35,12 @@ function App() {
     <ThemeProvider theme={theme}>
     <Router>
       <Routes>
-      {/* <Route path="/" element={<DatePage />} /> */}
+      <Route path="/" element={<DatePage />} />
       {/* <Route path="/" element={<CustomAlert />} /> */}
         {/* <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/upload" element={<Upload />} /> */}
-        <Route path="/dashboard" element={<Dashboard />} />
+        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
         {/* <Route path = "/conversationTable" element={<ConversationFullDataTable />} />
         <Route path="/detailedAnalysis" element={<ConversationAnalysis />}/> */}
 

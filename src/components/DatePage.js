@@ -172,16 +172,16 @@ const AmeliaInsightsPicker = () => {
                         ),
                       }}
                       size="small"
-                      sx={{ marginBottom: 2, backgroundColor: '#fff',zIndex:0 }}
+                      sx={{ marginBottom: 2, backgroundColor: '#fff',zIndex:0,borderRadius:2 }}
                     />
-                    <StaticDatePicker
+                    <StaticDatePicker sx={{borderRadius:2}}
                       displayStaticWrapperAs="desktop"
                       value={fromDate}
                       onChange={(newDate) => setFromDate(newDate)}
                       minDate={minDate}
                       maxDate={maxDate}
                     />
-                    <Grid container spacing={1} mt={1} justifyContent="space-evenly">
+                    <Grid container spacing={1} mt={1} justifyContent="space-between">
                       {['hour', 'minute', 'period'].map((type) => (
                         <Grid item key={type}>
                           <TextField
@@ -190,7 +190,7 @@ const AmeliaInsightsPicker = () => {
                             value={fromTime[type]}
                             onChange={(e) => setFromTime((prev) => ({ ...prev, [type]: e.target.value }))}
                             size="small"
-                            sx={{ width: '75px', backgroundColor: '#fff',zIndex:0 }}
+                            sx={{ width: '110px', backgroundColor: '#fff',zIndex:0,borderRadius:2  }}
                           >
                             {(type === 'hour' ? hours : type === 'minute' ? minutes : ['AM', 'PM']).map((val) => (
                               <MenuItem key={val} value={val}>
@@ -220,16 +220,16 @@ const AmeliaInsightsPicker = () => {
                         ),
                       }}
                       size="small"
-                      sx={{ marginBottom: 2, backgroundColor: '#fff',zIndex:0 }}
+                      sx={{ marginBottom: 2, backgroundColor: '#fff',zIndex:0,borderRadius:2  }}
                     />
-                    <StaticDatePicker
+                    <StaticDatePicker sx={{borderRadius:2}}
                       displayStaticWrapperAs="desktop"
                       value={toDate}
                       onChange={(newDate) => setToDate(newDate)}
                       minDate={fromDate}
                       maxDate={maxDate}
                     />
-                    <Grid container spacing={1} mt={1} justifyContent="space-evenly">
+                    <Grid container spacing={1} mt={1} justifyContent="space-between">
                       {['hour', 'minute', 'period'].map((type) => (
                         <Grid item key={type}>
                           <TextField
@@ -238,7 +238,7 @@ const AmeliaInsightsPicker = () => {
                             value={toTime[type]}
                             onChange={(e) => setToTime((prev) => ({ ...prev, [type]: e.target.value }))}
                             size="small"
-                            sx={{ width: '75px', backgroundColor: '#fff',zIndex:0 }}
+                            sx={{ width: '110px', backgroundColor: '#fff',zIndex:0,borderRadius:2 }}
                           >
                             {(type === 'hour' ? hours : type === 'minute' ? minutes : ['AM', 'PM']).map((val) => (
                               <MenuItem key={val} value={val}>
