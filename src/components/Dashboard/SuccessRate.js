@@ -12,7 +12,7 @@ const SuccessRateCard = ({ data }) => {
     if(data?.success_rate) {
     if (data?.success_rate && data.success_rate.Y !== undefined && data.success_rate.N !== undefined) {
       const total = data.success_rate.Y + data.success_rate.N;
-      setTotalChats(total);
+      setTotalChats(total); 
 console.log(total);
       setSuccessPercentage(total > 0 ? Math.round((data.success_rate.Y / total) * 100) : 0);
       console.log(successPercentage)

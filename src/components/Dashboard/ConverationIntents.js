@@ -32,7 +32,7 @@ const ConversationIntents = ({ data }) => {
   const [dataIntent, setDataIntent]  = useState([]);
   const [dataIntentLength,setDataIntentArray] = useState(0)
 
-  useEffect(() => {
+  useEffect(() => { 
     if (data.intent_distribution) {
       const intentsArray = Object.entries(data.intent_distribution).map(
         ([key, value]) => ({

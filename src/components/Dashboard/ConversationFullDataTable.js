@@ -30,7 +30,7 @@ import Acouser from "../../assets/Account circle.png";
 
 const ConversationFullDataTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
-   
+
   const tableRef = useRef(null);
   const isMobile = useMediaQuery("(max-width: 600px)");
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
@@ -65,7 +65,7 @@ const ConversationFullDataTable = () => {
     }
 
     try {
-      let response = await fetch("https://ameliaapp.sincera.net/api/analysis-results", requestOptions);
+      let response = await fetch("http://52.12.103.246:8008/analysis-results", requestOptions);
       let result = await response.json();
 
       console.log("Full API Response:", result);
@@ -118,7 +118,7 @@ const ConversationFullDataTable = () => {
       },
     };
 
-    fetch("https://ameliaapp.sincera.net/api/conversation-details/" + row.Conversation_ID, requestOptions)
+    fetch("http://52.12.103.246:8008/conversation-details/" + row.Conversation_ID, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log('result1', result);
@@ -176,7 +176,13 @@ const ConversationFullDataTable = () => {
   const formatYesNo = (value) => {
     return value === "Y" ? "Yes" : value === "N" ? "No" : "Partial"; // Default fallback
   };
-
+  const formatYesNo1 = (value) => {
+    if (value !== null) {
+      return value === "Y" ? "Yes" : value === "N" ? "No" : "Partial"; // Default fallback
+    } else {
+      return "N/A"
+    }
+  };
   const CapitalizeText = (text) => {
     if (!text) return "";
     return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
@@ -368,6 +374,8 @@ const ConversationFullDataTable = () => {
                         { key: "Amelia_Messages_Count", label: "Amelia Msgs" },
                         { key: "Misunderstandings", label: "Misunderstanding" },
                         { key: "Resolution", label: "Resolved ?" },
+                        { key: "rating", label: "Rating" },
+                        { key: "useAmeliaAgain", label: "UseAmeliaAgain" }
                       ].map(({ key, label }) => (
                         <TableCell key={key} sx={{
                           color: "#fff", fontWeight: "bold", fontSize: "14px", backgroundColor: "#7D6DB1", whiteSpace: "nowrap",
@@ -414,6 +422,8 @@ const ConversationFullDataTable = () => {
                           <span>{truncateText(item.Misunderstandings, 12)}</span>
                         </Tooltip></TableCell>
                         <TableCell sx={{ color: "#737277" }}>{formatYesNo(item.Resolution)}</TableCell>
+                        <TableCell sx={{ color: "#737277" }}>{formatYesNo1(item.rating)}</TableCell>
+                        <TableCell sx={{ color: "#737277" }}>{formatYesNo1(item.useAmeliaAgain)}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

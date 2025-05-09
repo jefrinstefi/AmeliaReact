@@ -35,6 +35,8 @@ const AmeliaInsightsPicker = () => {
   const [toTime, setToTime] = useState({ hour: '06', minute: '00', period: 'PM' });
   const [loading, setLoading] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const [showAlert1, setShowAlert1] = useState(false);
+  const [showAlert2, setShowAlert2] = useState(false);
 
   const hours = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0'));
   const minutes = Array.from({ length: 60 }, (_, i) => String(i).padStart(2, '0'));
@@ -50,8 +52,24 @@ const AmeliaInsightsPicker = () => {
           : parseInt(time.hour, 10);
     return date.hour(hour).minute(parseInt(time.minute, 10));
   };
-
+ 
+  
+    const formatDate = (isoStr) => {
+      const date = new Date(isoStr);
+      
+      const pad = (num) => String(num).padStart(2, '0');
+  
+      const month = pad(date.getMonth() + 1); // getMonth() is 0-based
+      const day = pad(date.getDate());
+      const year = date.getFullYear();
+  
+      const hours = pad(date.getHours());
+      const minutes = pad(date.getMinutes());
+  
+      return `${month}/${day}/${year} ${hours}:${minutes}`;
+    };
   const handleProcess = () => {
+    console.log(fromDate, fromTime);
     setLoading(true);
     const from = updateDateTime(fromDate, fromTime);
     const to = updateDateTime(toDate, toTime);
@@ -59,15 +77,94 @@ const AmeliaInsightsPicker = () => {
     setTimeout(() => {
       console.log('Processing From:', from.format());
       console.log('Processing To:', to.format());
-      setLoading(false);
+      const startDate = formatDate(from.format());
+      const endDate = formatDate(to.format());
+      console.log('startDate',startDate);
+      FetchAPI(startDate,endDate);
     }, 2000);
   };
 
+  const FetchAPI = async (from,to) =>{
+    setShowAlert(false);
+
+    try {
+    const username = "admin";
+    const password = "password";
+    const credentials = btoa(`${username}:${password}`);
+
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        Authorization: "Basic " + credentials,
+        Accept: "application/json"
+      },
+    };
+
+    const response = await fetch(
+      `http://52.12.103.246:8008/get-conversation-exports?start_date=${from}&end_date=${to}`,
+      requestOptions
+    );
+
+    const result = await response.json();
+    console.log("Export result:", result);
+
+    if (result) {
+      if(result.total_conversations >0) {
+      
+      }
+      await analyzeBatch(from,to);
+    }
+
+  } catch (error) {
+    console.error("fetchDataFromAPI error:", error);
+  }
+  }
+
+
+  const analyzeBatch = async (from,to) => {
+    console.log(from,to)
+
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", "Basic YWRtaW46cGFzc3dvcmQ=");
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        redirect: "follow"
+      };
+
+      const response = await fetch( `http://52.12.103.246:8008/analyze-all?start_date=${from}&end_date=${to}`, requestOptions);
+      const result = await response.json();
+
+      console.log("Analyze result:", result);
+
+      if (result.status === 'success') {
+        // await fetchTableData(from,to);
+        setShowAlert(false);
+        setShowAlert1(true)
+        setLoading(false);
+
+
+      } else {
+        setShowAlert(false);
+        setShowAlert2(true)
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error("analyzeBatch error:", error);
+    }
+  };
   const handleLogout = () => {
     localStorage.clear();
     sessionStorage.clear();
     navigate("/login");
   };
+
+  const GotoDash = () => {
+    navigate("/dashboard");
+  }
 
   const customTheme = createTheme({
     palette: {
@@ -256,7 +353,7 @@ const AmeliaInsightsPicker = () => {
               <Box sx={{ justifyContent: 'center', display: 'flex', mt: 4, gap: 2 }}>
                 <Button
                   variant="contained"
-                  color="secondary"
+                  color="secondary" onClick={() => GotoDash()}
                   disabled={loading}
                   sx={{
                     backgroundColor: '#fff',
@@ -300,11 +397,29 @@ const AmeliaInsightsPicker = () => {
                   message="Are you sure you want to process Amelia insights?"
                   onClose={() => setShowAlert(false)}
                   onConfirm={() => {
-                    setShowAlert(false);
                     handleProcess();
                   }}
                   confirmText="Yes, Process"
+                  cancelText="Cancel"
+                />
+                <CustomAlert
+                  open={showAlert1}
+                  title="Confirmation"
+                  message="Amelia Insights was processed successfully"
+                  onClose={() => setShowAlert1(false)}
+                  onConfirm={() => {
+                    GotoDash();
+                  }}
+                  confirmText="GoTo Dashboard"
                   cancelText="Stay here"
+                />
+                 <CustomAlert
+                  open={showAlert2}
+                  title="Warning"
+                  message="Successfully fetched 0 conversations"
+                  onClose={() => setShowAlert2(false)}
+                  onConfirm={() =>setShowAlert2(false) }
+                  confirmText="Try again"
                 />
               </Box>
             </Card>

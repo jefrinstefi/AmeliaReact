@@ -14,7 +14,7 @@ import {
   useMediaQuery,
   Typography,
   TableSortLabel,
-  Button,CircularProgress, Backdrop
+  Button, CircularProgress, Backdrop
 } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import ExpandIcon from "@mui/icons-material/Fullscreen";
@@ -99,6 +99,13 @@ const ConversationTable = (message) => {
   const formatYesNo = (value) => {
     return value === "Y" ? "Yes" : value === "N" ? "No" : "Partial"; // Default fallback
   };
+  const formatYesNo1 = (value) => {
+    if (value !== null) {
+      return value === "Y" ? "Yes" : value === "N" ? "No" : "Partial"; // Default fallback
+    } else {
+      return "N/A"
+    }
+  };
 
   const CapitalizeText = (text) => {
     if (!text) return "";
@@ -118,10 +125,10 @@ const ConversationTable = (message) => {
     setData(message.data.results);
     console.log(message.data.results)
     const conversationIds = message.data.results.map((obj) => ({
-      conversation_id: obj.Conversation_ID ,
-      count:" - " + obj.User_Name + " (" + obj.Messages_Count + " Messages)"
+      conversation_id: obj.Conversation_ID,
+      count: " - " + obj.User_Name + " (" + obj.Messages_Count + " Messages)"
     }));
-  
+
     setConversationIds(conversationIds);
     // + " - " + obj.User_Name + " (" + obj.Messages_Count + ")"
     setLoading(false);
@@ -160,7 +167,7 @@ const ConversationTable = (message) => {
       },
     };
 
-    fetch("https://ameliaapp.sincera.net/api/conversation-details/" + row.Conversation_ID, requestOptions)
+    fetch("http://52.12.103.246:8008/conversation-details/" + row.Conversation_ID, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log('result1', result);
@@ -168,7 +175,7 @@ const ConversationTable = (message) => {
           // setIsNavigating(false);
           console.log(isNavigating)
 
-          navigate('/detailedAnalysis', { state: { message: result, selectedConversationDetails: row, ConversationList: ConvIds,FullData:message.data.results } });
+          navigate('/detailedAnalysis', { state: { message: result, selectedConversationDetails: row, ConversationList: ConvIds, FullData: message.data.results } });
 
         }
 
@@ -297,6 +304,8 @@ const ConversationTable = (message) => {
                     { key: "Amelia_Messages_Count", label: "Amelia Msgs" },
                     { key: "Misunderstandings", label: "Misunderstanding" },
                     { key: "Resolution", label: "Resolved ?" },
+                    { key: "rating", label: "Rating" },
+                    { key: "useAmeliaAgain", label: "UseAmeliaAgain" }
                   ].map(({ key, label }) => (
                     <TableCell key={key} sx={{
                       color: "#fff", fontWeight: "bold", fontSize: "14px", backgroundColor: "#7D6DB1", whiteSpace: "nowrap", overflow: "hidden",
@@ -358,6 +367,9 @@ const ConversationTable = (message) => {
                       <span>{truncateText(item.Misunderstandings, 12)}</span>
                     </Tooltip></TableCell>
                     <TableCell sx={{ color: "#737277" }}>{formatYesNo(item.Resolution)}</TableCell>
+                    <TableCell sx={{ color: "#737277" }}>{formatYesNo1(item.rating)}</TableCell>
+                    <TableCell sx={{ color: "#737277" }}>{formatYesNo1(item.useAmeliaAgain)}</TableCell>
+
                   </TableRow>
                 ))}
               </TableBody>
@@ -367,13 +379,13 @@ const ConversationTable = (message) => {
           <p>No data available.</p>
         )}
         {isNavigating &&
-   <Backdrop open={isNavigating} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, color: '#fff' }}  style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%' }}>
-   <CircularProgress color="inherit" />
- </Backdrop>
+          <Backdrop open={isNavigating} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, color: '#fff' }} style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%' }}>
+            <CircularProgress color="inherit" />
+          </Backdrop>
         }
-    
+
       </Paper>
-   
+
     </Box>
   );
 };

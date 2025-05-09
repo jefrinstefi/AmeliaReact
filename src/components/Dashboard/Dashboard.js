@@ -26,139 +26,40 @@ import { useContext } from "react";
 import { DataContext } from "./DataContext";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import loaderImage from '../../assets/amelialoader.gif'
+import BusinessMetricsChart from './BusinessMetrics';
 
 const Dashboard = () => {
     // const { fetchData } = useContext(DataContext);
-    const storedUser = localStorage.getItem("username")
+    const storedUser = localStorage.getItem("username");
+    const storedStartDate = localStorage.getItem('startDate');
+    const storedEndDate = localStorage.getItem('endDate');
+    const userType = localStorage.getItem('userType');
     const navigate = useNavigate();
     // const [loading, setLoading] = useState(true);
     // const [fromDate, setFromDate] = React.useState(dayjs('2025-04-16'));
     // const [toDate, setToDate] = React.useState(dayjs('2025-04-23'));
     // const [analysisResults, setAnalysisResults] = useState('');
     // const [analysisOverview, setAnalysisOverview] = useState('');
-    const today = dayjs();
+    const today = dayjs(storedEndDate);
+    const minimumDate = dayjs(storedStartDate); // 1st Jan 2020
+    const oneWeekAgo = today.subtract(7, "day"); // today - 7 days
+    const [fromDate, setFromDate] = useState(oneWeekAgo);
+    const [toDate, setToDate] = useState(today);
     const {
         analysisResults,
         analysisOverview,
         loading,
+        businessMetrics,
         fetchDataFromAPI
       } = useContext(DataContext);
     
       useEffect(() => {
-        fetchDataFromAPI(dayjs(fromDate).format('MM/DD/YYYY')+" 00:00",dayjs(toDate).format('MM/DD/YYYY')+" 00:00");
+        fetchDataFromAPI(dayjs(fromDate).format('MM/DD/YYYY')+" 00:00",dayjs(toDate).format('MM/DD/YYYY')+" 00:00",'Load');
       }, []);
-    // const GetdataFromAPI = () => {
-    //     //     const formData = new FormData();
-    //     // formData.append("file", file);
-    //     const username1 = "admin";
-    //     const password1 = "password";
-    //     const credentials = btoa(`${username1}:${password1}`);
-    //     const requestOptions = {
-    //         method: "POST",
-    //         headers: {
-    //             Authorization: "Basic " + credentials, // Base64 encoded username:password
-    //             Accept: "application/json"
-    //         },
-    //     };
-    //     let startDate = "04/18/2025 00:00";
-    //     let endDate = "04/21/2025 00:00"
-    //     fetch("https://ameliaapp.sincera.net/api/get-conversation-exports?start_date=" + startDate + "&end_date=" + endDate, requestOptions)
-    //         .then((response) => response.json())
-    //         .then((result) => {
-    //             console.log('result', result, result.status);
-    //             AnalyzeBatch();
-    //         })
-    //         .catch((error) => console.error(error));
-    // }
-    // const AnalyzeBatch = () => {
-    //     const myHeaders = new Headers();
-    //     myHeaders.append("Content-Type", "application/json");
-    //     myHeaders.append("Authorization", "Basic YWRtaW46cGFzc3dvcmQ=");
-    //     const requestOptions = {
-    //         method: "POST",
-    //         headers: myHeaders,
-    //         redirect: "follow"
-    //     };
-
-    //     fetch("https://ameliaapp.sincera.net/api/analyze-all", requestOptions)
-    //         .then((response) => response.json())
-    //         .then((result) => {
-    //             console.log(result);
-    //             // setTotalConversations(result.total);
-    //             // localStorage.setItem("totalConv", result.total);
-    //             if (result.status === 'success') {
-    //                 GetTabelValues();
-
-    //             }
-    //         })
-    //         .catch((error) => console.error(error));
-
-    // }
-    // const GetTabelValues = () => {
-    //     const username = "admin";
-    //     const password = "password";
-    //     const credentials = btoa(`${username}:${password}`);
-    //     const requestOptions = {
-    //         method: "GET",
-    //         headers: {
-    //             Authorization: "Basic " + credentials, // Base64 encoded username:password
-    //             Accept: "application/json"
-    //         },
-    //     };
-    //     // 03/18/2025 00:00
-    //     let startDate = "04/18/2025 00:00";
-    //     let endDate = "04/21/2025 00:00"
-    //     fetch("https://ameliaapp.sincera.net/api/analysis-results?start_date=" + startDate + "&end_date=" + endDate, requestOptions)
-    //         .then((response) => response.json())
-    //         .then((result) => {
-    //             console.log('result', result);
-    //             setAnalysisResults(result);
-    //             console.log('analysisResult', analysisResults);
-    //             fetchData();
-    //             setLoading(false);
-    //             // navigate('/dashboard', { state: { message: result.results } });
-    //         })
-    //         .catch((error) => console.error(error));
-    // }
-    // const fetchData = () => {
-    //     const username = "admin";
-    //     const password = "password";
-    //     const credentials = btoa(`${username}:${password}`);
-    //     const requestOptions = {
-    //         method: "GET",
-    //         headers: {
-    //             Authorization: "Basic " + credentials, // Base64 encoded username:password
-    //             Accept: "application/json"
-    //         },
-    //     };
-    //     // 03/18/2025 00:00
-    //     let startDate = "04/18/2025 00:00";
-    //     let endDate = "04/21/2025 00:00"
-    //     fetch("https://ameliaapp.sincera.net/api/analytics-overview?start_date=" + startDate + "&end_date=" + endDate, requestOptions)
-    //         .then((response) => response.json())
-    //         .then((result) => {
-    //             console.log('result', result);
-    //             setAnalysisOverview(result);
-    //             console.log('overview', analysisOverview)
-    //             // fetchData();
-    //             setLoading(false);
-    //             // navigate('/dashboard', { state: { message: result.results } });
-    //         })
-    //         .catch((error) => console.error(error));
-    // }
-
-    const handleFetchData = () => {
-        fetchDataFromAPI(dayjs(fromDate).format('MM/DD/YYYY')+" 00:00",dayjs(toDate).format('MM/DD/YYYY')+" 00:00");
+   
+      const handleFetchData = () => {
+        fetchDataFromAPI(dayjs(fromDate).format('MM/DD/YYYY')+" 00:00",dayjs(toDate).format('MM/DD/YYYY')+" 00:00",'process');
     };
-
-
-    const minimumDate = dayjs('2020-01-01'); // 1st Jan 2020
-
-    const oneWeekAgo = today.subtract(7, "day"); // today - 7 days
-
-    const [fromDate, setFromDate] = useState(oneWeekAgo);
-    const [toDate, setToDate] = useState(today);
-
 
     const handleLogout = () => {
         console.log('data')
@@ -166,6 +67,10 @@ const Dashboard = () => {
         sessionStorage.clear(); // Clears session storage (optional)
         navigate("/login"); // Redirect to login page (update path as needed)
     };
+    const navigateInsights = () => {
+      navigate("/date");
+
+    }
     const displayDateRange = () => {
         const sameMonth = fromDate.format('MMM') === toDate.format('MMM');
         const sameYear = fromDate.format('YYYY') === toDate.format('YYYY');
@@ -200,7 +105,7 @@ const Dashboard = () => {
                                     handleLogout();
                                 }
                             }}>
-                                <option value="">{storedUser} <br /> Manager</option>
+                                <option value="">{storedUser} </option>
                                 <option value="Logout">Logout</option>
                                 {/* <option value="option2">Option 2</option> */}
                             </select>
@@ -230,7 +135,7 @@ const Dashboard = () => {
       <Box display="flex" gap={1} alignItems="center">
         
         <DatePicker
-          sx={{ backgroundColor: "#fff" }}
+          sx={{ backgroundColor: "#fff",zIndex:0 }}
           label="From Date"
           value={fromDate}
           onChange={(newValue) => setFromDate(newValue)}
@@ -247,7 +152,7 @@ const Dashboard = () => {
         />
 
         <DatePicker
-          sx={{ backgroundColor: "#fff" }}
+          sx={{ backgroundColor: "#fff" ,zIndex:0}}
           label="To Date"
           value={toDate}
           onChange={(newValue) => setToDate(newValue)}
@@ -276,7 +181,8 @@ const Dashboard = () => {
           <ArrowForwardIcon sx={{ color: "#fff" }} />
         </Button>
 
-        <Button
+        {localStorage.getItem('userType') === 'admin' && (<Button
+        onClick={navigateInsights}
         sx={{
             // backgroundColor: "#5E43B2",
             border:'2px solid #5E43B2',
@@ -290,6 +196,7 @@ const Dashboard = () => {
         >
         GO To Process
         </Button>
+        )}
 
       </Box>
     </LocalizationProvider>
@@ -305,7 +212,7 @@ const Dashboard = () => {
                         {/* <img src={loaderImage} alt="Loading..." style={{ width: "350px" }} /> */}
                                   <div style={{marginTop:30}}>
                                     <text className='comname' >
-                                      Processing ....
+                                      Loading ....
                                     </text>
                                   </div>
                     </Box>
@@ -345,6 +252,10 @@ const Dashboard = () => {
                         </Grid>
                     </Box>
                 )}
+                    {!loading && (<Box>
+                        <BusinessMetricsChart data={businessMetrics} />
+                    </Box>)
+}
                    
                    {!loading && (<Box>
                         <ConversationTable data={analysisResults} />

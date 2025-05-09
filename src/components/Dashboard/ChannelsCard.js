@@ -1,7 +1,10 @@
 import React ,{useEffect,useState}from "react";
 import { Card, CardContent, Typography, Box, LinearProgress } from "@mui/material";
- 
+import CircleIcon from "@mui/icons-material/Circle";
+
 const ChannelsCard = ({data}) => {
+   const [successPercentage, setSuccessPercentage] = useState(0);
+    const [failurePercentage, setFailurePercentage] = useState(0);
   const [channel, setChannel] = useState('');
         useEffect(() => {
           getAvgDetails();
@@ -10,6 +13,10 @@ const ChannelsCard = ({data}) => {
       if (data.channel_distribution !== undefined ) {
         const total = Object.values(data.channel_distribution).reduce((acc, value) => acc + value, 0);
         setChannel(total);
+        setSuccessPercentage(total > 0 ? Math.round((data.channel_distribution.webchat_coreuser/ total) * 100) : 0);
+        console.log(successPercentage)
+        setFailurePercentage(total > 0 ? 100 - Math.round((data.channel_distribution.webchat_coremind/ total) * 100) : 0);
+
       }
         }
   return (
@@ -23,6 +30,8 @@ const ChannelsCard = ({data}) => {
            }}>
       <CardContent>
         {/* Header */}
+        <div style={{display:"flex",justifyContent:"space-between"}}>
+
         <Typography variant="subtitle1"  
         style={{ 
         fontWeight:600,
@@ -33,18 +42,22 @@ const ChannelsCard = ({data}) => {
   }}>
           Channels
         </Typography>
- 
-        {/* Subheading */}
-        <Typography variant="body2" color="text.secondary" mt={1.5}>
-          Voice
+        <Typography variant="body1" fontWeight={600}>
+        {channel}      
         </Typography>
+        </div>
+
+        {/* Subheading */}
+        {/* <Typography variant="body2" color="text.secondary" mt={1.5}>
+          Voice
+        </Typography> */}
  
         {/* Progress Bar */}
         <Box mt={1.5} display="flex" alignItems="center">
           <LinearProgress
             variant="determinate"
-            value={100}
-            sx={{ width: "100%", height: 8, borderRadius: 4,  bgcolor: "#e0e0e0",
+            value={successPercentage}
+            sx={{ width: "100%", height: 8, borderRadius: 4,   backgroundColor: "#46C5E0",
               "& .MuiLinearProgress-bar": {
                 backgroundColor: "#6937C6", // Change this to your desired color
               }, }}
@@ -53,11 +66,29 @@ const ChannelsCard = ({data}) => {
  
         {/* Conversations Count */}
         <Box display="flex" justifyContent="space-between" mt={2}>
-          <Typography variant="body2" color="text.secondary">
-            Conversations
-          </Typography>
+        <Box display="flex" alignItems="center" justifyContent="space-between">
+            <Box display="flex" alignItems="center">
+              <CircleIcon sx={{ color: "#6937C6", fontSize: 12, mr: 1 }} />
+              <Typography fontSize="0.85rem">{data?.channel_distribution.webchat_coreuser}  Webchat_coreuser</Typography>
+            </Box>
+            
+          </Box>
+{/*           
+         
           <Typography variant="body1" fontWeight={600}>
-{channel}          </Typography>
+{channel}          </Typography> */}
+        </Box>
+        <Box display="flex" justifyContent="space-between" mt={2}>
+        <Box display="flex" alignItems="center" justifyContent="space-between">
+            <Box display="flex" alignItems="center">
+              <CircleIcon sx={{ color: "#46C5E0", fontSize: 12, mr: 1 }} />
+              <Typography fontSize="0.85rem">{data?.channel_distribution.webchat_coremind}  Webchat_coremind</Typography>
+            </Box>
+            
+          </Box>
+          
+         
+       
         </Box>
  
         {/* Description */}

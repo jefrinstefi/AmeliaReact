@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 // import React from "react";
 import {
   Box,
@@ -8,7 +8,7 @@ import {
   FormControlLabel,
   InputAdornment,
   IconButton,
-  useMediaQuery,Typography
+  useMediaQuery, Typography
 } from "@mui/material";
 // import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
@@ -23,30 +23,32 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState({
-    username: "sincera-analyzer",
-    password:"sincera-sonnet"
-  });
-  const [message, setMessage] = useState(false); 
+  const [userType, setUser] = useState('');
+  const [message, setMessage] = useState(false);
   const isMobile = useMediaQuery("(max-width:600px)");
   const isTablet = useMediaQuery("(max-width:960px)");
   const navigate = useNavigate();
+ useEffect(() => {
+  apiCallDate();
+      }, []);
 
   const handleLogin = () => {
     // Authentication logic
     // check username:
     if (username === "sincera-analyzer") {
-      if(password === "sincera-sonnet"){
-        localStorage.setItem("username", user.username); // Store in localStorage
-  setUsername(user.username);
-        navigate("/dashboard");
+      if (password === "sincera-sonnet") {
+        localStorage.setItem("username", username); // Store in localStorage
+        localStorage.setItem("userType", 'admin')
+        setUsername(username);
+        navigate("/date");
       } else {
         setMessage(true);
       }
     } else if (username === "Amelia") {
-      if(password === "Amel1a@VSP"){
+      if (password === "Amel1a@VSP") {
         localStorage.setItem("username", username); // Store in localStorage
-  setUsername(username);
+        localStorage.setItem("userType", 'user')
+        setUsername(username);
         navigate("/dashboard");
       } else {
         setMessage(true);
@@ -55,8 +57,58 @@ const LoginPage = () => {
     } else {
       setMessage(true);
     }
-    console.log(username,password, user);
+    console.log(username, password);
   };
+
+  const apiCallDate = async() =>{
+    try {
+      const username = "admin";
+      const password = "password";
+      const credentials = btoa(`${username}:${password}`);
+
+      const requestOptions = {
+        method: "GET",
+        headers: {
+          Authorization: "Basic " + credentials,
+          Accept: "application/json"
+        },
+      };
+
+      const response = await fetch(
+        `http://52.12.103.246:8008/get-analysis-dates-from-db`,
+        requestOptions
+      );
+
+      const result = await response.json();
+      console.log("Export result:", result);
+
+      if (result.status === 'success') {
+        const todayString = result.analytics_datarange_in_db[0].MaxDate; // e.g., "04/14/2025 10:10"
+const today = new Date(todayString);
+const sevenDaysAgo = new Date(today);
+sevenDaysAgo.setDate(today.getDate() - 7);
+
+// Format manually to 'MM/DD/YYYY HH:mm'
+const formatTwoDigits = (num) => num.toString().padStart(2, '0');
+
+const formattedDate = `${formatTwoDigits(sevenDaysAgo.getMonth() + 1)}/` +
+                      `${formatTwoDigits(sevenDaysAgo.getDate())}/` +
+                      `${sevenDaysAgo.getFullYear()} ` +
+                      `${formatTwoDigits(sevenDaysAgo.getHours())}:` +
+                      `${formatTwoDigits(sevenDaysAgo.getMinutes())}`;
+
+console.log(formattedDate); // e.g., "04/07/2025 10:10"
+localStorage.setItem("startDate",result.analytics_datarange_in_db[0].MinDate );
+localStorage.setItem('endDate',result.analytics_datarange_in_db[0].MaxDate)
+
+// await getDetails(formattedDate,result.analytics_datarange_in_db[0].MaxDate);
+      }
+
+    } catch (error) {
+      console.error("fetchDataFromAPI error:", error);
+    }
+  }
+  
 
   return (
     <Box
@@ -86,9 +138,9 @@ const LoginPage = () => {
         padding={isMobile ? "20px" : "40px"}
       >
         {/* Title */}
-        <img src={companyLogo} alt="Company Logo" style={{ height: "50px",alignItems:'center', }} />
+        <img src={companyLogo} alt="Company Logo" style={{ height: "50px", alignItems: 'center', }} />
         <Box textAlign="center" mb={3}>
-          <Box sx={{ fontSize: 24, fontWeight: 700, color: "#5D3FD3",paddingBottom:3,paddingTop:3 }}>Conversation Analysis and Customer Experience Scoring Tool </Box>
+          <Box sx={{ fontSize: 24, fontWeight: 700, color: "#5D3FD3", paddingBottom: 3, paddingTop: 3 }}>Conversation Analysis and Customer Experience Scoring Tool </Box>
           <Box sx={{ fontSize: 14, fontWeight: 600, color: "#0E3169", mt: 1 }}>
             Login to your account
           </Box>
@@ -105,11 +157,11 @@ const LoginPage = () => {
             placeholder="Enter your username"
             sx={{
               "& .MuiOutlinedInput-root": {
-                borderRadius: "8px", 
-                borderColor:"#E6E4E6",
+                borderRadius: "8px",
+                borderColor: "#E6E4E6",
                 height: "42px",
-                fontSize:"14px", 
-                color:"#4F2580",
+                fontSize: "14px",
+                color: "#4F2580",
                 "&:hover .MuiOutlinedInput-notchedOutline": {
                   borderColor: "#4F2580", // Hover color
                 },
@@ -131,23 +183,23 @@ const LoginPage = () => {
           <TextField
             fullWidth
             margin="dense"
-            type={showPassword ? "text" : "password"} 
+            type={showPassword ? "text" : "password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter your password"
             sx={{
               "& .MuiOutlinedInput-root": {
-                borderRadius: "8px", 
-                borderColor:"#E6E4E6",
-                height: "42px", 
-                paddingRight:"10px",
-                fontSize:"14px",
-                color:"#4F2580",
+                borderRadius: "8px",
+                borderColor: "#E6E4E6",
+                height: "42px",
+                paddingRight: "10px",
+                fontSize: "14px",
+                color: "#4F2580",
                 "&:hover .MuiOutlinedInput-notchedOutline": {
                   borderColor: "#4F2580", // Hover color
                 },
-                
-                
+
+
 
               },
             }}
@@ -165,14 +217,14 @@ const LoginPage = () => {
               ),
             }}
           />
-                  {/* <text style={{fontSize:20,fontWeight:400,color:'#8F8F8F'}}>{message}</text> */}
-                  {message && <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-        <ErrorOutlineIcon style={{ color: "#D32F2F",fontSize:20 }} />
-        <Typography style={{ fontSize: 16, fontWeight: 400, color: "#D32F2F" }}>
-          Invalid Credentials
-        </Typography>
-      </div>
-}
+          {/* <text style={{fontSize:20,fontWeight:400,color:'#8F8F8F'}}>{message}</text> */}
+          {message && <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <ErrorOutlineIcon style={{ color: "#D32F2F", fontSize: 20 }} />
+            <Typography style={{ fontSize: 16, fontWeight: 400, color: "#D32F2F" }}>
+              Invalid Credentials
+            </Typography>
+          </div>
+          }
         </Box>
 
         {/* Remember Me Checkbox */}
@@ -197,7 +249,7 @@ const LoginPage = () => {
             borderRadius: "8px",
             fontSize: 14,
             fontWeight: 600,
-            
+
           }}
         >
           LOGIN
