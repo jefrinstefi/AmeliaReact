@@ -82,7 +82,7 @@ const BusinessMetricsChart = (message) => {
             Appointment_Lookup: stats.appointment_lookup || 0,
             Appointment_Reschedule: stats.appointment_reschedule || 0,
             conversations: store.conversations ?? 0,
-            stored: store.custom_store_number + ' (' + store.conversations + ' conv)'
+            stored: store.custom_store_number
 
           };
         });
