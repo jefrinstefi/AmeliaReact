@@ -323,7 +323,8 @@ const BusinessMetricsChart = (message) => {
                 layout="vertical"
                 content={renderCustomLegend}
                 wrapperStyle={{
-                  marginLeft: isTablet ? '40px' : '60px', // Increased left margin for legend
+                  // marginLeft: isTablet ? '80px' : '100px', // Increased left margin for legend
+                  paddingLeft:"40px",
                 }}
               />
               {legendItems.map((item) => (
