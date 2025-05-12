@@ -221,7 +221,7 @@ const AmeliaInsightsPicker = () => {
               justifyContent: 'center',
               alignItems: 'center',
               padding: isSmallScreen ? 2 : 4,
-              margin: 2
+              margin: 0
             }}
           >
             <div>
@@ -235,22 +235,23 @@ const AmeliaInsightsPicker = () => {
                 backgroundColor: '#EDEBF9',
                 padding: isSmallScreen ? 2 : 4,
                 width: '100%',
+              
                 maxWidth: 1200,
                 textAlign: 'center',
                 boxShadow: 'none',
                 borderRadius: 2,
-                marginTop: 5,
-                paddingLeft: 7,
-                paddingRight: 7,
+                marginTop: 2,
+                paddingLeft: 0,
+                paddingRight:0,
               }}
             >
 
               <Typography variant="h6" gutterBottom sx={{ color: '#0E3169', fontSize: 20, fontWeight: 500 }} >
                 Select date and time for processing Amelia insights
               </Typography>
-              <Typography variant="body2" mb={4} sx={{ color: '#0E3169', fontSize: 14, fontWeight: 400 }} >
+              {/* <Typography variant="body2" mb={4} sx={{ color: '#0E3169', fontSize: 14, fontWeight: 400 }} >
                 Select date and time from the DateTime Picker for From and To input fields to process Amelia insights
-              </Typography>
+              </Typography> */}
 
               <Grid container spacing={4} justifyContent="center">
                 {/* FROM Section */}
@@ -277,8 +278,40 @@ const AmeliaInsightsPicker = () => {
                       onChange={(newDate) => setFromDate(newDate)}
                       minDate={minDate}
                       maxDate={maxDate}
-                    />
-                    <Grid container spacing={1} mt={1} justifyContent="space-evenly">
+                      
+ slotProps={{
+    layout: {
+      sx: {
+        borderRadius: '4px',
+        paddingBottom: 0, // helps reduce default bottom padding
+        '& .MuiCalendarPicker-root': {
+          minHeight: 'auto',
+          paddingBottom: 0,
+        },
+        '& .MuiPickersCalendarHeader-root': {
+          marginBottom: 0,
+        },
+        '& .MuiDayCalendar-monthContainer': {
+          marginBottom: 0, // prevents spacing under the days
+        },
+        '& .MuiPickersSlideTransition-root': {
+          minHeight: 200,
+          marginBottom: 0,
+        },
+        '& .MuiDayCalendar-slideTransition': {
+          paddingBottom: 0,
+        },
+        '& .MuiPickersLayout-actionBar': {
+          marginTop: 0,
+          paddingTop: 0,
+        },
+        '& .MuiPickersLayout-root': {
+          paddingBottom: 0,
+        },
+      },
+    },
+  }}             />
+                    <Grid container spacing={1} mt={1} justifyContent="space-between">
                       {['hour', 'minute', 'period'].map((type) => (
                         <Grid item key={type}>
                           <TextField
@@ -287,7 +320,7 @@ const AmeliaInsightsPicker = () => {
                             value={fromTime[type]}
                             onChange={(e) => setFromTime((prev) => ({ ...prev, [type]: e.target.value }))}
                             size="small"
-                            sx={{ width: '75px', backgroundColor: '#fff',zIndex:0 }}
+                            sx={{ width: '120px', backgroundColor: '#fff',zIndex:0 }}
                           >
                             {(type === 'hour' ? hours : type === 'minute' ? minutes : ['AM', 'PM']).map((val) => (
                               <MenuItem key={val} value={val}>
@@ -303,7 +336,7 @@ const AmeliaInsightsPicker = () => {
 
                 {/* TO Section */}
                 <Grid item xs={12} md={6}>
-                  <Box sx={{ width: 400, mx: 'auto' }}>
+                  <Box sx={{ width: 400, mx: 'auto', }}>
                     <TextField
                       label="To"
                       value={updateDateTime(toDate, toTime).format('MM/DD/YYYY hh:mm A')}
@@ -325,8 +358,40 @@ const AmeliaInsightsPicker = () => {
                       onChange={(newDate) => setToDate(newDate)}
                       minDate={fromDate}
                       maxDate={maxDate}
+                       slotProps={{
+    layout: {
+      sx: {
+        borderRadius: '4px',
+        paddingBottom: 0, // helps reduce default bottom padding
+        '& .MuiCalendarPicker-root': {
+          minHeight: 'auto',
+          paddingBottom: 0,
+        },
+        '& .MuiPickersCalendarHeader-root': {
+          marginBottom: 0,
+        },
+        '& .MuiDayCalendar-monthContainer': {
+          marginBottom: 0, // prevents spacing under the days
+        },
+        '& .MuiPickersSlideTransition-root': {
+          minHeight: 200,
+          marginBottom: 0,
+        },
+        '& .MuiDayCalendar-slideTransition': {
+          paddingBottom: 0,
+        },
+        '& .MuiPickersLayout-actionBar': {
+          marginTop: 0,
+          paddingTop: 0,
+        },
+        '& .MuiPickersLayout-root': {
+          paddingBottom: 0,
+        },
+      },
+    },
+  }}
                     />
-                    <Grid container spacing={1} mt={1} justifyContent="space-evenly">
+                    <Grid container spacing={1} mt={1} justifyContent="space-between">
                       {['hour', 'minute', 'period'].map((type) => (
                         <Grid item key={type}>
                           <TextField
@@ -335,7 +400,7 @@ const AmeliaInsightsPicker = () => {
                             value={toTime[type]}
                             onChange={(e) => setToTime((prev) => ({ ...prev, [type]: e.target.value }))}
                             size="small"
-                            sx={{ width: '75px', backgroundColor: '#fff',zIndex:0 }}
+                            sx={{ width: '120px', backgroundColor: '#fff',zIndex:0 }}
                           >
                             {(type === 'hour' ? hours : type === 'minute' ? minutes : ['AM', 'PM']).map((val) => (
                               <MenuItem key={val} value={val}>
