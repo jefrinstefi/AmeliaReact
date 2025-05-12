@@ -121,7 +121,8 @@ export default function ConversationAnalysis() {
     console.log('data')
     localStorage.clear();  // Clears all stored data
     sessionStorage.clear(); // Clears session storage (optional)
-    Navigate("/login"); // Redirect to login page (update path as needed)
+    navigate("/login");
+// Redirect to login page (update path as needed)
   };
   const formatDate = (dateString) => {
     if (!dateString) return "N/A"; // Handle missing values
@@ -250,7 +251,7 @@ export default function ConversationAnalysis() {
                   handleLogout();
                 }
               }}>
-                <option value="">{storedUser} <br /> Manager</option>
+                <option value="">{storedUser}</option>
                 <option value="Logout">Logout</option>
                 {/* <option value="option2">Option 2</option> */}
               </select>
