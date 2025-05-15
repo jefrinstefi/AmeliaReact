@@ -8,7 +8,7 @@ export const DataProvider = ({ children }) => {
   const [analysisOverview, setAnalysisOverview] = useState('');
   const [businessMetrics,setBusinessMetrics] = useState('')
   const [loading, setLoading] = useState(true);
-
+  const [businessIntents,setBusinessIntents]= useState('');
   const [startDate,setstartDate] = useState('');
   const [endDate,setEndDate] =useState('');;
 
@@ -227,6 +227,31 @@ localStorage.setItem('endDate',result.analytics_datarange_in_db[0].MaxDate)
 
       console.log("Overview result:", result);
       setBusinessMetrics(result);
+      await fetchBusinessIntents(from,to)
+      // setLoading(false);
+    } catch (error) {
+      console.error("fetchOverview error:", error);
+    }
+  };
+  const fetchBusinessIntents = async (from,to) => {
+    try {
+      const username = "admin";
+      const password = "password";
+      const credentials = btoa(`${username}:${password}`);
+
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          Authorization: "Basic " + credentials,
+          Accept: "application/json"
+        },
+      };
+
+      const result = await fetch(`http://52.12.103.246:8009/get-conversation-intent?start_date=${from}&end_date=${to}`, requestOptions)
+        .then(res => res.json());
+
+      console.log("Overview result:", result);
+      setBusinessIntents(result);
       setLoading(false);
     } catch (error) {
       console.error("fetchOverview error:", error);
@@ -239,6 +264,7 @@ localStorage.setItem('endDate',result.analytics_datarange_in_db[0].MaxDate)
       analysisOverview,
       loading,
       businessMetrics,
+      businessIntents,
       fetchDataFromAPI
     }}>
       {children}

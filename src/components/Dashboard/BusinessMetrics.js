@@ -228,7 +228,7 @@ const filteredLegendItems = legendItems.filter(item =>
           paddingRight: 5,
           minWidth: isTablet ? 130 : 160,
         }}
-      > v
+      > 
         {legendItems.map((item) => (
           <div
             key={item.key}

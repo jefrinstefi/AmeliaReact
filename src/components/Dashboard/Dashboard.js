@@ -27,6 +27,7 @@ import { DataContext } from "./DataContext";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import loaderImage from '../../assets/amelialoader.gif'
 import BusinessMetricsChart from './BusinessMetrics';
+import BusinessIntents from './BusinessIntents';
 
 const Dashboard = () => {
     // const { fetchData } = useContext(DataContext);
@@ -50,6 +51,7 @@ const Dashboard = () => {
         analysisOverview,
         loading,
         businessMetrics,
+        businessIntents,
         fetchDataFromAPI
       } = useContext(DataContext);
     
@@ -258,7 +260,7 @@ const Dashboard = () => {
                         <BusinessMetricsChart data={businessMetrics} />
                         </Grid>
                          <Grid item xs={12} md={4}>
-                         <ConverationIntents data={analysisOverview} />
+                         <BusinessIntents data={businessIntents} />
                          </Grid>
                       </Grid>
                     </Box>)
