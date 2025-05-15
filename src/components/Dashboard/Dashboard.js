@@ -252,8 +252,15 @@ const Dashboard = () => {
                         </Grid>
                     </Box>
                 )}
-                    {!loading && (<Box>
+                    {!loading && (<Box mb={3}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} md={8}>
                         <BusinessMetricsChart data={businessMetrics} />
+                        </Grid>
+                         <Grid item xs={12} md={4}>
+                         <ConverationIntents data={analysisOverview} />
+                         </Grid>
+                      </Grid>
                     </Box>)
 }
                    

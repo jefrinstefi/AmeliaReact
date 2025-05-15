@@ -68,7 +68,7 @@ const ConversationIntents = ({ data }) => {
       <ResponsiveContainer className="chart-container">
         <BarChart
           data={dataIntent}
-          barSize={40} // Reduced bar width
+          barSize={20} // Reduced bar width
           margin={{ top: 20, right: 50, left: 50, bottom: 50 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
