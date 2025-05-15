@@ -75,7 +75,7 @@ const LoginPage = () => {
       };
 
       const response = await fetch(
-        `http://52.12.103.246:8008/get-analysis-dates-from-db`,
+        `https://ameliaapp.sincera.net/api/get-analysis-dates-from-db`,
         requestOptions
       );
 

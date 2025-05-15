@@ -27,7 +27,7 @@ export const DataProvider = ({ children }) => {
   //   };
 
   //   const response = await fetch(
-  //     `http://52.12.103.246:8008/get-conversation-exports?start_date=${from}&end_date=${to}`,
+  //     `https://ameliaapp.sincera.net/api/get-conversation-exports?start_date=${from}&end_date=${to}`,
   //     requestOptions
   //   );
 
@@ -64,7 +64,7 @@ export const DataProvider = ({ children }) => {
         },
       };
       const response = await fetch(
-        `http://52.12.103.246:8008/get-analysis-dates-from-db`,
+        `https://ameliaapp.sincera.net/api/get-analysis-dates-from-db`,
         requestOptions
       );
 
@@ -112,7 +112,7 @@ localStorage.setItem('endDate',result.analytics_datarange_in_db[0].MaxDate)
         },
       };
 
-      const result = await fetch(`http://52.12.103.246:8008/conversations`, requestOptions)
+      const result = await fetch(`https://ameliaapp.sincera.net/api/conversations`, requestOptions)
         .then(res => res.json());
 
       // console.log("Table result:", result);
@@ -140,7 +140,7 @@ localStorage.setItem('endDate',result.analytics_datarange_in_db[0].MaxDate)
         redirect: "follow"
       };
 
-      const response = await fetch( `http://52.12.103.246:8008/analyze-all?start_date=${from}&end_date=${to}`, requestOptions);
+      const response = await fetch( `https://ameliaapp.sincera.net/api/analyze-all?start_date=${from}&end_date=${to}`, requestOptions);
       const result = await response.json();
 
       console.log("Analyze result:", result);
@@ -168,7 +168,7 @@ localStorage.setItem('endDate',result.analytics_datarange_in_db[0].MaxDate)
         },
       };
 
-      const result = await fetch(`http://52.12.103.246:8008/get-analytics-data?start_date=${from}&end_date=${to}`, requestOptions)
+      const result = await fetch(`https://ameliaapp.sincera.net/api/get-analytics-data?start_date=${from}&end_date=${to}`, requestOptions)
         .then(res => res.json());
 
       console.log("Table result:", result);
@@ -196,7 +196,7 @@ localStorage.setItem('endDate',result.analytics_datarange_in_db[0].MaxDate)
         },
       };
 
-      const result = await fetch(`http://52.12.103.246:8008/analytics-overview?startdate=${from}&enddate=${to}`, requestOptions)
+      const result = await fetch(`https://ameliaapp.sincera.net/api/analytics-overview?startdate=${from}&enddate=${to}`, requestOptions)
         .then(res => res.json());
 
       console.log("Overview result:", result);
@@ -222,7 +222,7 @@ localStorage.setItem('endDate',result.analytics_datarange_in_db[0].MaxDate)
         },
       };
 
-      const result = await fetch(`http://52.12.103.246:8008/get-business-metrics?start_date=${from}&end_date=${to}`, requestOptions)
+      const result = await fetch(`https://ameliaapp.sincera.net/api/get-business-metrics?start_date=${from}&end_date=${to}`, requestOptions)
         .then(res => res.json());
 
       console.log("Overview result:", result);

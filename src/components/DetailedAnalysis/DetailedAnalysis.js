@@ -177,7 +177,7 @@ export default function ConversationAnalysis() {
       },
     };
 
-    fetch("http://52.12.103.246:8008/conversation-details/" + row, requestOptions)
+    fetch("https://ameliaapp.sincera.net/api/conversation-details/" + row, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log('result', result);

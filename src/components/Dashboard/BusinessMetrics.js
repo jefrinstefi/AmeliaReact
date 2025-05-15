@@ -132,6 +132,10 @@ const BusinessMetricsChart = (message) => {
   //    return null;
   //  };
     // const conversations = "238 30 con";
+    
+const filteredLegendItems = legendItems.filter(item =>
+  chartData.some(entry => entry[item.key] > 0)
+);
     const CustomXAxisTick = ({ x, y, payload }) => {
       const label = payload.value; // e.g., "238 30 con"
       const [firstLine, ...rest] = label.split(' ');
@@ -220,7 +224,7 @@ const BusinessMetricsChart = (message) => {
           paddingRight: 12,
           minWidth: isTablet ? 130 : 160,
         }}
-      >
+      > v
         {legendItems.map((item) => (
           <div
             key={item.key}
@@ -327,20 +331,22 @@ const BusinessMetricsChart = (message) => {
                   paddingLeft:"40px",
                 }}
               />
-              {legendItems.map((item) => (
-                <Bar
-                  key={item.key}
-                  dataKey={item.key}
-                  fill={item.color}
-                  barSize={isMobile ? 8 : isTablet ? 10 : 14}
-                >
-                  <LabelList
-                    dataKey={item.key}
-                    position="top"
-                    fontSize={isMobile ? 8 : 10}
-                    dy={-4}
-                  />
-                </Bar>
+             {filteredLegendItems.map((item) => (
+  <Bar
+    key={item.key}
+    dataKey={item.key}
+    fill={item.color}
+    barSize={isMobile ? 8 : isTablet ? 10 : 14}
+   
+  >
+    <LabelList
+      dataKey={item.key}
+      position="top"
+      fontSize={isMobile ? 8 : 10}
+      dy={-4}
+      formatter={(value) => (value > 0 ? value : '')}
+    />
+  </Bar>
               ))}
             </BarChart>
           </ResponsiveContainer>

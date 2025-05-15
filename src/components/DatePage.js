@@ -101,7 +101,7 @@ const AmeliaInsightsPicker = () => {
     };
 
     const response = await fetch(
-      `http://52.12.103.246:8008/get-conversation-exports?start_date=${from}&end_date=${to}`,
+      `https://ameliaapp.sincera.net/api/get-conversation-exports?start_date=${from}&end_date=${to}`,
       requestOptions
     );
 
@@ -135,7 +135,7 @@ const AmeliaInsightsPicker = () => {
         redirect: "follow"
       };
 
-      const response = await fetch( `http://52.12.103.246:8008/analyze-all?start_date=${from}&end_date=${to}`, requestOptions);
+      const response = await fetch( `https://ameliaapp.sincera.net/api/analyze-all?start_date=${from}&end_date=${to}`, requestOptions);
       const result = await response.json();
 
       console.log("Analyze result:", result);
