@@ -168,12 +168,14 @@ const filteredLegendItems = legendItems.filter(item =>
       return (
         <div
           style={{
+             marginTop: 5,
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
             flexWrap: 'wrap',
             padding: '0 10px',
             width: '100%',
+           
           }}
         >
           {[firstCol, secondCol].map((col, idx) => (
@@ -216,12 +218,14 @@ const filteredLegendItems = legendItems.filter(item =>
     return (
       <div
         style={{
+          marginTop: 5,
+           marginBottom:20,
           fontSize,
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'row',
           gap: spacing,
-          paddingLeft: 12,
-          paddingRight: 12,
+          paddingLeft: 5,
+          paddingRight: 5,
           minWidth: isTablet ? 130 : 160,
         }}
       > v
@@ -231,7 +235,7 @@ const filteredLegendItems = legendItems.filter(item =>
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: 8,
+              gap: 2,
             }}
           >
             <div
@@ -258,31 +262,31 @@ const filteredLegendItems = legendItems.filter(item =>
   };
  
   return (
-    <Card sx={{ m: 0,mb:3, borderRadius: 3, boxShadow: 3 }}>
-      <CardContent>
-        <Typography
-          variant={isMobile ? 'subtitle1' : 'h6'}
-          fontWeight={600}
-          gutterBottom
-          color="#616163"
+    <Card className="card">
+      {/* <CardContent> */}
+        <Typography variant="h6" gutterBottom  className="card-title"
+          // variant={isMobile ? 'subtitle1' : 'h6'}
+          // fontWeight={600}
+          // gutterBottom
+          // color="#616163"
         >
           Business Metrics
         </Typography>
         <Box
           sx={{
             width: '100%',
-            height: isMobile ? 340 : isTablet ? 360 : 400,
+            height: isMobile ? 340 : isTablet ? 360 : 300,
            
           }}
         >
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer className="chart-container">
             <BarChart
               data={chartData}
               margin={{
-                top: 20,
+                top: 0,
                 right: isMobile ? 10 : isTablet ? 50 : 120, // Reduced space on right side
                 left: isMobile ? 10 : 40, // Space on the left
-                bottom: 70, // Increased bottom margin
+                bottom: 80, // Increased bottom margin
               }}
               barCategoryGap="10%"
             >
@@ -297,40 +301,31 @@ const filteredLegendItems = legendItems.filter(item =>
                   value: 'Store Number',
                   position: 'insideBottom',
                   offset: -10,
-                  fontSize: isMobile ? 11 : 13,
-                  fill: '#222222',
-                  fontWeight: 600,
+                  fontSize: isMobile ? 11 : 14,
+                  fill: '#737277',
+                  fontWeight: 500,
+                  
                 }}
               />
+            
               <YAxis
-                domain={domain}
-                ticks={ticks}
-                tick={{ fontSize: isMobile ? 10 : 12, fill: '#333' }}
-                tickLine={false}
-                axisLine={false}
-                label={{
-                  value: 'Store Status Count',
-                  angle: -90,
-                  position: 'insideLeft',
-                  offset: 10,
-                  fontSize: isMobile ? 11 : 13,
-                  fill: '#222222',
-                  fontWeight: 600,
-                  textAnchor: 'start',
-                  dx: -20,
-                }}
-              />
+  domain={domain}
+  ticks={ticks}
+  tick={{ fontSize: isMobile ? 10 : 12, fill: '#333' }}
+  tickLine={false}
+  axisLine={{ stroke: '#616163', strokeWidth: 2 }}
+  label={{
+    value: 'Store Status Count',
+    angle: -90,
+    position: 'outsideLeft',
+    fontSize: isMobile ? 11 : 14,
+    fill: '#737277',
+    fontWeight: 500,
+    
+  }}
+/>
               <Tooltip />
-              <Legend
-                verticalAlign="middle"
-                align="right"
-                layout="vertical"
-                content={renderCustomLegend}
-                wrapperStyle={{
-                  // marginLeft: isTablet ? '80px' : '100px', // Increased left margin for legend
-                  paddingLeft:"40px",
-                }}
-              />
+            
              {filteredLegendItems.map((item) => (
   <Bar
     key={item.key}
@@ -348,10 +343,21 @@ const filteredLegendItems = legendItems.filter(item =>
     />
   </Bar>
               ))}
+
+                {/* <Legend
+                // verticalAlign="middle"
+                // align="right"
+                // layout="vertical"
+                content={renderCustomLegend}
+               
+              /> */}
             </BarChart>
           </ResponsiveContainer>
         </Box>
-      </CardContent>
+         <Box display="flex" justifyContent="center" >
+          {renderCustomLegend()}
+         </Box>
+      {/* </CardContent> */}
     </Card>
   );
 };
