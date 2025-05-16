@@ -108,7 +108,7 @@ const BusinessIntents = ({ data }) => {
         </BarChart>
       </ResponsiveContainer>
  ) : (
-      <Typography variant="body1" align="center" style={{ margin: '0',display:"flex" }}>
+      <Typography variant="body1" align="center" style={{ margin: '20px 0' }}>
         No business intents found.
       </Typography>
     )}

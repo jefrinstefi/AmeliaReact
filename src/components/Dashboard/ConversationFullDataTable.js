@@ -15,7 +15,7 @@ import {
   Typography,
   Button,
   Breadcrumbs,
-  TableSortLabel
+  TableSortLabel, CircularProgress, Backdrop
 } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -34,6 +34,7 @@ const ConversationFullDataTable = () => {
   const tableRef = useRef(null);
   const isMobile = useMediaQuery("(max-width: 600px)");
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
+  const [isNavigating, setIsNavigating] = useState(false);
 
   const navigate = useNavigate();
   const storedUser = localStorage.getItem("username")
@@ -107,6 +108,7 @@ const ConversationFullDataTable = () => {
     console.log("Updated ConvIds:", ConvIds); // Logs after state updates
   }, [ConvIds]); // Runs only when ConvIds changes
   const handleRowClick = (row) => {
+        setIsNavigating(true);
     const username = "admin";
     const password = "password";
     const credentials = btoa(`${username}:${password}`);
@@ -128,7 +130,10 @@ const ConversationFullDataTable = () => {
         }
 
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(error))
+      .finally(() => {
+        setIsNavigating(false); // hide overlay loader
+      });
 
     // alert(`Clicked on Conversation ID: ${row.Conversation_ID}`);
   };
@@ -247,9 +252,11 @@ const ConversationFullDataTable = () => {
           <div>
             <img src={companyLogo} alt="Company Logo" style={{}} />
           </div>
-          {/* <Typography variant="h6" align="center" gutterBottom sx={{ color: "#5E43B2", fontWeight: 600, fontSize: 22, marginLeft:20 }}>
-                                    Conversation Analysis and Customer Experience Scoring Tool
-                                  </Typography> */}
+         <div>
+                 <text className='comname hide-on-small'>
+                Conversation Analysis and Customer Experience Scoring Tool
+              </text>
+              </div>
           <div className="userbox" >
             <img src={Acouser} alt="user" />
             <div>
@@ -265,15 +272,15 @@ const ConversationFullDataTable = () => {
       </Box>
       <Box sx={{ backgroundColor: '#F5F4F9', padding: 3 }}>
         <div style={{ display: 'flex', textAlign: 'center', justifyContent: 'center' }}>
-          <text className='comname1' >
+          <text className='comname1 hide-on-big' >
             Conversation Analysis and Customer Experience Scoring Tool
           </text>
         </div>
 
         <Box sx={{ margin: 3 }}>
-          <div role="presentation" onClick={() => navigate(-1)}>
+          <div role="presentation" onClick={() => navigate("/dashboard")}>
             <Breadcrumbs aria-label="breadcrumb">
-              <Link style={{ color: "#737277", textDecoration: 'none' }} href="/">
+              <Link style={{ color: "#737277", textDecoration: 'none' }} href="/dashboard">
                 Dashboard
               </Link>
 
@@ -432,6 +439,11 @@ const ConversationFullDataTable = () => {
             ) : (
               <p>No data available.</p>
             )}
+             {isNavigating &&
+          <Backdrop open={isNavigating} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, color: '#fff' }} style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%' }}>
+            <CircularProgress color="inherit" />
+          </Backdrop>
+        }
           </Paper>
         </Box>
       </Box>

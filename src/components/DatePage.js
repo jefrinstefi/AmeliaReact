@@ -23,7 +23,7 @@ import Acouser from "../assets/Account circle.png";
 import { useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CustomAlert from './CustomAlert';
-
+import './style.css';
 const AmeliaInsightsPicker = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -192,6 +192,11 @@ const AmeliaInsightsPicker = () => {
             <header className="headmain">
               <div>
                 <img src={companyLogo} alt="Company Logo" />
+                 </div>
+               <div>
+                 <text className='comname hide-on-small'>
+                Conversation Analysis and Customer Experience Scoring Tool
+              </text>
               </div>
               <div className="userbox">
                 <img src={Acouser} alt="user" />
@@ -215,17 +220,17 @@ const AmeliaInsightsPicker = () => {
           <Box
             sx={{
               backgroundColor: '#fff',
-              minHeight: '100vh',
+              // minHeight: '100vh',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
-              padding: isSmallScreen ? 2 : 4,
+              padding: isSmallScreen ? 2 :  "20px 30px",
               margin: 0
             }}
           >
             <div>
-              <text className='comname'>
+              <text className='comname hide-on-big'>
                 Conversation Analysis and Customer Experience Scoring Tool
               </text>
             </div>
@@ -233,20 +238,19 @@ const AmeliaInsightsPicker = () => {
             <Card
               sx={{
                 backgroundColor: '#EDEBF9',
-                padding: isSmallScreen ? 2 : 4,
+                padding: isSmallScreen ? 2 : "20px 30px",
                 width: '100%',
-              
                 maxWidth: 1200,
                 textAlign: 'center',
                 boxShadow: 'none',
                 borderRadius: 2,
-                marginTop: 2,
+                marginTop: "10px",
                 paddingLeft: 0,
                 paddingRight:0,
               }}
             >
 
-              <Typography variant="h6" gutterBottom sx={{ color: '#0E3169', fontSize: 20, fontWeight: 500 }} >
+              <Typography variant="h6" gutterBottom sx={{ color: '#0E3169', fontSize: 20, fontWeight: 500,marginTop:'-5px' }} >
                 Select date and time for processing Amelia insights
               </Typography>
               {/* <Typography variant="body2" mb={4} sx={{ color: '#0E3169', fontSize: 14, fontWeight: 400 }} >
@@ -283,6 +287,7 @@ const AmeliaInsightsPicker = () => {
     layout: {
       sx: {
         borderRadius: '4px',
+        height:300,
         paddingBottom: 0, // helps reduce default bottom padding
         '& .MuiCalendarPicker-root': {
           minHeight: 'auto',
@@ -362,6 +367,7 @@ const AmeliaInsightsPicker = () => {
     layout: {
       sx: {
         borderRadius: '4px',
+        height:300,
         paddingBottom: 0, // helps reduce default bottom padding
         '& .MuiCalendarPicker-root': {
           minHeight: 'auto',
@@ -489,11 +495,8 @@ const AmeliaInsightsPicker = () => {
               </Box>
             </Card>
 
-            <Box marginTop={3}>
-              <p className="copyright">
-                © {new Date().getFullYear()} <span style={{ color: "#4F2580" }}>SINCERA</span>. All rights reserved.
-              </p>
-            </Box>
+          
+             
           </Box>
         </div>
       </LocalizationProvider>

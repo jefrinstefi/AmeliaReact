@@ -51,7 +51,6 @@ const Dashboard = () => {
         analysisOverview,
         loading,
         businessMetrics,
-        businessIntents,
         fetchDataFromAPI
       } = useContext(DataContext);
     
@@ -95,9 +94,11 @@ const Dashboard = () => {
                     <div>
                         <img src={companyLogo} alt="Company Logo" style={{}} />
                     </div>
-                    {/* <Typography variant="h6" align="center" gutterBottom sx={{ color: "#5E43B2", fontWeight: 600, fontSize: 22, marginLeft:20 }}>
-                              Conversation Analysis and Customer Experience Scoring Tool
-                            </Typography> */}
+                        <div>
+                 <text className='comname hide-on-small'>
+                Conversation Analysis and Customer Experience Scoring Tool
+              </text>
+              </div>
                     <div className="userbox" >
                         <img src={Acouser} alt="user" />
                         <div>
@@ -122,7 +123,7 @@ const Dashboard = () => {
 
                 <Box sx={{}}>
                     <div style={{ display: 'flex', textAlign: 'center', justifyContent: 'center' }}>
-                        <text className='comname1' >
+                        <text className='comname1  hide-on-big' >
                             Conversation Analysis and Customer Experience Scoring Tool
                         </text>
                     </div>
@@ -255,14 +256,14 @@ const Dashboard = () => {
                     </Box>
                 )}
                     {!loading && (<Box mb={3}>
-                      <Grid container spacing={2}>
-                        <Grid item xs={12} md={8}>
+                      {/* <Grid container spacing={2}>
+                        <Grid item xs={12} md={8}> */}
                         <BusinessMetricsChart data={businessMetrics} />
-                        </Grid>
+                        {/* </Grid>
                          <Grid item xs={12} md={4}>
                          <BusinessIntents data={businessIntents} />
                          </Grid>
-                      </Grid>
+                      </Grid> */}
                     </Box>)
 }
                    
